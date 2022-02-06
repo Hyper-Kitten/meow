@@ -1,2 +1,2 @@
-Hyper::Kitten::Meow::Engine.routes.draw do
+HyperKitten::Meow::Engine.routes.draw do
 end

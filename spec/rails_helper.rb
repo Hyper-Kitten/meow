@@ -3,7 +3,6 @@ ENV["RAILS_ENV"] = "test"
 
 require_relative "../spec/dummy/config/environment"
 require "rspec/rails"
-require "selenium/webdriver"
 require "capybara/rails"
 
 ActiveRecord::Migration.maintain_test_schema!
