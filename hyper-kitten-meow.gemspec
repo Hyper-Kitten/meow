@@ -1,13 +1,13 @@
-require_relative "lib/hyper/kitten/meow/version"
+require_relative "lib/hyper_kitten/meow/version"
 
 Gem::Specification.new do |spec|
   spec.name        = "hyper-kitten-meow"
-  spec.version     = Hyper::Kitten::Meow::VERSION
-  spec.authors     = [""]
-  spec.email       = [""]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of Hyper::Kitten::Meow."
-  spec.description = "TODO: Description of Hyper::Kitten::Meow."
+  spec.version     = HyperKitten::Meow::VERSION
+  spec.authors     = ["Josh Klina"]
+  spec.email       = ["joshua.klina@gmail.com"]
+  spec.homepage    = "https://hyperkitten.org"
+  spec.summary     = "A simple Rails blogging engine, built for engineers."
+  spec.description = "A simple Rails blogging engine that has just the necessites in place for starting a blog."
     spec.license     = "MIT"
   
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
@@ -15,12 +15,20 @@ Gem::Specification.new do |spec|
   spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = "https://hyperkitten.org"
+  spec.metadata["changelog_uri"] = "https://hyperkitten.org"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
   spec.add_dependency "rails", ">= 7.0.1"
+  spec.add_dependency "pg"
+  spec.add_dependency "haml"
+  spec.add_dependency 'categorical'
+  spec.add_dependency 'human_urls', '~> 0.1.6-alpha.0'
+
+  spec.add_development_dependency "pry-rails"
+  spec.add_development_dependency "rspec-rails", "4.0.0.beta3"
+  spec.add_development_dependency 'factory_bot_rails'
 end
