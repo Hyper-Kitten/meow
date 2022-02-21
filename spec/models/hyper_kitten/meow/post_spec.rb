@@ -2,24 +2,8 @@ require 'rails_helper'
 
 module HyperKitten::Meow
   RSpec.describe Post, type: :model do
-    pending "add some examples to (or delete) #{__FILE__}"
     it_behaves_like "a sluggable" do
-      subject { FactoryBot.build(:post, title: '', slug: 'a-slug') }
-    end
-
-    describe "#summary" do
-      it "offers a the body if no summary is provided" do
-        post = build(:post, body: 'This is my body', summary: nil)
-
-        expect(post.summary).to eq('This is my body')
-      end
-
-      it "give the summary if one is provided" do
-        post = build(:post, body: 'This is my body',
-                     summary: 'This is my summary.')
-
-        expect(post.summary).to eq('This is my summary.')
-      end
+      subject { build(:post, title: nil, slug: nil) }
     end
 
     describe "#slug" do
@@ -68,7 +52,7 @@ module HyperKitten::Meow
         tagged_older_post.save!
         tagged_newer_post.save!
 
-        expect(Exposition::Post.sorted_by_published_date).
+        expect(HyperKitten::Meow::Post.sorted_by_published_date).
           to eq([tagged_newer_post, tagged_older_post])
       end
     end
@@ -78,7 +62,7 @@ module HyperKitten::Meow
         published_post = create(:post, published: true)
         unpublished_post = create(:post, published: false)
 
-        expect(Exposition::Post.published).to eq([published_post])
+        expect(HyperKitten::Meow::Post.published).to eq([published_post])
       end
     end
 

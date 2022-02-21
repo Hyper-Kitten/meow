@@ -8,9 +8,9 @@ module HyperKitten
           include Categorical::Taggable
 
           included do
-            belongs_to :author, class_name: 'User'
+            belongs_to :user
 
-            validates_presence_of :title, :body, :author
+            validates_presence_of :title, :body, :user
             validates_length_of :title, maximum: 244
 
             before_save :set_published_at_date
@@ -36,10 +36,6 @@ module HyperKitten
             else
               return "not-published"
             end
-          end
-
-          def summary
-            read_attribute(:summary) || body
           end
 
           private
