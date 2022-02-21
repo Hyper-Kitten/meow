@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "haml"
   spec.add_dependency 'categorical'
   spec.add_dependency 'tzinfo-data'
+  spec.add_dependency 'bcrypt'
   spec.add_dependency 'human_urls', '~> 0.1.6-alpha.0'
 
   spec.add_development_dependency "pry-rails"

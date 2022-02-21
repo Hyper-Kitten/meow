@@ -4,6 +4,7 @@ ENV["RAILS_ENV"] = "test"
 require_relative "../spec/dummy/config/environment"
 require "rspec/rails"
 require "capybara/rails"
+require 'factory_bot_rails'
 
 ActiveRecord::Migration.maintain_test_schema!
 
