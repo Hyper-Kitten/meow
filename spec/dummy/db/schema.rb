@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_21_202108) do
+ActiveRecord::Schema.define(version: 2022_02_21_203038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "hyper_kitten_meow_posts", force: :cascade do |t|
+    t.string "title"
+    t.boolean "published", default: false, null: false
+    t.datetime "published_at", precision: 6
+    t.text "summary"
+    t.string "slug"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_hyper_kitten_meow_posts_on_slug", unique: true
+    t.index ["user_id"], name: "index_hyper_kitten_meow_posts_on_user_id"
+  end
 
   create_table "hyper_kitten_meow_users", force: :cascade do |t|
     t.string "name"
@@ -25,4 +38,5 @@ ActiveRecord::Schema.define(version: 2022_02_21_202108) do
     t.index ["email"], name: "index_hyper_kitten_meow_users_on_email", unique: true
   end
 
+  add_foreign_key "hyper_kitten_meow_posts", "hyper_kitten_meow_users", column: "user_id"
 end
