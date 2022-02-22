@@ -42,7 +42,7 @@ module HyperKitten
 
           def set_published_at_date
             if published_changed?(from: false, to: true)
-              self.published_at = Date.today
+              self.published_at = Time.current
             end
           end
         end
