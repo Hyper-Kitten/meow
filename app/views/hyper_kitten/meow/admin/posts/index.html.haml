@@ -1,0 +1,23 @@
+%section.posts
+  .admin-title-header
+    %h2 Posts
+    = link_to "Add New", hyper_kitten_meow.new_admin_post_path
+  %table 
+    %thead
+      %tr
+        %th Title
+        %th Article
+        %th Author
+        %th Slug
+        %th Tags
+        %th Manage
+    %tbody
+      - @posts.each do |post|
+        %tr.post{class: "#{post.css_classes}"}
+          %td= "#{post.title}"
+          %td= truncate(post.summary, length: 40, separator: ' ')
+          %td= "#{post.user.name}"
+          %td= "#{post.slug}"
+          %td= "#{post.tags.to_a.to_sentence}"
+          %td= link_to "Edit", hyper_kitten_meow.edit_admin_post_path(post)
+  != pagy_nav(@pagy)

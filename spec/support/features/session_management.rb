@@ -6,7 +6,7 @@ module Features
     end
 
     def login_as(user)
-      visit hyper_kitten.admin_login_path
+      visit hyper_kitten_meow.admin_login_path
       fill_in "Email", with: user.email
       fill_in "Password", with: user.password
       click_on I18n.t("sessions.submit")
