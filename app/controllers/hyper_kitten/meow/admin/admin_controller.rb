@@ -2,7 +2,7 @@ module HyperKitten
   module Meow
     module Admin
       class AdminController < ApplicationController
-        include Concerns::Controller::Admin::AdminController
+        include ::HyperKitten::Meow::Concerns::Controllers::Admin::AdminController
       end
     end
   end

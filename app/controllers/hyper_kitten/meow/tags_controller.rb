@@ -1,7 +1,7 @@
 module HyperKitten
   module Meow
     class TagsController < ApplicationController
-      include Concerns::Controller::TagsController
+      include ::HyperKitten::Meow::Concerns::Controllers::TagsController
     end
   end
 end

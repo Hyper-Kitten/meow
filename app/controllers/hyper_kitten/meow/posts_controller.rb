@@ -1,7 +1,7 @@
 module HyperKitten
   module Meow
     class PostsController < ApplicationController
-      include Concerns::Controller::PostsController
+      include ::HyperKitten::Meow::Concerns::Controllers::PostsController
     end
   end
 end

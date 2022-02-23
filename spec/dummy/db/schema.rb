@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2022_02_21_230456) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: 6, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2022_02_21_230456) do
   create_table "categorical_taggings", force: :cascade do |t|
     t.string "taggable_type"
     t.bigint "taggable_id"
-    t.bigint "tag_id_id"
-    t.index ["tag_id_id"], name: "index_categorical_taggings_on_tag_id_id"
+    t.bigint "tag_id"
+    t.index ["tag_id"], name: "index_categorical_taggings_on_tag_id"
     t.index ["taggable_type", "taggable_id"], name: "index_categorical_taggings_on_taggable"
   end
 
@@ -75,6 +75,6 @@ ActiveRecord::Schema.define(version: 2022_02_21_230456) do
     t.index ["email"], name: "index_hyper_kitten_meow_users_on_email", unique: true
   end
 
-  add_foreign_key "categorical_taggings", "categorical_tags", column: "tag_id_id"
+  add_foreign_key "categorical_taggings", "categorical_tags", column: "tag_id"
   add_foreign_key "hyper_kitten_meow_posts", "hyper_kitten_meow_users", column: "user_id"
 end

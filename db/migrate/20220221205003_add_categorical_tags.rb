@@ -11,7 +11,7 @@ class AddCategoricalTags < ActiveRecord::Migration[7.0]
     end
     create_table :categorical_taggings do |t|
       t.references :taggable, polymorphic: true, index: true
-      t.references :tag_id, foreign_key: { to_table: :categorical_tags }
+      t.references :tag, foreign_key: { to_table: :categorical_tags }
     end
   end
 end

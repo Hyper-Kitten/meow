@@ -6,9 +6,7 @@ module HyperKitten
           extend ActiveSupport::Concern
 
           def index
-            @posts = Post.published.sorted_by_published_date.
-              page(params[:page]).
-              per(10)
+            @pagy, @posts = pagy(Post.published.sorted_by_published_date)
           end
 
           def show
