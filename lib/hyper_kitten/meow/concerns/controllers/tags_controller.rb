@@ -7,12 +7,10 @@ module HyperKitten
 
           def show
             @tag = Categorical::Tag.find_by_slug!(params[:id])
-            @taggables = @tag.
+            @pagy, @taggables = pagy(@tag.
               send(fetch_taggable_type).
               published.
-              sorted_by_published_date.
-              page(params[:page]).
-              per(10)
+              sorted_by_published_date)
           end
 
           private
