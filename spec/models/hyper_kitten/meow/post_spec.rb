@@ -74,12 +74,15 @@ module HyperKitten::Meow
       end
 
       it "is set to the current date when the post is published" do
-        post = create(:post)
+        time = Time.current
+        travel_to time do
+          post = create(:post)
 
-        post.published = true
-        post.save!
+          post.published = true
+          post.save!
 
-        expect(post.published_at).to eq(Date.today)
+          expect(post.published_at).to be_within(1.second).of(time)
+        end
       end
 
       it "only updates when the published attribute changes" do
