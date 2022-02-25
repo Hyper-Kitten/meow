@@ -1,10 +1,11 @@
-%section.login
-  %h2= "Login"
-  = form_for :session, url: admin_login_path do |f|
-    %p
-      = f.label :email
-      = f.text_field :email
-    %p
-      = f.label :password
-      = f.password_field :password
-    %p= f.submit "#{t("sessions.submit")}"
+%section.d-flex.justify-content-center
+  .form
+    %h2= "Login"
+    = form_for :session, url: admin_login_path do |f|
+      .mb-3
+        = f.label :email, class: "form-label"
+        = f.text_field :email, class: "form-control"
+      .mb-3
+        = f.label :password, class: "form-label"
+        = f.password_field :password, class: "form-control"
+      %p= f.submit "#{t("sessions.submit")}", class: "btn btn-primary"

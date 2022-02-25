@@ -1,6 +1,7 @@
 require "human_urls"
 require "categorical"
 require "pagy"
+require 'pagy/extras/bootstrap'
 require "haml"
 require "hyper_kitten/meow/version"
 require "hyper_kitten/meow/engine"

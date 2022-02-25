@@ -1,23 +1,24 @@
-%p
-  = form.label :title
-  = form.text_field :title
-%p
-  = form.label :summary
-  = form.text_area :summary
-%p
-  = form.label :body
-  = form.text_area :body
-%p
-  = form.label :user
-  = form.collection_select(:user_id, @users, :id, :name)
-%p
-  = form.label :slug
-  = form.text_field :slug
-%p
-  = form.label :tag_ids, 'Tags'
+.mb-3
+  = form.label :title, class: "form-label"
+  = form.text_field :title, class: "form-control"
+.mb-3
+  = form.label :summary, class: "form-label"
+  = form.text_area :summary, class: "form-control"
+.mb-3
+  = form.label :body, class: "form-label"
+  = form.rich_text_area :body, class: "form-control"
+.mb-3
+  = form.label :user, class: "form-label"
+  = form.collection_select(:user_id, @users, :id, :name, {}, class: "form-select")
+.mb-3
+  = form.label :slug, class: "form-label"
+  = form.text_field :slug, class: "form-control"
+.mb-3
+  = form.label :tag_ids, 'Tags', class: "form-label"
   = form.collection_check_boxes(:tag_ids, @tags, :id, :label) do |b|
     = b.label { b.check_box + b.text }
-%p
-  = form.label :published
-  = form.check_box :published
-%p= form.submit
+.mb-3.form-check
+  = form.label :published, class: "form-check-label"
+  = form.check_box :published, class: "form-check-input"
+.mb-3
+  = form.submit nil, class: "btn btn-primary"
