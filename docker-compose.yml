@@ -20,12 +20,3 @@ services:
       - '3000:3000'
     volumes:
       - '.:/app'
-
-  # cssbundler:
-  #   build: .
-  #   environment:
-  #     - NODE_ENV=development
-  #     - RAILS_ENV=development
-  #   command: yarn build:css --watch
-  #   volumes:
-  #     - '.:/app'
