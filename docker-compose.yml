@@ -12,7 +12,6 @@ services:
   web:
     depends_on:
       - 'db'
-      # - 'cssbundler'
     build: .
     env_file:
       - '.env'
