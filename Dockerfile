@@ -15,5 +15,4 @@ COPY . .
 
 LABEL maintainer="Josh Klina"
 
-# CMD puma -C spec/dummy/config/puma.rb
 CMD spec/dummy/bin/rails server -b 0.0.0.0

@@ -31,16 +31,14 @@ RSpec.feature "Post management", :type => :feature do
   scenario "user can edit posts " do
     user = create_user_and_login(name: 'Andrew')
     user = create(:user, name: 'Josh')
-    post = create(:post, title: "My Title", body: "My Content")
+    post = create(:post, title: "My Title")
     tag = create(:tag, label: 'coffee')
 
     visit hyper_kitten_meow.edit_admin_post_path(post)
 
     expect(page).to have_text("My Title")
-    expect(page).to have_text("My Content")
 
     fill_in "Title", with: "Hello World!"
-    fill_in "Body", with: "My great idea!"
     fill_in "Summary", with: "My great summary!"
     fill_in "Slug", with: "my slug"
     check "coffee"
@@ -64,8 +62,8 @@ RSpec.feature "Post management", :type => :feature do
 
     visit hyper_kitten_meow.new_admin_post_path
     fill_in "Title", with: "Hello World!"
-    fill_in "Body", with: "My great idea!"
     fill_in "Summary", with: "My great summary!"
+    find("#post_body_trix_input_post", visible: false).set("Cool content!")
     fill_in "Slug", with: "my slug"
     select "Josh", from: "post[user_id]"
     check "coffee"
@@ -86,10 +84,8 @@ RSpec.feature "Post management", :type => :feature do
     visit hyper_kitten_meow.new_admin_post_path
 
     fill_in "Title", with: ""
-    fill_in "Body", with: "1, 2, 3, 4 get your booty on the floor."
     click_on "Create Post"
 
     expect(page).to have_text("Title can't be blank")
-    expect(page).to have_text("1, 2, 3, 4 get your booty on the floor.")
   end
 end
