@@ -7,7 +7,8 @@ module HyperKitten
         KEY_TRANSFORMATIONS = {
           "alert" => "warning",
           "error" => "danger",
-          "notice" => "info"
+          "notice" => "info",
+          "success" => "success"
         }
 
         def user_facing_flashes
