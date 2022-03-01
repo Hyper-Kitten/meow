@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hyper-kitten-meow (0.1.0)
+    hyper-kitten-meow (0.1.1)
       bcrypt
       categorical
       haml
