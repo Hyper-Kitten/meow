@@ -4,11 +4,11 @@ RUN apk add --update git less build-base nodejs-current npm postgresql-dev chrom
 
 # Create a root directory for the app within the Docker container
 RUN mkdir /app
-RUN mkdir -p /app/lib/hyper_kitten/meow
+RUN mkdir -p /app/lib/hyper_kitten_meow
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock hyper-kitten-meow.gemspec ./
-COPY ./lib/hyper_kitten/meow/version.rb ./lib/hyper_kitten/meow/
+COPY ./lib/hyper_kitten_meow/version.rb ./lib/hyper_kitten_meow/
 RUN bundle install
 
 COPY . .
