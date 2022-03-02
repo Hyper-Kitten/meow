@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount HyperKitten::Meow::Engine => "/hyper-kitten-meow"
+  mount HyperKittenMeow::Engine => "/hyper-kitten-meow"
 end

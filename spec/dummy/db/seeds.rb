@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
-author = HyperKitten::Meow::User.create!(
+author = HyperKittenMeow::User.create!(
   name: 'Admin',
   email: 'admin@admin.admin',
   password: 'adminadmin', 
@@ -18,4 +18,4 @@ Hello
 This is a post.
 POST
 
-HyperKitten::Meow::Post.create!(title: 'Test Title', user: author, body: post_content, summary: post_content, published: true)
+HyperKittenMeow::Post.create!(title: 'Test Title', user: author, body: post_content, summary: post_content, published: true)

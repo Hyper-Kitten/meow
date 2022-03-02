@@ -1,8 +1,8 @@
-require_relative "lib/hyper_kitten/meow/version"
+require_relative "lib/hyper_kitten_meow/version"
 
 Gem::Specification.new do |spec|
   spec.name        = "hyper-kitten-meow"
-  spec.version     = HyperKitten::Meow::VERSION
+  spec.version     = HyperKittenMeow::VERSION
   spec.authors     = ["Josh Klina"]
   spec.email       = ["joshua.klina@gmail.com"]
   spec.homepage    = "https://hyperkitten.org"

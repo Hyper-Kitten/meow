@@ -1,4 +1,4 @@
-HyperKitten::Meow::Engine.routes.draw do
+HyperKittenMeow::Engine.routes.draw do
   namespace :admin do
     resources :posts
     resources :tags

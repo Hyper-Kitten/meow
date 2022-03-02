@@ -9,7 +9,7 @@ require 'factory_bot_rails'
 ActiveRecord::Migration.maintain_test_schema!
 
 # Adding support files
-Dir[HyperKitten::Meow::Engine.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[HyperKittenMeow::Engine.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
