@@ -1,7 +1,7 @@
 require 'rails_helper'
 require "commands/hyper_kitten_meow_command"
 
-RSpec.describe Command::HyperKittenMeowCommand do
+RSpec.describe HyperKittenMeowCommand do
   before(:each) do
     allow($stdout).to receive(:print)
     allow($stdout).to receive(:puts)
