@@ -7,8 +7,6 @@ HyperKittenMeow::Engine.routes.draw do
     get    'logout'  => 'sessions#destroy'
   end
 
-  resources :posts, only: [:show]
+  resources :posts, only: [:show, :index]
   resources :tags, only: [:show]
-
-  root to: 'posts#index'
 end

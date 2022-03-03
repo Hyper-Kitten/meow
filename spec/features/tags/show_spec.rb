@@ -7,7 +7,7 @@ RSpec.feature "Viewing posts by tag", :type => :feature do
     post1 = create(:post, published: true, title: 'post1', tags: [tag1])
     post2 = create(:post, published: true, title: 'post2', tags: [tag2])
 
-    visit hyper_kitten_meow_path
+    visit hyper_kitten_meow.posts_path
     click_on 'tag1'
 
     expect(current_path).to eq(hyper_kitten_meow.tag_path(tag1))

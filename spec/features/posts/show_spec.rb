@@ -9,7 +9,7 @@ RSpec.feature "Viewing a post", :type => :feature do
       body: "Some content",
     )
 
-    visit hyper_kitten_meow_path
+    visit hyper_kitten_meow.posts_path
     click_link("My Title")
 
     expect(current_path).to eq(hyper_kitten_meow.post_path(post))
