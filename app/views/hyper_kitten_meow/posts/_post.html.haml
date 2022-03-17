@@ -1,7 +1,0 @@
-%article
-  %time= "Published #{l(post.published_at.to_date, format: :long)}"
-  .content.summary
-    %h2= link_to(post.title, post)
-    = post.summary
-  %section.info
-    = render 'hyper_kitten_meow/posts/tags', tags: post.tags
