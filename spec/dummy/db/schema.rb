@@ -10,30 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_21_230456) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_04_14_174159) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "action_text_rich_texts", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "body"
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
-  end
-
-  create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
-  end
 
   create_table "categorical_taggings", force: :cascade do |t|
     t.string "taggable_type"
@@ -46,8 +25,8 @@ ActiveRecord::Schema.define(version: 2022_02_21_230456) do
   create_table "categorical_tags", force: :cascade do |t|
     t.string "label"
     t.string "slug"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["label"], name: "index_categorical_tags_on_label", unique: true
     t.index ["slug"], name: "index_categorical_tags_on_slug", unique: true
   end
@@ -55,12 +34,12 @@ ActiveRecord::Schema.define(version: 2022_02_21_230456) do
   create_table "hyper_kitten_meow_posts", force: :cascade do |t|
     t.string "title"
     t.boolean "published", default: false, null: false
-    t.datetime "published_at", precision: 6
+    t.datetime "published_at"
     t.text "summary"
     t.string "slug"
     t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_hyper_kitten_meow_posts_on_slug", unique: true
     t.index ["user_id"], name: "index_hyper_kitten_meow_posts_on_user_id"
   end
@@ -70,8 +49,8 @@ ActiveRecord::Schema.define(version: 2022_02_21_230456) do
     t.string "email"
     t.string "password_digest"
     t.string "remember_digest"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_hyper_kitten_meow_users_on_email", unique: true
   end
 
