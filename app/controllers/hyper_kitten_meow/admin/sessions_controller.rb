@@ -27,7 +27,7 @@ module HyperKittenMeow
         session.delete(:user_id)
         cookies.delete(:user_id)
         cookies.delete(:remember_token)
-        redirect_to root_url
+        redirect_to admin_login_path
       end
     end
   end

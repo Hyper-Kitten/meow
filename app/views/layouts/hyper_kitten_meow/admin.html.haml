@@ -14,10 +14,10 @@
         %nav.col-md-3.col-lg-2.d-md-block.sidebar.bg-dark.text-white.d-flex.flex-column
           %h2.mb-3.mt-3 Meow
           %hr
-          %ul.nav.nav-pills.flex-column.mb-auto
-            %li.nav-item= link_to "Posts", hyper_kitten_meow.admin_posts_path, class: "nav-link text-white"
-            %li.nav-item= link_to "Tags", hyper_kitten_meow.admin_tags_path, class: "nav-link text-white"
           - if logged_in?
+            %ul.nav.nav-pills.flex-column.mb-auto
+              %li.nav-item= link_to "Posts", hyper_kitten_meow.admin_posts_path, class: "nav-link text-white"
+              %li.nav-item= link_to "Tags", hyper_kitten_meow.admin_tags_path, class: "nav-link text-white"
             %hr
             = link_to "#", class: "nav-link d-flex align-items-center text-white text-decoration-none dropdown-toggle", data: { "bs-toggle": "dropdown" }, "aria-expanded": false do
               %strong= current_user.name
