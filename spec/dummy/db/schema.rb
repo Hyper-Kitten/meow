@@ -36,6 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_14_174159) do
     t.boolean "published", default: false, null: false
     t.datetime "published_at"
     t.text "summary"
+    t.text "body"
     t.string "slug"
     t.bigint "user_id"
     t.datetime "created_at", null: false

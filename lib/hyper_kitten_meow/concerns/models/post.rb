@@ -15,8 +15,6 @@ module HyperKittenMeow
           before_save :set_published_at_date
 
           sluggify :slug, generated_from: :title
-
-          has_rich_text :body
         end
 
         class_methods do

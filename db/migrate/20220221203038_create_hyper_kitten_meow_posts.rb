@@ -5,6 +5,7 @@ class CreateHyperKittenMeowPosts < ActiveRecord::Migration[7.0]
       t.boolean :published, null: false, default: false
       t.datetime :published_at
       t.text :summary
+      t.text :body
       t.string :slug
       t.references :user, foreign_key: { to_table: :hyper_kitten_meow_users }
 
