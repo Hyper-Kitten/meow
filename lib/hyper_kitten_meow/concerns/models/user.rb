@@ -11,7 +11,7 @@ module HyperKittenMeow
           validates_presence_of :name, :email
           validates_length_of :name, maximum: 50
           validates_length_of :email, maximum: 244
-          validates_length_of :password, minimum: 6
+          validates_length_of :password, minimum: 6, allow_blank: true
           validates_uniqueness_of :email, case_sensitive: false
           validates_format_of :email, with: VALID_EMAIL_REGEX
 

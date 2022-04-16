@@ -9,6 +9,7 @@ require "hyper_kitten_meow/concerns/models/user"
 require "hyper_kitten_meow/concerns/models/post"
 require "hyper_kitten_meow/concerns/controllers/admin/posts_controller"
 require "hyper_kitten_meow/concerns/controllers/admin/tags_controller"
+require "hyper_kitten_meow/concerns/controllers/admin/users_controller"
 require "hyper_kitten_meow/concerns/controllers/admin/admin_controller"
 
 module HyperKittenMeow

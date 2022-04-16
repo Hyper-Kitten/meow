@@ -1,8 +1,8 @@
 - if model.errors.any?
-  #error-explanation
-    %h4
+  .alert.alert-danger
+    %h5
       = pluralize(model.errors.count, "error")
-      prohibited this post from being saved:
+      prohibited this record from being saved:
     %ul
       - model.errors.full_messages.each do |msg|
         %li= msg

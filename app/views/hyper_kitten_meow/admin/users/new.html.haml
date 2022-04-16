@@ -1,0 +1,5 @@
+%section.new-user
+  %h2= "New User"
+  = render partial: 'hyper_kitten_meow/admin/shared/error_handler', locals: { model: @user }
+  = form_for @user, url: admin_users_path, method: :post, class: "form" do |form|
+    = render partial: 'form_fields', locals: { form: form }

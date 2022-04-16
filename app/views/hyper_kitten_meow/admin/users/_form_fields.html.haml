@@ -1,0 +1,14 @@
+.mb-3
+  = form.label :name, class: "form-label"
+  = form.text_field :name, class: "form-control"
+.mb-3
+  = form.label :email, class: "form-label"
+  = form.text_field :email, class: "form-control"
+.mb-3
+  = form.label :password, class: "form-label"
+  = form.password_field :password, class: "form-control"
+.mb-3
+  = form.label :password_confirmation, class: "form-label"
+  = form.password_field :password_confirmation, class: "form-control"
+.mb-3
+  = form.submit nil, class: "btn btn-primary"
