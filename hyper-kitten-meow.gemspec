@@ -26,11 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'tzinfo-data'
   spec.add_dependency 'bcrypt'
   spec.add_dependency 'pagy'
+  spec.add_dependency 'simple_form'
   spec.add_dependency 'human_urls', '~> 0.1.7-alpha.0'
-
-  # Used for local testing
-  # spec.add_runtime_dependency "human_urls"
-  # spec.add_runtime_dependency "categorical"
 
   spec.add_development_dependency "pry-rails"
   spec.add_development_dependency "rspec-rails"

@@ -3,6 +3,7 @@ require "categorical"
 require "pagy"
 require 'pagy/extras/bootstrap'
 require "haml"
+require "simple_form"
 require "hyper_kitten_meow/version"
 require "hyper_kitten_meow/engine"
 require "hyper_kitten_meow/concerns/models/user"

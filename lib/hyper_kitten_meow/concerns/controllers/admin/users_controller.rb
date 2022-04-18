@@ -19,6 +19,7 @@ module HyperKittenMeow
               flash[:success] = "User successfully created."
               redirect_to admin_users_path
             else
+              flash[:error] = "There was a problem saving the user."
               render :new
             end
           end
@@ -33,6 +34,7 @@ module HyperKittenMeow
               flash[:success] = "User was successfully updated."
               redirect_to admin_users_path
             else
+              flash[:error] = "There was a problem saving the user."
               render action: 'edit'
             end
           end

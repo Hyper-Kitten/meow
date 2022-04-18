@@ -9,6 +9,7 @@ PATH
       pagy
       pg
       rails (>= 7.0.1)
+      simple_form
       tzinfo-data
 
 GEM
@@ -207,6 +208,9 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.3)
+    simple_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
     strscan (3.0.1)
     temple (0.8.2)
     thor (1.2.1)

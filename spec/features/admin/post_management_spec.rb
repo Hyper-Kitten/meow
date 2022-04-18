@@ -63,7 +63,7 @@ RSpec.feature "Post management", :type => :feature do
     visit hyper_kitten_meow.new_admin_post_path
     fill_in "Title", with: "Hello World!"
     fill_in "Summary", with: "My great summary!"
-    find("#post_body_trix_input_post", visible: false).set("Cool content!")
+    fill_in "Body", with: "My great body!"
     fill_in "Slug", with: "my slug"
     select "Josh", from: "post[user_id]"
     check "coffee"

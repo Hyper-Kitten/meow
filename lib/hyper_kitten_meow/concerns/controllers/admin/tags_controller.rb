@@ -19,6 +19,7 @@ module HyperKittenMeow
               flash[:success] = "Tag successfully created."
               redirect_to admin_tags_path
             else
+              flash[:error] = "There was a problem saving the tag."
               render :new
             end
           end
@@ -33,6 +34,7 @@ module HyperKittenMeow
               flash[:success] = "Tag was successfully updated."
               redirect_to admin_tags_path
             else
+              flash[:error] = "There was a problem saving the tag."
               render action: 'edit'
             end
           end
