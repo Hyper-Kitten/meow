@@ -1,6 +1,6 @@
 FROM ruby:3.1-alpine
 
-RUN apk add --update git less build-base nodejs-current npm postgresql-dev chromium chromium-chromedriver python2 gcompat vim
+RUN apk add --update git less build-base nodejs-current npm postgresql-dev chromium chromium-chromedriver gcompat
 
 # Create a root directory for the app within the Docker container
 RUN mkdir /app
