@@ -1,0 +1,16 @@
+%section.posts
+  .d-flex.justify-content-between
+    %h2 Menus
+    .action
+      = link_to "Add New", hyper_kitten_meow.new_admin_menu_path, class: "btn btn-primary"
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Manage
+    %tbody
+      - @menus.each do |menu|
+        %tr.menu.align-middle
+          %td= menu.name
+          %td= link_to "Edit", hyper_kitten_meow.edit_admin_menu_path(menu), class: "btn btn-sm btn-outline-info"
+  != pagy_bootstrap_nav(@pagy)

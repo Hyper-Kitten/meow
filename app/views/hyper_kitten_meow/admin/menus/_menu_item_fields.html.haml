@@ -1,0 +1,16 @@
+.card.menu-item.border.mb-3{ data: { "menu-items-form-target": "menuItem", new_record: menu_item.object.new_record?.to_s }, style: "cursor: move" }
+  .card-body
+    .row
+      .col-1.align-self-center
+        %i.bi-grip-vertical.fs-2
+      .col-4
+        = menu_item.association :page, collection: HyperKittenMeow::Page.all, label: "Page"
+        = menu_item.input :position, as: :hidden
+        = menu_item.input :_destroy, as: :hidden
+      .col-3
+        = menu_item.input :title
+      .col-3
+        = menu_item.input :url
+      .col-1.align-self-center
+        = link_to "Remove", "#", class: "btn btn-danger", data: { action: "click->menu-items-form#removeMenuItem" }
+

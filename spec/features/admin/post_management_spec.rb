@@ -12,20 +12,9 @@ RSpec.feature "Post management", :type => :feature do
 
   it "paginates posts" do
     create_user_and_login
-    paginates(factory: :post, increment: 10, selector: '.post') do
+    paginates(factory: :post, increment: 10, selector: ".post") do
       visit hyper_kitten_meow.admin_posts_path
     end
-  end
-
-  scenario "user can paginate through the posts" do
-    create_user_and_login
-    posts = FactoryBot.create_list(:post, 11)
-
-    visit hyper_kitten_meow.admin_posts_path
-    expect(page).to have_selector('.post', count: 10)
-    click_on('Next')
-
-    expect(page).to have_selector('.post', count: 1)
   end
 
   scenario "user can edit posts " do

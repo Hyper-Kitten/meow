@@ -1,0 +1,16 @@
+= f.input :name
+%hr
+.card
+  .card-body
+    %h4 Menu Items
+    %div{ data: { controller: "menu-items-form" } }
+      %template{ data: { "menu-items-form-target": "template" } }
+        = f.fields_for :menu_items, HyperKittenMeow::MenuItem.new, child_index: "NEW_RECORD" do |menu_item|
+          = render partial: "menu_item_fields", locals: { menu_item: menu_item }
+      = f.fields_for :menu_items do |menu_item|
+        = render partial: "menu_item_fields", locals: { menu_item: menu_item }
+        .mb-3{ data: { "menu-items-form-target": "links" } }
+          = link_to "Add Menu Item", "#", class: "btn btn-success", data: { action: "click->menu-items-form#addMenuItem" }
+
+.action.mt-3
+  = f.submit nil, class: "btn btn-primary"

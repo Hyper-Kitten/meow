@@ -1,0 +1,7 @@
+%section
+  .d-flex.justify-content-between
+    %h2 New Page
+    .action
+      = link_to "Back to Pages", admin_pages_path, class: "btn btn-secondary"
+  = simple_form_for @page, url: admin_pages_path, method: :post do |f|
+    = render partial: 'form_fields', locals: { f: f }

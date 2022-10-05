@@ -1,0 +1,6 @@
+= f.input :title
+= f.input :body, as: :rich_text_area
+= f.input :slug
+%hr
+= f.input :published, as: :boolean
+= f.submit nil, class: "btn btn-primary"

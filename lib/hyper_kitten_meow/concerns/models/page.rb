@@ -4,7 +4,6 @@ module HyperKittenMeow
       module Page
         extend ActiveSupport::Concern
         include HumanUrls::Sluggable
-        include Categorical::Taggable
 
         included do
           validates_presence_of :title, :body
