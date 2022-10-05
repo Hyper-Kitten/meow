@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 require "commands/hyper_kitten_meow_command"
 
 RSpec.describe HyperKittenMeowCommand do

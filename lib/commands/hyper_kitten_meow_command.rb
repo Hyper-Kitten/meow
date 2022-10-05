@@ -1,4 +1,4 @@
-require 'rails/command'
+require "rails/command"
 
 class HyperKittenMeowCommand < Rails::Command::Base
   desc 'create_user', 'Creates an admin user'
