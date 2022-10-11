@@ -70,10 +70,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_30_141953) do
   end
 
   create_table "hyper_kitten_meow_menu_items", force: :cascade do |t|
-    t.bigint "page_id", null: false
+    t.bigint "page_id"
     t.bigint "menu_id", null: false
     t.string "title"
     t.string "url"
+    t.boolean "new_window", default: false, null: false
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -83,8 +84,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_30_141953) do
 
   create_table "hyper_kitten_meow_menus", force: :cascade do |t|
     t.string "name"
+    t.string "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_hyper_kitten_meow_menus_on_slug"
   end
 
   create_table "hyper_kitten_meow_pages", force: :cascade do |t|

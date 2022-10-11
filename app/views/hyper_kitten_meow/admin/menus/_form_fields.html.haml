@@ -9,8 +9,8 @@
           = render partial: "menu_item_fields", locals: { menu_item: menu_item }
       = f.fields_for :menu_items do |menu_item|
         = render partial: "menu_item_fields", locals: { menu_item: menu_item }
-        .mb-3{ data: { "menu-items-form-target": "links" } }
-          = link_to "Add Menu Item", "#", class: "btn btn-success", data: { action: "click->menu-items-form#addMenuItem" }
+      .mb-3{ data: { "menu-items-form-target": "links" } }
+        = link_to "Add Menu Item", "#", class: "btn btn-success", data: { action: "click->menu-items-form#addMenuItem" }
 
 .action.mt-3
   = f.submit nil, class: "btn btn-primary"

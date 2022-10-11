@@ -7,10 +7,15 @@
     %thead
       %tr
         %th Name
+        %th Slug
         %th Manage
     %tbody
       - @menus.each do |menu|
         %tr.menu.align-middle
           %td= menu.name
-          %td= link_to "Edit", hyper_kitten_meow.edit_admin_menu_path(menu), class: "btn btn-sm btn-outline-info"
+          %td= menu.slug
+          %td
+            .btn-group
+              = link_to "Edit", hyper_kitten_meow.edit_admin_menu_path(menu), class: "btn btn-outline-primary"
+              = link_to "Delete", hyper_kitten_meow.admin_menu_path(menu), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline-danger"
   != pagy_bootstrap_nav(@pagy)

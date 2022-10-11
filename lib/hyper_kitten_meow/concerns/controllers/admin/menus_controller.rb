@@ -40,14 +40,21 @@ module HyperKittenMeow
             end
           end
 
+          def destroy
+            find_menu
+            @menu.destroy
+            flash[:success] = "Menu was successfully deleted."
+            redirect_to admin_menus_path
+          end
+
           private
 
           def find_menu
-            @menu = Menu.find(params[:id])
+            @menu = Menu.find_by_slug!(params[:id])
           end
 
           def menu_params
-            params.require(:menu).permit(:id, :name, menu_items_attributes: [:id, :title, :page_id, :position, :_destroy])
+            params.require(:menu).permit(:id, :name, menu_items_attributes: [:id, :title, :page_id, :position, :new_window, :url, :_destroy])
           end
         end
       end

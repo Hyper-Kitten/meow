@@ -19,6 +19,7 @@ RSpec.feature "Menu management", :type => :feature do
     fill_in "Name", with: "Hello World!"
     select "My Page", from: "Page"
     fill_in "Title", with: "My Title"
+    check "New window"
     click_button "Create Menu"
 
     expect(page).to have_text("Menu was successfully created.")
@@ -27,6 +28,7 @@ RSpec.feature "Menu management", :type => :feature do
     menu_item = menu.menu_items.first
     expect(menu_item.title).to eq("My Title")
     expect(menu_item.page).to eq(static_page)
+    expect(menu_item.new_window).to eq(true)
     expect(menu_item.position).to eq(1)
   end
 
@@ -114,6 +116,22 @@ RSpec.feature "Menu management", :type => :feature do
     expect(menu_item.title).to eq("Second Item")
     expect(menu_item.page).to eq(static_page2)
     expect(menu_item.position).to eq(1)
+  end
+
+  scenario "user can delete a menu" do
+    user = create_user_and_login(name: 'Andrew')
+    menu = create(:menu, name: "My Menu")
+    static_page1 = create(:page, title: "My Page 1")
+    static_page2 = create(:page, title: "My Page 2")
+    create(:menu_item, menu: menu, page: static_page1, title: "First Item", position: 1)
+    create(:menu_item, menu: menu, page: static_page2, title: "Second Item", position: 2)
+
+    visit hyper_kitten_meow.admin_menus_path
+
+    click_on "Delete"
+
+    expect(page).to have_text("Menu was successfully deleted.")
+    expect(page).to_not have_text("My Menu")
   end
 end
 
