@@ -8,6 +8,7 @@ module HyperKittenMeow
         included do
           validates_presence_of :name
           has_many :menu_items,
+            -> { order(position: :asc) },
             class_name: "HyperKittenMeow::MenuItem",
             dependent: :destroy
 
