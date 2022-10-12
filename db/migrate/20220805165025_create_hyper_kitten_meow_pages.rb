@@ -4,8 +4,8 @@ class CreateHyperKittenMeowPages < ActiveRecord::Migration[7.0]
       t.string :title
       t.boolean :published, null: false, default: false
       t.datetime :published_at
-      t.string :slug
       t.text :body
+      t.string :slug
 
       t.timestamps
 

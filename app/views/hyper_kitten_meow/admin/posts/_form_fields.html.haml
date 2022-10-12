@@ -1,6 +1,6 @@
 = f.input :title
 = f.input :summary
-= f.input :body
+= f.input :body, as: :rich_text_area
 = f.association :user
 = f.input :slug
 = f.association :tags, collection: Categorical::Tag.all, as: :check_boxes

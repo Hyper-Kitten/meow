@@ -10,4 +10,5 @@ HyperKittenMeow::Engine.routes.draw do
     get    'logout'  => 'sessions#destroy'
   end
   resources :pages, only: [:show]
+  resources :posts, only: [:index, :show]
 end
