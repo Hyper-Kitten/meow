@@ -15,7 +15,7 @@ module HyperKittenMeow
             template = lookup_context.find(template_name, "hyper_kitten_meow/pages")
             render template: template
           else
-            @page = HyperKittenMeow::Page.find_by_slug(slug)
+            @page = HyperKittenMeow::Page.published.find_by_slug(slug)
             unless @page
               raise ActionController::RoutingError.new("Not Found")
             end

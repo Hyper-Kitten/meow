@@ -8,7 +8,12 @@ RSpec.feature "Displaying pages", :type => :feature do
   end
 
   scenario "visitor can view pages created in the database" do
-    cms_page = create(:page, slug: "test-page", title: "This is a test page")
+    cms_page = create(
+      :page,
+      slug: "test-page",
+      title: "This is a test page",
+      published: true
+    )
 
     visit hyper_kitten_meow.page_path("test-page")
 
