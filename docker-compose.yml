@@ -8,6 +8,8 @@ services:
       POSTGRES_PASSWORD: kitten
     ports:
       - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   web:
     depends_on:
@@ -19,3 +21,5 @@ services:
       - '3000:3000'
     volumes:
       - '.:/app'
+volumes:
+  pgdata:
