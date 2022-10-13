@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-# These defaults are defined and maintained by the community at
+# Please do not make direct changes to this file!
+# This generator is maintained by the community around simple_form-bootstrap:
 # https://github.com/heartcombo/simple_form-bootstrap
-# Please submit feedback, changes and tests only there.
+# All future development, tests, and organization should happen there.
+# Background history: https://github.com/heartcombo/simple_form/issues/1561
 
 # Uncomment this and change the path if necessary to include your own
 # components.
@@ -77,8 +79,10 @@ SimpleForm.setup do |config|
   config.wrappers :vertical_collection, item_wrapper_class: 'form-check', item_label_class: 'form-check-label', tag: 'fieldset', class: 'mb-3' do |b|
     b.use :html5
     b.optional :readonly
-    b.wrapper :legend_tag, tag: 'legend', class: 'col-form-label pt-0' do |ba|
-      ba.use :label_text
+    b.wrapper :row, tag: 'div', class: 'row' do |row|
+      b.wrapper :legend_tag, tag: 'legend', class: 'col-form-label pt-0' do |ba|
+        ba.use :label_text
+      end
     end
     b.use :input, class: 'form-check-input', error_class: 'is-invalid', valid_class: 'is-valid'
     b.use :full_error, wrap_with: { class: 'invalid-feedback d-block' }
@@ -370,3 +374,4 @@ SimpleForm.setup do |config|
     select:        :vertical_select
   }
 end
+
