@@ -8,6 +8,7 @@ module HyperKittenMeow
         included do
           layout "hyper_kitten_meow/application"
           helper HyperKittenMeow::MenuHelper
+          helper Pagy::Frontend
         end
 
         def index
