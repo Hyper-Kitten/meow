@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hyper-kitten-meow (0.1.2)
+    hyper-kitten-meow (0.1.3)
       acts_as_list
       bcrypt
       categorical
