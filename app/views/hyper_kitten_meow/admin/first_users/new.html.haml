@@ -1,0 +1,9 @@
+%section.new-user
+  %h2= "Welcome to #{t('hyper_kitten_meow.title')}"
+  %p= "Please create your first user account to get started."
+  = simple_form_for @user, url: admin_first_users_path, method: :post do |f|
+    = f.input :name
+    = f.input :email
+    = f.input :password
+    = f.input :password_confirmation
+    = f.submit nil, class: "btn btn-primary"

@@ -4,6 +4,8 @@ module HyperKittenMeow
       skip_before_action :authorize, only: [:new, :create]
 
       def new
+        redirect_to admin_root_path if logged_in?
+        redirect_to new_admin_first_user_path unless User.any?
       end
 
       def create
@@ -16,7 +18,7 @@ module HyperKittenMeow
           session[:user_id] = user.id
           cookies.permanent.signed[:user_id] = user.id
           cookies.permanent[:remember_token] = user.remember_token
-          redirect_to admin_posts_path
+          redirect_to admin_root_path
         else
           flash.now[:error] = t("sessions.failed_login")
           render 'new'
