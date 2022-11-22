@@ -17,7 +17,7 @@ module HyperKittenMeow
         end
 
         def show
-          @post = HyperKittenMeow::Post.published.find(params[:id])
+          @post = HyperKittenMeow::Post.published.find_by_slug(params[:id])
         end
       end
     end
