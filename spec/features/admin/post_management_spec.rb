@@ -12,16 +12,16 @@ RSpec.feature "Post management", :type => :feature do
 
   it "paginates posts" do
     create_user_and_login
-    paginates(factory: :post, increment: 10, selector: ".post") do
+    paginates(factory: :post, increment: 10, selector: "tbody tr") do
       visit hyper_kitten_meow.admin_posts_path
     end
   end
 
   scenario "user can edit posts " do
-    user = create_user_and_login(name: 'Andrew')
-    user = create(:user, name: 'Josh')
+    user = create_user_and_login(name: "Andrew")
+    user = create(:user, name: "Josh")
     post = create(:post, title: "My Title")
-    tag = create(:tag, label: 'coffee')
+    tag = create(:tag, label: "coffee")
 
     visit hyper_kitten_meow.edit_admin_post_path(post)
 
@@ -41,13 +41,12 @@ RSpec.feature "Post management", :type => :feature do
     expect(page).to have_text("Josh")
     expect(page).to have_text("Josh")
     expect(page).to have_text("coffee")
-    expect(page).to have_css(".published")
   end
 
   scenario "user can create posts", js: true do
-    user = create_user_and_login(name: 'Andrew')
-    user = create(:user, name: 'Josh')
-    tag = create(:tag, label: 'coffee')
+    user = create_user_and_login(name: "Andrew")
+    user = create(:user, name: "Josh")
+    tag = create(:tag, label: "coffee")
 
     visit hyper_kitten_meow.new_admin_post_path
     fill_in "Title", with: "Hello World!"
@@ -62,7 +61,6 @@ RSpec.feature "Post management", :type => :feature do
     expect(page).to have_text("Hello World!")
     expect(page).to have_text("My great summary!")
     expect(page).to have_text("my-slug")
-    expect(page).to have_css(".published")
     expect(page).to have_text("Josh")
     expect(page).to have_text("coffee")
     expect(page).to have_text("Post successfully created.")

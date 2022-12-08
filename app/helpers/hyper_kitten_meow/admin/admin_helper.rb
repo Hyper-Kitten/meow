@@ -16,6 +16,10 @@ module HyperKittenMeow
           KEY_TRANSFORMATIONS[key]
         end
       end
+
+      def table(...)
+        render HyperKittenMeow::Table.new(...)
+      end
     end
   end
 end

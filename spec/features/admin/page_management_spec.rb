@@ -12,7 +12,7 @@ RSpec.feature "Page management", :type => :feature do
 
   it "paginates pages" do
     create_user_and_login
-    paginates(factory: :page, increment: 10, selector: '.page') do
+    paginates(factory: :page, increment: 10, selector: "tbody tr") do
       visit hyper_kitten_meow.admin_pages_path
     end
   end
@@ -22,10 +22,10 @@ RSpec.feature "Page management", :type => :feature do
     pages = FactoryBot.create_list(:page, 11)
 
     visit hyper_kitten_meow.admin_pages_path
-    expect(page).to have_selector('.page', count: 10)
-    click_on('Next')
+    expect(page).to have_selector("tbody tr", count: 10)
+    click_on("Next")
 
-    expect(page).to have_selector('.page', count: 1)
+    expect(page).to have_selector("tbody tr", count: 1)
   end
 
   scenario "user can edit pages", js: true do

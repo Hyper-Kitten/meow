@@ -7,6 +7,7 @@ PATH
       categorical
       haml
       human_urls (~> 0.1.7.pre.alpha.0)
+      hyper-kitten-tables
       image_processing
       importmap-rails
       pagy
@@ -126,6 +127,10 @@ GEM
       tilt
     human_urls (0.1.7.pre.alpha.0)
       rails (>= 7.0)
+      tzinfo-data
+    hyper-kitten-tables (0.1.1.alpha1)
+      actionview (>= 6.0.0)
+      activesupport (>= 6.0.0)
       tzinfo-data
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
