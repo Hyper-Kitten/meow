@@ -4,7 +4,6 @@ module HyperKittenMeow
       module PagesController
         extend ActiveSupport::Concern
         included do
-          layout "hyper_kitten_meow/application"
           helper HyperKittenMeow::MenuHelper
         end
 
