@@ -1,7 +1,0 @@
-%section
-  .d-flex.justify-content-between
-    %h2 New Menu
-    .action
-      = link_to "Back to Menus", admin_menus_path, class: "btn btn-secondary"
-  = simple_form_for @menu, url: admin_menus_path, method: :post do |f|
-    = render partial: 'form_fields', locals: { f: f }

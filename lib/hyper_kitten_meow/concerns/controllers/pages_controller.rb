@@ -3,10 +3,6 @@ module HyperKittenMeow
     module Controllers
       module PagesController
         extend ActiveSupport::Concern
-        included do
-          helper HyperKittenMeow::MenuHelper
-        end
-
         def show
           slug = params[:id]
           template_name = slug.underscore
