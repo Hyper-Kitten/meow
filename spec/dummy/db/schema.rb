@@ -75,9 +75,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_15_184700) do
     t.datetime "published_at"
     t.text "body"
     t.string "slug"
+    t.string "template"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "template"
     t.index ["slug"], name: "index_hyper_kitten_meow_pages_on_slug", unique: true
   end
 

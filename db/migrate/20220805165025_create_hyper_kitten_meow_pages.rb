@@ -6,6 +6,7 @@ class CreateHyperKittenMeowPages < ActiveRecord::Migration[7.0]
       t.datetime :published_at
       t.text :body
       t.string :slug
+      t.string :template
 
       t.timestamps
 

@@ -1,4 +1,4 @@
 %section.edit-page
   %h2= "Editing Page: #{@page.title}"
   = simple_form_for @page, url: admin_page_path(@page), method: :patch do |f|
-    = render partial: 'form_fields', locals: { f: f }
+    = render partial: "form_fields", locals: { f: f }

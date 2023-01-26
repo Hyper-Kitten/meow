@@ -6,7 +6,6 @@ module HyperKittenMeow
         include Pagy::Backend
 
         included do
-          layout "hyper_kitten_meow/application"
           helper Pagy::Frontend
         end
 

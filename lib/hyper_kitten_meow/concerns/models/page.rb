@@ -8,6 +8,7 @@ module HyperKittenMeow
         included do
           validates_presence_of :title, :body
           validates_length_of :title, maximum: 244
+          validates_inclusion_of :template, in: templates, allow_blank: true
 
           before_save :set_published_at_date
 
@@ -19,6 +20,13 @@ module HyperKittenMeow
         class_methods do
           def published
             where(published: true)
+          end
+
+          def templates
+            templates_path = Rails.root.join("app/views/pages/templates/*")
+            @templates = Dir.glob(templates_path).map do |path|
+              File.basename(path).split(".").first
+            end
           end
         end
 

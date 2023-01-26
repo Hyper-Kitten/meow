@@ -4,6 +4,7 @@ module HyperKittenMeow
       module Admin
         module PagesController
           extend ActiveSupport::Concern
+
           def index
             @pagy, @pages = pagy(Page.all.order(title: :asc))
           end
@@ -14,6 +15,7 @@ module HyperKittenMeow
 
           def create
             @page = Page.new(page_params)
+
             if @page.save
               flash[:success] = "Page successfully created."
               redirect_to admin_pages_path
@@ -45,7 +47,7 @@ module HyperKittenMeow
           end
 
           def page_params
-            params.require(:page).permit(:id, :title, :body, :slug, :published)
+            params.require(:page).permit(:id, :title, :body, :slug, :published, :template)
           end
         end
       end

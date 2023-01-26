@@ -27,6 +27,32 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
     end
   end
 
+  describe "#template" do
+    it "can be blank" do
+      page = build(:page, template: nil)
+
+      expect(page).to be_valid
+    end
+
+    it "must be one of the available templates" do
+      page = build(:page, template: "invalid")
+
+      expect(page).to be_invalid
+    end
+
+    it "is valid if it is one of the available templates" do
+      page = build(:page, template: "test_template")
+
+      expect(page).to be_valid
+    end
+  end
+
+  describe ".templates" do
+    it "returns a list of available templates" do
+      expect(HyperKittenMeow::Page.templates).to eq(["test_template"])
+    end
+  end
+
   describe ".published" do
     it "returns only published pages" do
       published_page = create(:page, published: true)
