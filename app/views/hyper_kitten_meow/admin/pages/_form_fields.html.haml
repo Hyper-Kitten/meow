@@ -1,7 +1,20 @@
 = f.input :title
-= f.input :body, as: :rich_text_area
+.card.mb-3
+  .card-body.content-blocks
+    %h4 Content Blocks
+    %div{ data: { controller: "add-remove-html-template" } }
+      %template{ data: { "add-remove-html-template-target": "template" } }
+        = f.fields_for :content_blocks, HyperKittenMeow::ContentBlock.new, child_index: "NEW_RECORD" do |content_block|
+          = render partial: "content_block_fields", locals: { content_block: content_block }
+      = f.fields_for :content_blocks, id: dom_id(@page) do |content_block|
+        = render partial: "content_block_fields", locals: { content_block: content_block }
+      .mb-3{ data: { "add-remove-html-template-target": "links" } }
+        = link_to "Add Block", "#", class: "btn btn-success", data: { action: "click->add-remove-html-template#add" }
 = f.input :slug
-= f.input :template, as: :select, collection: HyperKittenMeow::Page.templates
+= f.input :template,
+  as: :select,
+  collection: HyperKittenMeow::Page.templates,
+  hint: "This is the HTML template used to render the page"
 %hr
 = f.input :published, as: :boolean
 = f.submit nil, class: "btn btn-primary"

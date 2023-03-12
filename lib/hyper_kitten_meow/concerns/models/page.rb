@@ -6,7 +6,16 @@ module HyperKittenMeow
         include HumanUrls::Sluggable
 
         included do
-          validates_presence_of :title, :body
+          has_many :page_content_blocks,
+            class_name: "HyperKittenMeow::PageContentBlock",
+            foreign_key: "page_id",
+            dependent: :destroy
+          has_many :content_blocks,
+            through: :page_content_blocks,
+            class_name: "HyperKittenMeow::ContentBlock",
+            foreign_key: "content_block_id"
+
+          validates_presence_of :title
           validates_length_of :title, maximum: 244
           validates_inclusion_of :template, in: templates, allow_blank: true
 
@@ -14,7 +23,9 @@ module HyperKittenMeow
 
           sluggify :slug, generated_from: :title
 
-          has_rich_text :body
+          accepts_nested_attributes_for :content_blocks,
+            allow_destroy: true,
+            reject_if: :all_blank
         end
 
         class_methods do
@@ -28,6 +39,10 @@ module HyperKittenMeow
               File.basename(path).split(".").first
             end
           end
+        end
+
+        def content_block(name)
+          content_blocks.find_by(name: name)&.body
         end
 
         private

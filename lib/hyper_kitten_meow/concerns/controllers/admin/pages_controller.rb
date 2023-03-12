@@ -11,6 +11,7 @@ module HyperKittenMeow
 
           def new
             @page = Page.new
+            @page.content_blocks.build
           end
 
           def create
@@ -47,7 +48,22 @@ module HyperKittenMeow
           end
 
           def page_params
-            params.require(:page).permit(:id, :title, :body, :slug, :published, :template)
+            params.require(:page).permit(
+              :id,
+              :title,
+              :body,
+              :slug,
+              :published,
+              {
+                content_blocks_attributes: [
+                  :id,
+                  :name,
+                  :body,
+                  :_destroy
+                ],
+              },
+              :template
+            )
           end
         end
       end
