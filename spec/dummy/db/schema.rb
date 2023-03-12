@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_15_184700) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_11_152552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,6 +69,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_15_184700) do
     t.index ["slug"], name: "index_categorical_tags_on_slug", unique: true
   end
 
+  create_table "hyper_kitten_meow_content_blocks", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "hyper_kitten_meow_page_content_blocks", force: :cascade do |t|
+    t.bigint "page_id"
+    t.bigint "content_block_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["content_block_id"], name: "index_hyper_kitten_meow_page_content_blocks_on_content_block_id"
+    t.index ["page_id", "content_block_id"], name: "hyper_kitten_meow_index_page_content_block_ids", unique: true
+    t.index ["page_id"], name: "index_hyper_kitten_meow_page_content_blocks_on_page_id"
+  end
+
   create_table "hyper_kitten_meow_pages", force: :cascade do |t|
     t.string "title"
     t.boolean "published", default: false, null: false
@@ -108,5 +124,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_15_184700) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categorical_taggings", "categorical_tags", column: "tag_id"
+  add_foreign_key "hyper_kitten_meow_page_content_blocks", "hyper_kitten_meow_content_blocks", column: "content_block_id"
+  add_foreign_key "hyper_kitten_meow_page_content_blocks", "hyper_kitten_meow_pages", column: "page_id"
   add_foreign_key "hyper_kitten_meow_posts", "hyper_kitten_meow_users", column: "user_id"
 end
