@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :content_block do
-    slug { "MyString" }
+    name { "My Content Block" }
   end
 end

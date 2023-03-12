@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :page_content_block do
-    page { nil }
-    content_block { nil }
+    page
+    content_block
   end
 end
