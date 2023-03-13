@@ -6,7 +6,7 @@ module HyperKittenMeow
 
         def show
           slug = params[:id]
-          @page = HyperKittenMeow::Page.published.find_by_slug(slug)
+          @page = HyperKittenMeow::Page.published.find_by_slug!(slug)
           template_name = if @page.template.present?
             "pages/templates/#{@page.template}"
           else
