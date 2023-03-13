@@ -6,6 +6,16 @@ export default class extends Controller {
 
   connect() {
     const quillEditor = new Quill(this.quillContainerTarget, {
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, 3, 4, 5, false] }],
+          [{ color: [] }],
+          ["bold", "italic", "underline", "strike"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          ["link"],
+          ["clean"],
+        ],
+      },
       theme: "snow",
     });
 
