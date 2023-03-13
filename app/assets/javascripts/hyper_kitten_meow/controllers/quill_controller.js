@@ -10,7 +10,8 @@ export default class extends Controller {
         toolbar: [
           [{ header: [1, 2, 3, 4, 5, false] }],
           [{ color: [] }],
-          ["bold", "italic", "underline", "strike"],
+          ["bold", "italic", "underline", "strike", "code"],
+          ["blockquote", "code-block"],
           [{ list: "ordered" }, { list: "bullet" }],
           ["link"],
           ["clean"],
