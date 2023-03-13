@@ -2,6 +2,6 @@
   .card-body
     = content_block.input :name,
       hint: "This is the name used to identify the block in the Page Template"
-    = content_block.input :body, as: :rich_text_area
+    = content_block.input :body, as: :quill
     = content_block.input :_destroy, as: :hidden
     = link_to "Remove", "#", class: "btn btn-danger", data: { action: "click->add-remove-html-template#remove" }

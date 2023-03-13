@@ -15,6 +15,7 @@ module HyperKittenMeow
           end
 
           def create
+            pp page_params
             @page = Page.new(page_params)
 
             if @page.save

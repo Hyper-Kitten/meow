@@ -40,7 +40,7 @@ RSpec.feature "Page management", :type => :feature do
     within(".content-blocks") do
       click_on "Add Block"
       fill_in "Name", with: "My Content Block"
-      fill_in_rich_text_area "Body", with: "Fuzzy waffle!"
+      fill_in_quill_editor "Body", with: "Fuzzy waffle!"
     end
     fill_in "Slug", with: "my slug"
     check "Published"
@@ -82,7 +82,7 @@ RSpec.feature "Page management", :type => :feature do
     fill_in "Title", with: "Hello World!"
     within(".content-blocks") do
       fill_in "Name", with: "My Content Block"
-      fill_in_rich_text_area "Body", with: "Fuzzy waffle!"
+      fill_in_quill_editor "Body", with: "Fuzzy waffle!"
     end
     check "Published"
     click_on "Create Page"

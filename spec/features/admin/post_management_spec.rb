@@ -17,7 +17,7 @@ RSpec.feature "Post management", :type => :feature do
     end
   end
 
-  scenario "user can edit posts " do
+  scenario "user can edit posts", js: true do
     user = create_user_and_login(name: "Andrew")
     user = create(:user, name: "Josh")
     post = create(:post, title: "My Title")
@@ -29,6 +29,7 @@ RSpec.feature "Post management", :type => :feature do
 
     fill_in "Title", with: "Hello World!"
     fill_in "Summary", with: "My great summary!"
+    fill_in_quill_editor "Body", with: "Fuzzy waffle!"
     fill_in "Slug", with: "my slug"
     check "coffee"
     select "Josh", from: "post[user_id]"
@@ -41,6 +42,9 @@ RSpec.feature "Post management", :type => :feature do
     expect(page).to have_text("Josh")
     expect(page).to have_text("Josh")
     expect(page).to have_text("coffee")
+
+    post = HyperKittenMeow::Post.last
+    expect(post.body.to_plain_text).to eq("Fuzzy waffle!")
   end
 
   scenario "user can create posts", js: true do
@@ -51,7 +55,7 @@ RSpec.feature "Post management", :type => :feature do
     visit hyper_kitten_meow.new_admin_post_path
     fill_in "Title", with: "Hello World!"
     fill_in "Summary", with: "My great summary!"
-    fill_in_rich_text_area "Body", with: "Fuzzy waffle!"
+    fill_in_quill_editor "Body", with: "Fuzzy waffle!"
     fill_in "Slug", with: "my slug"
     select "Josh", from: "post[user_id]"
     check "coffee"
@@ -64,6 +68,9 @@ RSpec.feature "Post management", :type => :feature do
     expect(page).to have_text("Josh")
     expect(page).to have_text("coffee")
     expect(page).to have_text("Post successfully created.")
+
+    post = HyperKittenMeow::Post.last
+    expect(post.body.to_plain_text).to eq("Fuzzy waffle!")
   end
 
   scenario "user can fix invalid posts" do
