@@ -3,7 +3,7 @@ require "rails/command"
 class HyperKittenMeowCommand < Rails::Command::Base
   desc 'create_user', 'Creates an admin user'
   def create_user
-    require_application!
+    boot_application!
     name = ask("What is your name?")
     email = ask("What is your email address?")
     password = ask("Please choose a password.", echo: false)
@@ -18,7 +18,7 @@ class HyperKittenMeowCommand < Rails::Command::Base
 
   desc "list_users", "Lists all the admin users"
   def list_users
-    require_application!
+    boot_application!
     users = ::HyperKittenMeow::User.all
     users = users.map do |user|
       [user.name, user.email]
@@ -29,7 +29,7 @@ class HyperKittenMeowCommand < Rails::Command::Base
 
   desc "delete_user", "Deletes a user with a given email address."
   def delete_user(email)
-    require_application!
+    boot_application!
     user = ::HyperKittenMeow::User.find_by_email(email)
     if user.destroy!
       say("Removed #{user.name}.")
