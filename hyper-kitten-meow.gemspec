@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   end
   spec.test_files = Dir["spec/**/*"]
 
-  spec.add_dependency "rails", ">= 7.0.1"
+  spec.add_dependency "rails", ">= 7.1"
   spec.add_dependency "pg"
   spec.add_dependency "haml"
   spec.add_dependency "categorical"
