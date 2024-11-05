@@ -7,6 +7,7 @@ module HyperKittenMeow
 
         included do
           helper Pagy::Frontend
+          layout -> { HyperKittenMeow::ApplicationLayout }
         end
 
         def index

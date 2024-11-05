@@ -11,7 +11,7 @@ module HyperKittenMeow
             # For APIs, you may want to use :null_session instead.
             protect_from_forgery with: :exception
 
-            layout 'hyper_kitten_meow/admin'
+            layout -> { AdminLayout }
 
             before_action :authorize
             helper_method :current_user, :logged_in?

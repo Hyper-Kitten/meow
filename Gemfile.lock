@@ -12,6 +12,7 @@ PATH
       importmap-rails
       pagy
       pg
+      phlex-rails
       propshaft
       rails (>= 7.1)
       simple_form
@@ -191,6 +192,10 @@ GEM
       racc (~> 1.4)
     pagy (6.3.0)
     pg (1.5.4)
+    phlex (1.10.3)
+    phlex-rails (1.2.1)
+      phlex (~> 1.10.0)
+      railties (>= 6.1, < 8)
     propshaft (0.8.0)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)

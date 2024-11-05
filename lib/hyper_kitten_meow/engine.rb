@@ -2,6 +2,10 @@ module HyperKittenMeow
   class Engine < ::Rails::Engine
     isolate_namespace HyperKittenMeow
 
+    config.autoload_paths << "#{root}/app/views"
+    config.autoload_paths << "#{root}/app/views/components"
+    config.autoload_paths << "#{root}/app/views/layouts"
+
     initializer "hyper-kitten-meow.importmap", before: "importmap" do |app|
       # NOTE: this will add pins from this engine to the main app
       # https://github.com/rails/importmap-rails#composing-import-maps

@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "image_processing"
   spec.add_dependency "human_urls", "~> 0.1.7-alpha.0"
   spec.add_dependency "hyper-kitten-tables"
+  spec.add_dependency "phlex-rails"
 
   spec.add_development_dependency "pry-rails"
   spec.add_development_dependency "rspec-rails"
