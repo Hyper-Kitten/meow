@@ -1,4 +1,6 @@
+require 'dummy/app/views/pages/templates/test_template'
 require 'rails_helper'
+
 
 RSpec.describe HyperKittenMeow::Page, type: :model do
   it_behaves_like "a sluggable" do
@@ -41,15 +43,26 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
     end
 
     it "is valid if it is one of the available templates" do
-      page = build(:page, template: "test_template")
+      template_titles = HyperKittenMeow::Page.templates.map(&:title)
+      page = build(:page, template: "TestTemplate")
 
       expect(page).to be_valid
     end
   end
 
+  describe "#selected_template_content_blocks" do
+    it "returns the content blocks for the selected template" do
+      page = build(:page, template: "TestTemplate")
+
+      expect(page.selected_template_content_blocks).
+        to match_array([:test_block, :test_block_two])
+    end
+  end
+
   describe ".templates" do
     it "returns a list of available templates" do
-      expect(HyperKittenMeow::Page.templates).to eq(["test_template"])
+      template_titles = HyperKittenMeow::Page.templates.map(&:title)
+      expect(template_titles).to eq(["Test Template"])
     end
   end
 
