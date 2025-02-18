@@ -12,32 +12,36 @@ module HyperKittenMeow
           def new
             @page = Page.new
             @page.content_blocks.build
+            set_template_info
           end
 
           def create
             @page = Page.new(page_params)
+            set_template_info
 
             if @page.save
               flash[:success] = "Page successfully created."
               redirect_to admin_pages_path
             else
-              flash[:error] = "There was a problem saving the page."
-              render :new
+              flash[:error] = @page.errors.full_messages.join(", ")
+              render :new, status: :unprocessable_entity
             end
           end
 
           def edit
             find_page
+            set_template_info
           end
 
           def update
             find_page
+            set_template_info
             if @page.update(page_params)
               flash[:success] = "Page was successfully updated."
               redirect_to admin_pages_path
             else
               flash[:error] = "There was a problem saving the page."
-              render action: 'edit'
+              render action: 'edit', status: :unprocessable_entity
             end
           end
 
@@ -45,6 +49,10 @@ module HyperKittenMeow
 
           def find_page
             @page = Page.find_by_slug!(params[:id])
+          end
+
+          def set_template_info
+            @templates_and_content_blocks = HyperKittenMeow::BasePageTemplate.all_templates_and_blocks
           end
 
           def page_params

@@ -12,7 +12,7 @@ module HyperKittenMeow
 
       html(class: "h-100") do
         head do
-          meta content: "text/html; charset=UTF-8", "http-equiv": "Content-Type"
+          meta content: "text/html; charset=UTF-8"
           title { t("title") }
           stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css", integrity: "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3", crossorigin: "anonymous"
           stylesheet_link_tag "https://cdn.quilljs.com/1.3.6/quill.snow.css"

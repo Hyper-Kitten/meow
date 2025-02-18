@@ -19,6 +19,7 @@ module HyperKittenMeow
           validates_length_of :title, maximum: 244
           validate :template_in_registered_templates
 
+          after_initialize :build_content_blocks
           before_save :set_published_at_date
 
           sluggify :slug, generated_from: :title
@@ -34,7 +35,7 @@ module HyperKittenMeow
           end
 
           def templates
-            HyperKittenMeow::BasePageTemplate.descendants
+            HyperKittenMeow::BasePageTemplate.all_templates
           end
         end
 
@@ -43,11 +44,11 @@ module HyperKittenMeow
         end
 
         def template_klass
-          template.constantize
+          template&.constantize
         end
 
         def selected_template_content_blocks
-          template_klass.content_blocks
+          template_klass&.content_blocks.to_a
         end
 
         def populated_template
@@ -67,6 +68,12 @@ module HyperKittenMeow
 
           unless self.class.templates.map(&:name).include?(template)
             errors.add(:template, "is not a registered template")
+          end
+        end
+
+        def build_content_blocks
+          selected_template_content_blocks.each do |block|
+            content_blocks << HyperKittenMeow::ContentBlock.new(name: block)
           end
         end
       end

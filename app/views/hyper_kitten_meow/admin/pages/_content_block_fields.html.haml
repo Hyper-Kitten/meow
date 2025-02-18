@@ -1,7 +1,7 @@
-.card.content-block.border.my-3{ data: { "add-remove-html-template-target": "contentBlock", new_record: content_block.object.new_record?.to_s } }
+.card.content-block.border.my-3
   .card-body
-    = content_block.input :name,
-      hint: "This is the name used to identify the block in the Page Template"
-    = content_block.input :body, as: :quill
-    = content_block.input :_destroy, as: :hidden
-    = link_to "Remove", "#", class: "btn btn-danger", data: { action: "click->add-remove-html-template#remove" }
+    %h4.content-block-name= content_block.object.name
+    = content_block.hidden_field :name, class: "content-block-name-field"
+    %div.quill-fields-container{ data: { block_name: content_block.object.name, content_blocks_target: "quillFieldsContainer" } }
+      = content_block.hidden_field :body, value: nil
+      .quill-container

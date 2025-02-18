@@ -6,7 +6,6 @@ require_relative "../spec/dummy/config/environment"
 require "rspec/rails"
 require "selenium/webdriver"
 require "capybara/rails"
-require "capybara-screenshot/rspec"
 require "action_text/system_test_helper"
 require "factory_bot_rails"
 
@@ -25,9 +24,6 @@ Capybara.register_driver :headless_chrome do |app|
 end
 
 Capybara.javascript_driver = :headless_chrome
-Capybara::Screenshot.register_driver(:selenium_chrome) do |driver, path|
-  driver.browser.save_screenshot(path)
-end
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
