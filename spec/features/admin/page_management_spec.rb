@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "Page management", :type => :feature do
+RSpec.feature "Page management", type: :feature do
   scenario "user can view pages" do
     user = create_user_and_login
     static_page = create(:page, title: "My Title")
@@ -29,7 +29,8 @@ RSpec.feature "Page management", :type => :feature do
   end
 
   scenario "user can edit pages", js: true do
-    user = create_user_and_login
+    pp TestTemplate
+    create_user_and_login
     static_page = create(:page, title: "My Title")
 
     visit hyper_kitten_meow.edit_admin_page_path(static_page)
@@ -39,21 +40,25 @@ RSpec.feature "Page management", :type => :feature do
     fill_in "Title", with: "Hello World!"
     select "Test Template", from: "Template"
     within(".content-blocks") do
-      # fill_in_quill_editor "Body", with: "Fuzzy waffle!"
-      quill_input = find(:xpath, "//h4[starts-with(text(), 'Test Block')]/following-sibling::div").find("div[contenteditable='true'].ql-editor")
-      quill_input.native.clear
-      quill_input.send_keys with
+      fill_in_quill_editor "Test Block", with: "Fuzzy waffle!"
     end
     fill_in "Slug", with: "my slug"
     check "Published"
+    html = page.html
+    File.write("page.html", html)
     click_on "Update Page"
 
     expect(current_path).to eq(hyper_kitten_meow.admin_pages_path)
     expect(page).to have_text("Hello World!")
     expect(page).to have_text("my-slug")
-    page = HyperKittenMeow::Page.last
-    expect(page.content_blocks.first.name).to eq("My Content Block")
-    expect(page.content_blocks.first.body.to_plain_text).to eq("Fuzzy waffle!")
+    meow_page = HyperKittenMeow::Page.last
+    pp meow_page.content_blocks
+    pp meow_page.content_blocks.map(&:body)
+    expect(meow_page.content_blocks.count).to eq(2)
+    test_block = meow_page.content_blocks.find_by(name: "Test Block")
+    expect(test_block.body.to_plain_text).to eq("Fuzzy waffle!")
+    test_block_two = meow_page.content_blocks.find_by(name: "Test Block Two")
+    expect(test_block_two.body.to_plain_text).to eq("")
   end
 
   scenario "user can create pages", js: true do

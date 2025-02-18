@@ -1,6 +1,5 @@
-require 'dummy/app/views/pages/templates/test_template'
-require 'rails_helper'
-
+require "dummy/app/views/pages/templates/test_template"
+require "rails_helper"
 
 RSpec.describe HyperKittenMeow::Page, type: :model do
   it_behaves_like "a sluggable" do
@@ -11,13 +10,13 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
     it "is created automatically from the title if not provided" do
       page = create(:page, title: "My Title")
 
-      expect(page.slug).to eq('my-title')
+      expect(page.slug).to eq("my-title")
     end
 
     it "is created user input if provided" do
       page = create(:page, title: "My Title", slug: "my slug")
 
-      expect(page.slug).to eq('my-slug')
+      expect(page.slug).to eq("my-slug")
     end
   end
 
@@ -50,12 +49,29 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
     end
   end
 
+  describe "acceptns_nested_attributes_for :content_blocks" do
+    it "allows content blocks to be created" do
+      page = HyperKittenMeow::Page.new(
+        title: "My Title",
+        body: "My Body",
+        content_blocks_attributes: {
+          "123" => {name: "test_block", body: "test body"},
+          "456" => {name: "test_block_two", body: "test body two"}
+        }
+      )
+
+      pp page.save!
+
+      pp page.page_content_blocks
+    end
+  end
+
   describe "#selected_template_content_blocks" do
     it "returns the content blocks for the selected template" do
       page = build(:page, template: "TestTemplate")
 
-      expect(page.selected_template_content_blocks).
-        to match_array([:test_block, :test_block_two])
+      expect(page.selected_template_content_blocks)
+        .to match_array([:test_block, :test_block_two])
     end
   end
 
@@ -109,9 +125,9 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
 
   describe "#to_param" do
     it "returns the slug" do
-      page = build(:page, slug: 'my-slug')
+      page = build(:page, slug: "my-slug")
 
-      expect(page.to_param).to eq('my-slug')
+      expect(page.to_param).to eq("my-slug")
     end
   end
 end

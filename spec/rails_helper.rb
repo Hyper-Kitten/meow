@@ -2,6 +2,7 @@
 ENV["RAILS_ENV"] = "test"
 
 require_relative "../spec/dummy/config/environment"
+require_relative "../spec/dummy/app/views/pages/templates/test_template"
 
 require "rspec/rails"
 require "selenium/webdriver"
