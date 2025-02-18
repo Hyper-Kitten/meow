@@ -1,4 +1,4 @@
-FROM ruby:3.1-alpine
+FROM ruby:3.4.1-alpine
 
 RUN apk add --update git less build-base nodejs-current npm postgresql-dev chromium chromium-chromedriver gcompat vips-dev
 
