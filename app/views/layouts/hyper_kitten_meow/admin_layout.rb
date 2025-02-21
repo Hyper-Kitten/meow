@@ -6,6 +6,15 @@ module HyperKittenMeow
     include Phlex::Rails::Helpers::T
     include Phlex::Rails::Helpers::Routes
 
+    register_value_helper :logged_in?
+    register_value_helper :current_user
+
+    KEY_TRANSFORMATIONS = {
+      "alert" => "warning",
+      "error" => "danger",
+      "notice" => "info",
+      "success" => "success"
+    }
 
     def view_template(&block)
       doctype
@@ -43,7 +52,11 @@ module HyperKittenMeow
 
     def flash_content
       if flash.any?
-        helpers.user_facing_flashes.each do |key, value|
+        flashes = flash.to_hash.slice("alert", "error", "notice", "success")
+        user_flashes = flashes.transform_keys do |key|
+          KEY_TRANSFORMATIONS[key]
+        end
+        user_flashes.each do |key, value|
           div(class: "alert alert-#{key}") { value }
         end
       end
@@ -53,19 +66,19 @@ module HyperKittenMeow
       nav(class: "col-md-3 col-lg-2 d-md-block sidebar bg-dark text-white d-flex flex-column") do
         h3(class: "mb-3 mt-3") { t("title") }
         hr
-        if helpers.logged_in?
+        if logged_in?
           ul(class: "nav nav-pills flex-column mb-auto") do
-            li(class: "nav-item") { link_to "Posts", helpers.hyper_kitten_meow.admin_posts_path, class: "nav-link text-white" }
-            li(class: "nav-item") { link_to "Pages", helpers.hyper_kitten_meow.admin_pages_path, class: "nav-link text-white" }
-            li(class: "nav-item") { link_to "Tags", helpers.hyper_kitten_meow.admin_tags_path, class: "nav-link text-white" }
-            li(class: "nav-item") { link_to "Users", helpers.hyper_kitten_meow.admin_users_path, class: "nav-link text-white" }
+            li(class: "nav-item") { link_to "Posts", hyper_kitten_meow.admin_posts_path, class: "nav-link text-white" }
+            li(class: "nav-item") { link_to "Pages", hyper_kitten_meow.admin_pages_path, class: "nav-link text-white" }
+            li(class: "nav-item") { link_to "Tags", hyper_kitten_meow.admin_tags_path, class: "nav-link text-white" }
+            li(class: "nav-item") { link_to "Users", hyper_kitten_meow.admin_users_path, class: "nav-link text-white" }
           end
           hr
-          link_to "#", class: "nav-link d-flex align-items-center text-white text-decoration-none dropdown-toggle", data: { "bs-toggle": "dropdown" }, "aria-expanded": false do
-            strong { helpers.current_user.name }
+          link_to "#", class: "nav-link d-flex align-items-center text-white text-decoration-none dropdown-toggle", data: {"bs-toggle": "dropdown"}, "aria-expanded": false do
+            strong { current_user.name }
           end
           ul(class: "dropdown-menu dropdown-menu-dark text-small shadow") do
-            li { link_to t('sessions.destroy'), helpers.hyper_kitten_meow.admin_logout_path, class: "dropdown-item" }
+            li { link_to t("sessions.destroy"), hyper_kitten_meow.admin_logout_path, class: "dropdown-item" }
           end
         end
       end

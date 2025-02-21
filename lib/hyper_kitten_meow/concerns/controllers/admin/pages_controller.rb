@@ -23,8 +23,6 @@ module HyperKittenMeow
               flash[:success] = "Page successfully created."
               redirect_to admin_pages_path
             else
-              pp page_params
-              pp @page.page_content_blocks.map(&:errors)
               flash[:error] = @page.errors.full_messages.join(", ")
               render :new, status: :unprocessable_entity
             end
@@ -38,7 +36,6 @@ module HyperKittenMeow
           def update
             find_page
             set_template_info
-            pp page_params
             if @page.update(page_params)
               flash[:success] = "Page was successfully updated."
               redirect_to admin_pages_path

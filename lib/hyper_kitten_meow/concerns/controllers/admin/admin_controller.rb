@@ -18,7 +18,7 @@ module HyperKittenMeow
           end
 
           def authorize
-            raise ActionController::RoutingError.new('Not Found') unless logged_in?
+            raise ActionController::RoutingError.new("Not Found") unless logged_in?
           end
 
           def current_user

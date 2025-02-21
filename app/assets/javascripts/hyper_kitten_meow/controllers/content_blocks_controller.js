@@ -14,11 +14,16 @@ export default class extends Controller {
   static values = { blocks: Object, selectedTemplate: String };
 
   connect() {
-    this.updateContentBlockFields();
+    if (this.activeBlocksFieldsTarget) {
+      this._setSelectedTemplateValue();
+      this._setupQuillEditors();
+    } else {
+      this.updateContentBlockFields();
+    }
   }
 
   updateContentBlockFields() {
-    this.selectedTemplateValue = this.templateFieldTarget.value;
+    this._setSelectedTemplateValue();
     this._clearActiveBlocksFields();
     if (this.blocksValue[this.selectedTemplateValue].hasOwnProperty("cachedFields")) {
       this.activeBlocksFieldsTarget.innerHTML = this.blocksValue[this.selectedTemplateValue]["cachedFields"];
@@ -31,6 +36,10 @@ export default class extends Controller {
     }
   }
 
+  _setSelectedTemplateValue() {
+    this.selectedTemplateValue = this.templateFieldTarget.value;
+  }
+
   _buildContentBlockFields(blockInfo) {
     const fields  = this.contentBlockFieldTemplateTarget
     const fieldsContainer = fields.content.querySelector(".quill-fields-container");
@@ -39,7 +48,7 @@ export default class extends Controller {
     input.setAttribute("value", blockInfo.value);
     titleElement.textContent = blockInfo.title;
     fieldsContainer.dataset.blockName = blockInfo.value;
-    return fields.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
+    return fields.innerHTML.replace(/NEW_RECORD/g, this._randomId());
   }
 
   _setupQuillEditors() {
@@ -64,9 +73,12 @@ export default class extends Controller {
         },
         theme: "snow",
       });
-      const cachedContent = this.blocksValue[this.selectedTemplateValue].blocksInfo.find((block) => block.value === fieldsContainer.dataset.blockName).cachedFields;
-      if (cachedContent) {
-        quillEditor.setContents(cachedContent);
+      if (hiddenInput.value) {
+        console.log(hiddenInput.value);
+        quillEditor.clipboard.dangerouslyPasteHTML(hiddenInput.value);
+      } else  {
+        const cachedContent = this.blocksValue[this.selectedTemplateValue].blocksInfo.find((block) => block.value === fieldsContainer.dataset.blockName).cachedFields;
+        if (cachedContent) { quillEditor.setContents(cachedContent); }
       }
       quillEditor.on('text-change', () => {
         const currentContents = quillEditor.getContents();
@@ -94,5 +106,9 @@ export default class extends Controller {
       }
     });
     this.blocksValue = newBlocksValue;
+  }
+
+  _randomId() {
+    return Math.floor(Math.random() * 100000000);
   }
 }
