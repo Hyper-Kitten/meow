@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.feature "User management", :type => :feature do
+RSpec.feature "User management", type: :feature do
   scenario "user can view users" do
-    user = create_user_and_login
-    user = create(:user, name: "Elvis Costello")
+    create_user_and_login
+    create(:user, name: "Elvis Costello")
 
     visit hyper_kitten_meow.admin_users_path
 
@@ -13,18 +13,18 @@ RSpec.feature "User management", :type => :feature do
   scenario "user can paginate through the users" do
     create_user_and_login
     # The user created for logging in also is included here
-    users = FactoryBot.create_list(:user, 10)
+    FactoryBot.create_list(:user, 10)
 
     visit hyper_kitten_meow.admin_users_path
-    expect(page).to have_selector('.user', count: 10)
-    click_on('Next')
+    expect(page).to have_selector(".user", count: 10)
+    click_on(">")
 
-    expect(page).to have_selector('.user', count: 1)
+    expect(page).to have_selector(".user", count: 1)
   end
 
   scenario "user can edit users " do
-    create_user_and_login(name: 'Andrew')
-    user = create(:user, name: 'Josh')
+    create_user_and_login(name: "Andrew")
+    user = create(:user, name: "Josh")
 
     visit hyper_kitten_meow.edit_admin_user_path(user)
 
@@ -39,7 +39,7 @@ RSpec.feature "User management", :type => :feature do
   end
 
   scenario "user can create users " do
-    user = create_user_and_login(name: 'Andrew')
+    create_user_and_login(name: "Andrew")
 
     visit hyper_kitten_meow.new_admin_user_path
     fill_in "Name", with: "David Byrne"

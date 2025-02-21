@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.feature "Post management", :type => :feature do
+RSpec.feature "Post management", type: :feature do
   scenario "user can view posts" do
-    user = create_user_and_login
-    post = create(:post, title: "My Title")
+    create_user_and_login
+    create(:post, title: "My Title")
 
     visit hyper_kitten_meow.admin_posts_path
 
@@ -18,10 +18,10 @@ RSpec.feature "Post management", :type => :feature do
   end
 
   scenario "user can edit posts", js: true do
-    user = create_user_and_login(name: "Andrew")
-    user = create(:user, name: "Josh")
+    create_user_and_login(name: "Andrew")
+    create(:user, name: "Josh")
     post = create(:post, title: "My Title")
-    tag = create(:tag, label: "coffee")
+    create(:tag, label: "coffee")
 
     visit hyper_kitten_meow.edit_admin_post_path(post)
 
@@ -48,9 +48,9 @@ RSpec.feature "Post management", :type => :feature do
   end
 
   scenario "user can create posts", js: true do
-    user = create_user_and_login(name: "Andrew")
-    user = create(:user, name: "Josh")
-    tag = create(:tag, label: "coffee")
+    create_user_and_login(name: "Andrew")
+    create(:user, name: "Josh")
+    create(:tag, label: "coffee")
 
     visit hyper_kitten_meow.new_admin_post_path
     fill_in "Title", with: "Hello World!"
@@ -74,7 +74,7 @@ RSpec.feature "Post management", :type => :feature do
   end
 
   scenario "user can fix invalid posts" do
-    user = create_user_and_login
+    create_user_and_login
     visit hyper_kitten_meow.new_admin_post_path
 
     fill_in "Title", with: ""

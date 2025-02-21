@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.feature "Page management", type: :feature do
   scenario "user can view pages" do
-    user = create_user_and_login
-    static_page = create(:page, title: "My Title")
+    create_user_and_login
+    create(:page, title: "My Title")
 
     visit hyper_kitten_meow.admin_pages_path
 
@@ -15,17 +15,6 @@ RSpec.feature "Page management", type: :feature do
     paginates(factory: :page, increment: 10, selector: "tbody tr") do
       visit hyper_kitten_meow.admin_pages_path
     end
-  end
-
-  scenario "user can paginate through the pages" do
-    create_user_and_login
-    pages = FactoryBot.create_list(:page, 11)
-
-    visit hyper_kitten_meow.admin_pages_path
-    expect(page).to have_selector("tbody tr", count: 10)
-    click_on("Next")
-
-    expect(page).to have_selector("tbody tr", count: 1)
   end
 
   scenario "user can edit pages", js: true do
@@ -43,8 +32,6 @@ RSpec.feature "Page management", type: :feature do
     end
     fill_in "Slug", with: "my slug"
     check "Published"
-    html = page.html
-    File.write("page.html", html)
     click_on "Update Page"
 
     expect(current_path).to eq(hyper_kitten_meow.admin_pages_path)
@@ -89,13 +76,13 @@ RSpec.feature "Page management", type: :feature do
   end
 
   scenario "user can create pages", js: true do
-    user = create_user_and_login
+    create_user_and_login
 
     visit hyper_kitten_meow.new_admin_page_path
     fill_in "Title", with: "Hello World!"
+    select "Test Template", from: "Template"
     within(".content-blocks") do
-      fill_in "Name", with: "My Content Block"
-      fill_in_quill_editor "Body", with: "Fuzzy waffle!"
+      fill_in_quill_editor "Test Block", with: "Fuzzywaffle!"
     end
     check "Published"
     click_on "Create Page"
@@ -104,12 +91,12 @@ RSpec.feature "Page management", type: :feature do
     expect(page).to have_text("Hello World!")
     expect(page).to have_text("Page successfully created.")
     page = HyperKittenMeow::Page.last
-    expect(page.content_blocks.first.name).to eq("My Content Block")
-    expect(page.content_blocks.first.body.to_plain_text).to eq("Fuzzy waffle!")
+    expect(page.content_blocks.first.name).to eq("test_block")
+    expect(page.content_blocks.first.body.to_plain_text).to eq("Fuzzywaffle!")
   end
 
   scenario "user can fix invalid pages", js: true do
-    user = create_user_and_login
+    create_user_and_login
     visit hyper_kitten_meow.new_admin_page_path
 
     fill_in "Title", with: ""

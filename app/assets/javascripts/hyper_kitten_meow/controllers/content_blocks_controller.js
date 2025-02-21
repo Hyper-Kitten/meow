@@ -76,6 +76,7 @@ export default class extends Controller {
       if (hiddenInput.value) {
         console.log(hiddenInput.value);
         quillEditor.clipboard.dangerouslyPasteHTML(hiddenInput.value);
+        this._cacheFieldContent(quillEditor.getContents(), fieldsContainer.dataset.blockName);
       } else  {
         const cachedContent = this.blocksValue[this.selectedTemplateValue].blocksInfo.find((block) => block.value === fieldsContainer.dataset.blockName).cachedFields;
         if (cachedContent) { quillEditor.setContents(cachedContent); }
@@ -99,7 +100,6 @@ export default class extends Controller {
 
   _cacheFieldContent(currentContents, blockValue) {
     const newBlocksValue = this.blocksValue;
-    console.log(newBlocksValue[this.selectedTemplateValue]);
     newBlocksValue[this.selectedTemplateValue].blocksInfo.forEach((block) => {
       if (block.value === blockValue) {
         block.cachedFields = currentContents;
