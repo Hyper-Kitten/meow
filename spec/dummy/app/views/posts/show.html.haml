@@ -1,0 +1,15 @@
+%article
+  %header.mb-4
+    %h1= @post.title
+    %p.text-muted
+      Published #{time_ago_in_words(@post.published_at)} ago
+      - if @post.tags.any?
+        |
+        - @post.tags.each do |tag|
+          %span.badge.bg-secondary= tag.name
+
+  .post-body.mb-4
+    = @post.body
+
+  %footer.border-top.pt-3
+    = link_to "← Back to posts", posts_path, class: "btn btn-outline-secondary"

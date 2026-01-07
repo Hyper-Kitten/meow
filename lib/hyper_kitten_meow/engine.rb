@@ -3,7 +3,6 @@ module HyperKittenMeow
     isolate_namespace HyperKittenMeow
 
     config.autoload_paths << "#{root}/app/views"
-    config.autoload_paths << "#{root}/app/views/components"
     config.autoload_paths << "#{root}/app/views/layouts"
 
     initializer "hyper-kitten-meow.importmap", before: "importmap" do |app|

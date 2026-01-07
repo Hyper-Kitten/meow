@@ -7,12 +7,14 @@ module HyperKittenMeow
 
           def index
             @pagy, @pages = pagy(Page.all.order(title: :asc))
+            render Views::Admin::Pages::Index.new(pages: @pages, pagy: @pagy)
           end
 
           def new
             @page = Page.new
             @page.content_blocks.build
             set_template_info
+            render Views::Admin::Pages::New.new(page: @page, templates_and_content_blocks: @templates_and_content_blocks)
           end
 
           def create
@@ -24,13 +26,14 @@ module HyperKittenMeow
               redirect_to admin_pages_path
             else
               flash[:error] = @page.errors.full_messages.join(", ")
-              render :new, status: :unprocessable_entity
+              render Views::Admin::Pages::New.new(page: @page, templates_and_content_blocks: @templates_and_content_blocks), status: :unprocessable_entity
             end
           end
 
           def edit
             find_page
             set_template_info
+            render Views::Admin::Pages::Edit.new(page: @page, templates_and_content_blocks: @templates_and_content_blocks)
           end
 
           def update
@@ -41,7 +44,7 @@ module HyperKittenMeow
               redirect_to admin_pages_path
             else
               flash[:error] = "There was a problem saving the page."
-              render action: "edit", status: :unprocessable_entity
+              render Views::Admin::Pages::Edit.new(page: @page, templates_and_content_blocks: @templates_and_content_blocks), status: :unprocessable_entity
             end
           end
 

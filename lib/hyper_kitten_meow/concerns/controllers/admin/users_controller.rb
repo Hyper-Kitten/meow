@@ -7,10 +7,12 @@ module HyperKittenMeow
 
           def index
             @pagy, @users = pagy(User.all)
+            render Views::Admin::Users::Index.new(users: @users, pagy: @pagy)
           end
 
           def new
             @user = User.new
+            render Views::Admin::Users::New.new(user: @user)
           end
 
           def create
@@ -20,12 +22,13 @@ module HyperKittenMeow
               redirect_to admin_users_path
             else
               flash[:error] = "There was a problem saving the user."
-              render :new
+              render Views::Admin::Users::New.new(user: @user), status: :unprocessable_entity
             end
           end
 
           def edit
             find_user
+            render Views::Admin::Users::Edit.new(user: @user)
           end
 
           def update
@@ -35,7 +38,7 @@ module HyperKittenMeow
               redirect_to admin_users_path
             else
               flash[:error] = "There was a problem saving the user."
-              render action: 'edit'
+              render Views::Admin::Users::Edit.new(user: @user), status: :unprocessable_entity
             end
           end
 

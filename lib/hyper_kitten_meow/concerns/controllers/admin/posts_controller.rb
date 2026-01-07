@@ -4,60 +4,48 @@ module HyperKittenMeow
       module Admin
         module PostsController
           extend ActiveSupport::Concern
+
           def index
             @pagy, @posts = pagy(Post.sorted_by_published_date)
+            render Views::Admin::Posts::Index.new(posts: @posts, pagy: @pagy)
           end
 
           def new
             @post = Post.new
-            find_users
-            find_tags
+            render Views::Admin::Posts::New.new(post: @post)
           end
 
           def create
             @post = Post.new(post_params)
-            find_users
-            find_tags
             if @post.save
               flash[:success] = "Post successfully created."
               redirect_to admin_posts_path
             else
               flash[:error] = "There was a problem saving the post."
-              render :new
+              render Views::Admin::Posts::New.new(post: @post), status: :unprocessable_entity
             end
           end
 
           def edit
             find_post
-            find_users
-            find_tags
+            render Views::Admin::Posts::Edit.new(post: @post)
           end
 
           def update
             find_post
-            find_users
-            find_tags
             if @post.update(post_params)
               flash[:success] = "Post was successfully updated."
               redirect_to admin_posts_path
             else
               flash[:error] = "There was a problem saving the post."
-              render action: 'edit'
+              render Views::Admin::Posts::Edit.new(post: @post), status: :unprocessable_entity
             end
           end
 
           private
 
-          def find_users
-            @users = User.all
-          end
-
           def find_post
             @post = Post.find_by_slug!(params[:id])
-          end
-
-          def find_tags
-            @tags = Categorical::Tag.all
           end
 
           def post_params

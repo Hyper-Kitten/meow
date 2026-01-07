@@ -20,14 +20,14 @@
 
     // Add the IDs of extensions you want installed when the container is created.
     "extensions": []
-  }
+  },
 
-  // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
-  // "shutdownAction": "none",
+  // Forward the Rails server port
+  "forwardPorts": [3000],
 
-  // Uncomment the next line to use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "uname -a",
+  // Run database setup after container is created
+  "postCreateCommand": "cd /app/spec/dummy && bin/rails db:prepare",
 
-  // Comment out to connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
-  // "remoteUser": "vscode"
+  // Start the Rails server when the container starts
+  "postStartCommand": "cd /app/spec/dummy && bin/rails server -b 0.0.0.0"
 }

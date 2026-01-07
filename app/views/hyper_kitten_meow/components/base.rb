@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module HyperKittenMeow
-  class ApplicationComponent < Phlex::HTML
+  class Components::Base < Phlex::HTML
     include Phlex::Rails::Helpers::Routes
 
     if Rails.env.development?

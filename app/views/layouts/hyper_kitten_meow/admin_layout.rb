@@ -1,5 +1,5 @@
 module HyperKittenMeow
-  class AdminLayout < ApplicationView
+  class AdminLayout < Components::Base
     include Phlex::Rails::Layout
     include Phlex::Rails::Helpers::Flash
     include Phlex::Rails::Helpers::LinkTo

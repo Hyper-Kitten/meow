@@ -1,5 +1,5 @@
 module HyperKittenMeow
-  class ApplicationLayout < ApplicationView
+  class ApplicationLayout < Components::Base
     include Phlex::Rails::Layout
     include Phlex::Rails::Helpers::LinkTo
     include Phlex::Rails::Helpers::AssetPath
@@ -14,7 +14,6 @@ module HyperKittenMeow
       html(class: "h-100") do
         head do
           title { @page&.title || t('title') }
-          meta "http-equiv": "x-ua-compatible", content: "ie=edge"
           meta name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0"
           meta charset: "utf-8"
           meta name: "description", content: (content_for(:page_description) || t('page_description'))

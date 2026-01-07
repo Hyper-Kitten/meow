@@ -14,12 +14,26 @@ export default class extends Controller {
   static values = { blocks: Object, selectedTemplate: String };
 
   connect() {
-    if (this.activeBlocksFieldsTarget) {
-      this._setSelectedTemplateValue();
+    this._setSelectedTemplateValue();
+
+    // Check if we have valid content blocks (ones with proper names)
+    const hasValidContentBlocks = this._hasValidContentBlocks();
+
+    if (hasValidContentBlocks) {
+      // Page has existing content blocks with names, just set up Quill editors
       this._setupQuillEditors();
     } else {
+      // No valid content blocks, populate from template
       this.updateContentBlockFields();
     }
+  }
+
+  _hasValidContentBlocks() {
+    if (!this.hasActiveBlocksFieldsTarget) return false;
+
+    // Check if any content block has a non-empty name
+    const nameFields = this.activeBlocksFieldsTarget.querySelectorAll('input.content-block-name-field');
+    return Array.from(nameFields).some(field => field.value && field.value.trim() !== '');
   }
 
   updateContentBlockFields() {
@@ -41,14 +55,22 @@ export default class extends Controller {
   }
 
   _buildContentBlockFields(blockInfo) {
-    const fields  = this.contentBlockFieldTemplateTarget
-    const fieldsContainer = fields.content.querySelector(".quill-fields-container");
-    const titleElement = fields.content.querySelector("h4.content-block-name");
-    const input = fields.content.querySelector("input.content-block-name-field");
+    const template = this.contentBlockFieldTemplateTarget;
+    // Clone the template content so modifications don't affect the original
+    const clone = template.content.cloneNode(true);
+
+    const fieldsContainer = clone.querySelector(".quill-fields-container");
+    const titleElement = clone.querySelector("h4.content-block-name");
+    const input = clone.querySelector("input.content-block-name-field");
+
     input.setAttribute("value", blockInfo.value);
     titleElement.textContent = blockInfo.title;
     fieldsContainer.dataset.blockName = blockInfo.value;
-    return fields.innerHTML.replace(/NEW_RECORD/g, this._randomId());
+
+    // Serialize the clone to HTML
+    const temp = document.createElement('div');
+    temp.appendChild(clone);
+    return temp.innerHTML.replace(/NEW_RECORD/g, this._randomId());
   }
 
   _setupQuillEditors() {

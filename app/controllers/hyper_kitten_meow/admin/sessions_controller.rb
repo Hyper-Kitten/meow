@@ -4,8 +4,9 @@ module HyperKittenMeow
       skip_before_action :authorize, only: [:new, :create]
 
       def new
-        redirect_to admin_root_path if logged_in?
-        redirect_to new_admin_first_user_path unless User.any?
+        redirect_to admin_root_path and return if logged_in?
+        redirect_to new_admin_first_user_path and return unless User.any?
+        render Views::Admin::Sessions::New.new
       end
 
       def create
@@ -21,7 +22,7 @@ module HyperKittenMeow
           redirect_to admin_root_path
         else
           flash.now[:error] = t("sessions.failed_login")
-          render 'new'
+          render Views::Admin::Sessions::New.new, status: :unprocessable_entity
         end
       end
 
