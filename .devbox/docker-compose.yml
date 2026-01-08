@@ -1,8 +1,8 @@
-name: Meow
+name: hyper-kitten-meow
 
 services:
   db:
-    image: 'postgres:13-alpine'
+    image: postgres:13-alpine
     environment:
       POSTGRES_USER: hyper
       POSTGRES_PASSWORD: kitten
@@ -13,17 +13,18 @@ services:
 
   web:
     depends_on:
-      - 'db'
-    build: 
+      - db
+    build:
       context: ../
-      dockerfile: ./.devcontainer/Dockerfile
-    env_file:
-      - '.env'
+      dockerfile: .devbox/Dockerfile
+    environment:
+      APP_DB_HOST: db
+      APP_DB_USERNAME: hyper
+      APP_DB_PASSWORD: kitten
     ports:
       - '3000:3000'
     volumes:
-      - '..:/app'
-    restart: 'on-failure'
+      - '../:/app'
+
 volumes:
   pgdata:
-

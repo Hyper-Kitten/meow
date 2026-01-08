@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import * as quill from "quill";
+//import * as quill from "quill";
 
 export default class extends Controller {
   static targets = [

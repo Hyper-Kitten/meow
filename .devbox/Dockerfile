@@ -15,4 +15,4 @@ COPY . .
 
 LABEL maintainer="Josh Klina"
 
-CMD spec/dummy/bin/rails server -b 0.0.0.0
+CMD ["spec/dummy/bin/rails", "server", "-b", "0.0.0.0"]
