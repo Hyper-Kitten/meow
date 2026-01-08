@@ -56,8 +56,7 @@ module HyperKittenMeow
     end
 
     def render_content_block_fields(f, content_block, child_index:)
-      # Use the form builder's fields_for
-      f.instance_variable_get(:@form).fields_for(:content_blocks, content_block, child_index: child_index) do |cb|
+      f.fields_for(:content_blocks, content_block, child_index: child_index) do |cb|
         div(class: "card content-block border my-3") do
           div(class: "card-body") do
             h4(class: "content-block-name") { content_block.name&.titleize }

@@ -137,6 +137,10 @@ module HyperKittenMeow
       @form.submit(text, **mix({class: "btn btn-primary"}, options))
     end
 
+    def fields_for(...)
+      @form.fields_for(...)
+    end
+
     private
 
     def field_wrapper(attribute, label: nil, required: false, &block)
