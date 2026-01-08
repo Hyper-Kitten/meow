@@ -1,4 +1,0 @@
-%section
-  %h2= "Editing User: #{@user.name}"
-  = simple_form_for @user, url: admin_user_path(@user), method: :patch do |f|
-    = render partial: 'form_fields', locals: { f: f }

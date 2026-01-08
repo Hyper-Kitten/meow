@@ -1,0 +1,22 @@
+<article>
+  <header class="mb-4">
+    <h1><%= @post.title %></h1>
+    <p class="text-muted">
+      Published <%= time_ago_in_words(@post.published_at) %> ago
+      <% if @post.tags.any? %>
+        |
+        <% @post.tags.each do |tag| %>
+          <span class="badge bg-secondary"><%= tag.name %></span>
+        <% end %>
+      <% end %>
+    </p>
+  </header>
+
+  <div class="post-body mb-4">
+    <%= @post.body %>
+  </div>
+
+  <footer class="border-top pt-3">
+    <%= link_to "&larr; Back to posts".html_safe, posts_path, class: "btn btn-outline-secondary" %>
+  </footer>
+</article>

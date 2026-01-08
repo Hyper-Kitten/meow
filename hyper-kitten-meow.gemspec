@@ -21,12 +21,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", ">= 7.1"
   spec.add_dependency "pg"
-  spec.add_dependency "haml"
   spec.add_dependency "categorical"
   spec.add_dependency "tzinfo-data"
   spec.add_dependency "bcrypt"
   spec.add_dependency "pagy"
-  spec.add_dependency "simple_form"
   spec.add_dependency "acts_as_list"
   spec.add_dependency "stimulus-rails"
   spec.add_dependency "importmap-rails"

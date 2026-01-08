@@ -1,7 +1,0 @@
-.card.content-block.border.my-3
-  .card-body
-    %h4.content-block-name= content_block.object.name&.titleize
-    = content_block.hidden_field :name, class: "content-block-name-field"
-    %div.quill-fields-container{ data: { block_name: content_block.object.name, content_blocks_target: "quillFieldsContainer" } }
-      = content_block.hidden_field :body
-      .quill-container
