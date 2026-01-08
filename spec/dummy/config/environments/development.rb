@@ -7,13 +7,12 @@ Rails.application.configure do
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-  Rails.application.reloader.to_prepare do
-    Dir["#{Rails.root}/app/views/pages/templates/*.rb"].each { |file| require_dependency file }
-  end
 
   # Do not eager load code on boot.
   config.eager_load = false
-  config.eager_load_paths += Dir["#{Rails.root}/app/views/pages/templates"]
+
+  # Add templates path so Zeitwerk can autoload them
+  config.autoload_paths += Dir["#{Rails.root}/app/views/pages/templates"]
 
   # Show full error reports.
   config.consider_all_requests_local = true

@@ -1,5 +1,7 @@
 module HyperKittenMeow
   class BasePageTemplate < Phlex::HTML
+    TEMPLATES_PATH = "app/views/pages/templates"
+
     class << self
       attr_reader :content_blocks
 
@@ -12,7 +14,11 @@ module HyperKittenMeow
       end
 
       def all_templates
-        descendants
+        Dir[Rails.root.join(TEMPLATES_PATH, "*.rb")].map do |file|
+          File.basename(file, ".rb").camelize.constantize
+        rescue NameError
+          nil
+        end.compact
       end
 
       def to_label
@@ -24,7 +30,6 @@ module HyperKittenMeow
       end
 
       def all_templates_and_blocks
-        # templates = {}
         all_templates.each_with_object({}) do |template, templates|
           block_info = template.content_blocks.map do |block|
             { title: block.to_s.titleize, value: block.to_s }
