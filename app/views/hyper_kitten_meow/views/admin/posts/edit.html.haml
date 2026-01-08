@@ -1,4 +1,0 @@
-%section.edit-post
-  %h2= "Editing Post: #{@post.title}"
-  = simple_form_for @post, url: admin_post_path(@post), method: :patch do |f|
-    = render partial: 'form_fields', locals: { f: f }
