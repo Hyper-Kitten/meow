@@ -60,9 +60,9 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
         }
       )
 
-      pp page.save!
+      page.save!
 
-      pp page.page_content_blocks
+      expect(page.page_content_blocks.count).to eq(2)
     end
   end
 

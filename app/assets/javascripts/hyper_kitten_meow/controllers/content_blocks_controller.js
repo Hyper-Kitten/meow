@@ -74,8 +74,6 @@ export default class extends Controller {
   }
 
   _setupQuillEditors() {
-    const form = this.element.closest("form");
-
     this.quillFieldsContainerTargets.forEach((fieldsContainer) => {
       // Data attributes
       const quillContainer = fieldsContainer.querySelector(".quill-container");
@@ -96,7 +94,6 @@ export default class extends Controller {
         theme: "snow",
       });
       if (hiddenInput.value) {
-        console.log(hiddenInput.value);
         quillEditor.clipboard.dangerouslyPasteHTML(hiddenInput.value);
         this._cacheFieldContent(quillEditor.getContents(), fieldsContainer.dataset.blockName);
       } else  {
