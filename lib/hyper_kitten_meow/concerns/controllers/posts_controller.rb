@@ -3,11 +3,7 @@ module HyperKittenMeow
     module Controllers
       module PostsController
         extend ActiveSupport::Concern
-        include Pagy::Backend
-
-        included do
-          helper Pagy::Frontend
-        end
+        include Pagy::Method
 
         def index
           posts = HyperKittenMeow::Post.published.order(published_at: :desc)

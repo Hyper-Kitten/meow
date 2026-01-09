@@ -1,7 +1,6 @@
 require "human_urls"
 require "categorical"
 require "pagy"
-require "pagy/extras/bootstrap"
 require "acts_as_list"
 require "importmap-rails"
 require "stimulus-rails"
@@ -27,6 +26,6 @@ require "hyper_kitten_meow/concerns/controllers/admin/users_controller"
 require "hyper_kitten_meow/concerns/controllers/admin/admin_controller"
 
 module HyperKittenMeow
-  Pagy::DEFAULT[:items] = 10
+  Pagy.options[:limit] = 10
   # Your code goes here...
 end

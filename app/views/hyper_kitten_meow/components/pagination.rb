@@ -2,8 +2,7 @@
 
 module HyperKittenMeow
   class Components::Pagination < Components::Base
-    include Phlex::Rails::Helpers::Request
-    include Pagy::Frontend
+    include Pagy::Method
 
     def initialize(pagy:)
       @pagy = pagy
@@ -12,7 +11,7 @@ module HyperKittenMeow
     def view_template
       return if @pagy.pages <= 1
 
-      raw safe(pagy_bootstrap_nav(@pagy))
+      raw safe(@pagy.series_nav(:bootstrap))
     end
   end
 end
