@@ -42,7 +42,7 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
     end
 
     it "is valid if it is one of the available templates" do
-      template_titles = HyperKittenMeow::Page.templates.map(&:title)
+      HyperKittenMeow::Page.templates.map(&:title)
       page = build(:page, template: "TestTemplate")
 
       expect(page).to be_valid
@@ -85,7 +85,7 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
   describe ".published" do
     it "returns only published pages" do
       published_page = create(:page, published: true)
-      unpublished_page = create(:page, published: false)
+      create(:page, published: false)
 
       expect(HyperKittenMeow::Page.published).to eq([published_page])
     end
