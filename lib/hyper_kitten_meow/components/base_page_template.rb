@@ -32,14 +32,14 @@ module HyperKittenMeow
       def all_templates_and_blocks
         all_templates.each_with_object({}) do |template, templates|
           block_info = template.content_blocks.map do |block|
-            { title: block.to_s.titleize, value: block.to_s }
+            {title: block.to_s.titleize, value: block.to_s}
           end
-          templates[template.id] = { "blocksInfo" => block_info }
+          templates[template.id] = {"blocksInfo" => block_info}
         end
       end
     end
 
-    def initialize(page)
+    def initialize(page:)
       @page = page
     end
   end
