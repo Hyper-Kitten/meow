@@ -133,6 +133,16 @@ module HyperKittenMeow
       end
     end
 
+    def file_field(attribute, label: nil, required: false, **options)
+      field_wrapper(attribute, label: label, required: required) do
+        @form.file_field(
+          attribute,
+          **field_options(attribute, required: required, **options)
+        )
+        error_message(attribute)
+      end
+    end
+
     def submit(text = nil, **options)
       @form.submit(text, **mix({class: "btn btn-primary"}, options))
     end
