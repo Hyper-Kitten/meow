@@ -10,8 +10,14 @@ module HyperKittenMeow
           if page.template.present?
             render page.populated_template
           else
-            render Views::Public::Pages::Show.new(page: page)
+            render page_show_view(page)
           end
+        end
+
+        private
+
+        def page_show_view(page)
+          Views::Public::Pages::Show.new(page: page)
         end
       end
     end

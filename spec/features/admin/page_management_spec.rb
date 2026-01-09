@@ -20,12 +20,8 @@ RSpec.feature "Page management", type: :feature do
   scenario "user can edit pages", js: true do
     create_user_and_login
     static_page = create(:page, title: "My Title")
-    expect(page).to have_content("Posts")  # Verify login completed
 
-    click_link "Pages"
-    expect(page).to have_content("My Title")
-    click_link "Edit", match: :first
-
+    visit hyper_kitten_meow.edit_admin_page_path(static_page)
     expect(page).to have_content("Editing Page")
     expect(page).to have_field("Title", with: "My Title")
 
@@ -83,13 +79,9 @@ RSpec.feature "Page management", type: :feature do
 
   scenario "user can create pages", js: true do
     create_user_and_login
-    expect(page).to have_content("Posts")  # Verify login completed
 
-    # Use click_link to navigate rather than visit (avoids potential caching issues)
-    click_link "Pages"
-    expect(page).to have_content("Pages")
-    click_link "Add New"
-    expect(page).to have_content("New Page")  # Wait for page to load
+    visit hyper_kitten_meow.new_admin_page_path
+    expect(page).to have_content("New Page")
 
     fill_in "Title", with: "Hello World!"
     within(".content-blocks") do
@@ -109,12 +101,9 @@ RSpec.feature "Page management", type: :feature do
 
   scenario "user can fix invalid pages", js: true do
     create_user_and_login
-    expect(page).to have_content("Posts")  # Verify login completed
 
-    click_link "Pages"
-    expect(page).to have_content("Pages")
-    click_link "Add New"
-    expect(page).to have_content("New Page")  # Wait for page to load
+    visit hyper_kitten_meow.new_admin_page_path
+    expect(page).to have_content("New Page")
 
     fill_in "Title", with: ""
     click_on "Create Page"

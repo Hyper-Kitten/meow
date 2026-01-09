@@ -10,6 +10,7 @@ module Features
       fill_in "Email", with: user.email
       fill_in "Password", with: user.password
       click_on I18n.t("sessions.submit")
+      expect(page).to have_current_path(hyper_kitten_meow.admin_root_path)
       user
     end
   end
