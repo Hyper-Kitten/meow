@@ -17,7 +17,7 @@ module HyperKittenMeow
 
           validates_presence_of :title
           validates_length_of :title, maximum: 244
-          validates_inclusion_of :template, in: templates, allow_blank: true
+          validate :template_in_registered_templates
 
           before_save :set_published_at_date
 
@@ -34,10 +34,7 @@ module HyperKittenMeow
           end
 
           def templates
-            templates_path = Rails.root.join("app/views/pages/templates/*")
-            @templates = Dir.glob(templates_path).map do |path|
-              File.basename(path).split(".").first
-            end
+            HyperKittenMeow::BasePageTemplate.all_templates
           end
         end
 
@@ -45,11 +42,31 @@ module HyperKittenMeow
           content_blocks.find_by(name: name)&.body
         end
 
+        def template_klass
+          template&.constantize
+        end
+
+        def selected_template_content_blocks
+          template_klass&.content_blocks.to_a
+        end
+
+        def populated_template
+          template_klass.new(page: self)
+        end
+
         private
 
         def set_published_at_date
           if published_changed?(from: false, to: true)
             self.published_at = Time.current
+          end
+        end
+
+        def template_in_registered_templates
+          return if template.blank?
+
+          unless self.class.templates.map(&:name).include?(template)
+            errors.add(:template, "is not a registered template")
           end
         end
       end

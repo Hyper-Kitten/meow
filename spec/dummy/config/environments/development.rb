@@ -11,6 +11,9 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # Add templates path so Zeitwerk can autoload them
+  config.autoload_paths += Dir["#{Rails.root}/app/views/pages/templates"]
+
   # Show full error reports.
   config.consider_all_requests_local = true
 

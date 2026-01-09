@@ -1,6 +1,6 @@
 module Features
   module SessionManagement
-    def create_user_and_login(user_args=nil)
+    def create_user_and_login(user_args = nil)
       user = create(:user, user_args)
       login_as(user)
     end
@@ -10,7 +10,8 @@ module Features
       fill_in "Email", with: user.email
       fill_in "Password", with: user.password
       click_on I18n.t("sessions.submit")
-      return user
+      expect(page).to have_current_path(hyper_kitten_meow.admin_root_path)
+      user
     end
   end
 end

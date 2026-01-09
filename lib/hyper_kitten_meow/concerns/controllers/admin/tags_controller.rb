@@ -7,10 +7,12 @@ module HyperKittenMeow
 
           def index
             @pagy, @tags = pagy(Categorical::Tag.all)
+            render Views::Admin::Tags::Index.new(tags: @tags, pagy: @pagy)
           end
 
           def new
             @tag = Categorical::Tag.new
+            render Views::Admin::Tags::New.new(tag: @tag)
           end
 
           def create
@@ -20,12 +22,13 @@ module HyperKittenMeow
               redirect_to admin_tags_path
             else
               flash[:error] = "There was a problem saving the tag."
-              render :new
+              render Views::Admin::Tags::New.new(tag: @tag), status: :unprocessable_entity
             end
           end
 
           def edit
             find_tag
+            render Views::Admin::Tags::Edit.new(tag: @tag)
           end
 
           def update
@@ -35,7 +38,7 @@ module HyperKittenMeow
               redirect_to admin_tags_path
             else
               flash[:error] = "There was a problem saving the tag."
-              render action: 'edit'
+              render Views::Admin::Tags::Edit.new(tag: @tag), status: :unprocessable_entity
             end
           end
 

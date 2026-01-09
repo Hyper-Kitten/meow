@@ -1,9 +1,0 @@
-= f.input :title
-= f.input :summary
-= f.input :body, as: :quill
-= f.association :user
-= f.input :slug
-= f.association :tags, collection: Categorical::Tag.all, as: :check_boxes
-%hr
-= f.input :published, as: :boolean
-= f.submit nil, class: "btn btn-primary"

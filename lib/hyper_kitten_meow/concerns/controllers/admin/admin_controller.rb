@@ -11,14 +11,12 @@ module HyperKittenMeow
             # For APIs, you may want to use :null_session instead.
             protect_from_forgery with: :exception
 
-            layout 'hyper_kitten_meow/admin'
-
             before_action :authorize
             helper_method :current_user, :logged_in?
           end
 
           def authorize
-            raise ActionController::RoutingError.new('Not Found') unless logged_in?
+            raise ActionController::RoutingError.new("Not Found") unless logged_in?
           end
 
           def current_user

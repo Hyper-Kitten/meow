@@ -1,8 +1,0 @@
-%section
-  .d-flex.justify-content-between
-    %h2 Edit Tag
-    .action
-      = link_to "Back to Tags", hyper_kitten_meow.admin_tags_path, class: "btn btn-secondary"
-  = simple_form_for @tag, url: admin_tag_path(@tag), method: :patch do |f|
-    = f.input :label
-    = f.submit nil, class: "btn btn-primary"

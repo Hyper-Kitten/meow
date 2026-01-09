@@ -8,10 +8,10 @@
 #
 unless Rails.env == "test"
   author = HyperKittenMeow::User.create!(
-    name: 'Admin',
-    email: 'admin@admin.admin',
-    password: 'adminadmin', 
-    password_confirmation: 'adminadmin'
+    name: "Admin",
+    email: "admin@admin.admin",
+    password: "adminadmin",
+    password_confirmation: "adminadmin"
   )
 
   post_content = <<-POST
@@ -19,5 +19,5 @@ unless Rails.env == "test"
   This is a post.
   POST
 
-  HyperKittenMeow::Post.create!(title: 'Test Title', user: author, body: post_content, summary: post_content, published: true)
+  HyperKittenMeow::Post.create!(title: "Test Title", user: author, body: post_content, summary: post_content, published: true)
 end

@@ -6,14 +6,18 @@ module HyperKittenMeow
 
         def show
           slug = params[:id]
-          @page = HyperKittenMeow::Page.published.find_by_slug!(slug)
-          template_name = if @page.template.present?
-            "pages/templates/#{@page.template}"
+          page = HyperKittenMeow::Page.published.find_by_slug!(slug)
+          if page.template.present?
+            render page.populated_template
           else
-            "show"
+            render page_show_view(page)
           end
+        end
 
-          render template: template_name
+        private
+
+        def page_show_view(page)
+          Views::Public::Pages::Show.new(page: page)
         end
       end
     end

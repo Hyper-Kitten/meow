@@ -1,4 +1,0 @@
-%section.new-user
-  %h2= "New User"
-  = simple_form_for @user, url: admin_users_path, method: :post do |f|
-    = render partial: 'form_fields', locals: { f: f }

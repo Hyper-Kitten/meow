@@ -21,12 +21,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", ">= 7.1"
   spec.add_dependency "pg"
-  spec.add_dependency "haml"
   spec.add_dependency "categorical"
   spec.add_dependency "tzinfo-data"
   spec.add_dependency "bcrypt"
   spec.add_dependency "pagy"
-  spec.add_dependency "simple_form"
   spec.add_dependency "acts_as_list"
   spec.add_dependency "stimulus-rails"
   spec.add_dependency "importmap-rails"
@@ -34,12 +32,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency "image_processing"
   spec.add_dependency "human_urls", "~> 0.1.7-alpha.0"
   spec.add_dependency "hyper-kitten-tables"
+  spec.add_dependency "phlex-rails"
 
   spec.add_development_dependency "pry-rails"
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "factory_bot_rails"
   spec.add_development_dependency "capybara"
-  spec.add_development_dependency "capybara-screenshot"
   spec.add_development_dependency "selenium-webdriver"
   spec.add_development_dependency "puma"
 end
