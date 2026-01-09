@@ -1,22 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "Page management", type: :feature do
-  scenario "user can view pages" do
-    create_user_and_login
-    create(:page, title: "My Title")
-
-    visit hyper_kitten_meow.admin_pages_path
-
-    expect(page).to have_text("My Title")
-  end
-
-  it "paginates pages" do
-    create_user_and_login
-    paginates(factory: :page, increment: 10, selector: "tbody tr") do
-      visit hyper_kitten_meow.admin_pages_path
-    end
-  end
-
+RSpec.feature "Admin pages edit", type: :feature do
   scenario "user can edit pages", js: true do
     create_user_and_login
     static_page = create(:page, title: "My Title")
@@ -34,7 +18,6 @@ RSpec.feature "Page management", type: :feature do
     check "Published"
     click_on "Update Page"
 
-    # Wait for redirect to complete by checking for success message
     expect(page).to have_text("Page was successfully updated.")
     expect(current_path).to eq(hyper_kitten_meow.admin_pages_path)
     expect(page).to have_text("Hello World!")
@@ -66,7 +49,6 @@ RSpec.feature "Page management", type: :feature do
     check "Published"
     click_on "Update Page"
 
-    # Wait for redirect to complete by checking for success message
     expect(page).to have_text("Page was successfully updated.")
     expect(current_path).to eq(hyper_kitten_meow.admin_pages_path)
     expect(page).to have_text("Hello World!")
@@ -75,39 +57,5 @@ RSpec.feature "Page management", type: :feature do
     expect(meow_page.content_blocks.count).to eq(1)
     test_block = meow_page.content_blocks.find_by(name: "Test Block")
     expect(test_block.body.to_plain_text).to eq("hello")
-  end
-
-  scenario "user can create pages", js: true do
-    create_user_and_login
-
-    visit hyper_kitten_meow.new_admin_page_path
-    expect(page).to have_content("New Page")
-
-    fill_in "Title", with: "Hello World!"
-    within(".content-blocks") do
-      fill_in_quill_editor "Test Block", with: "Fuzzywaffle!"
-    end
-    check "Published"
-    click_on "Create Page"
-
-    # Wait for redirect to complete by checking for success message
-    expect(page).to have_text("Page successfully created.")
-    expect(current_path).to eq(hyper_kitten_meow.admin_pages_path)
-    expect(page).to have_text("Hello World!")
-    meow_page = HyperKittenMeow::Page.last
-    expect(meow_page.content_blocks.first.name).to eq("test_block")
-    expect(meow_page.content_blocks.first.body.to_plain_text).to eq("Fuzzywaffle!")
-  end
-
-  scenario "user can fix invalid pages", js: true do
-    create_user_and_login
-
-    visit hyper_kitten_meow.new_admin_page_path
-    expect(page).to have_content("New Page")
-
-    fill_in "Title", with: ""
-    click_on "Create Page"
-
-    expect(page).to have_text("Title can't be blank")
   end
 end
