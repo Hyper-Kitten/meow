@@ -14,7 +14,7 @@ module HyperKittenMeow
       doctype
       html(class: "h-100") do
         render_head
-        body(class: "h-100") { super(&block) }
+        body(class: body_class) { super(&block) }
       end
     end
 
@@ -23,6 +23,10 @@ module HyperKittenMeow
     end
 
     def head_content
+    end
+
+    def body_class
+      "h-100"
     end
 
     private
