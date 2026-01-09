@@ -4,7 +4,7 @@ module HyperKittenMeow
       module Admin
         module AdminController
           extend ActiveSupport::Concern
-          include Pagy::Backend
+          include Pagy::Method
 
           included do
             # Prevent CSRF attacks by raising an exception.
