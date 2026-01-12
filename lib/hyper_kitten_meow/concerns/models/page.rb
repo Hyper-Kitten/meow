@@ -43,7 +43,7 @@ module HyperKittenMeow
         end
 
         def template_klass
-          template&.camelize&.constantize
+          "Pages::Templates::#{template&.camelize}"&.constantize
         end
 
         def selected_template_content_blocks
