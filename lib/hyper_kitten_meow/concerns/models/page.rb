@@ -65,7 +65,7 @@ module HyperKittenMeow
         def template_in_registered_templates
           return if template.blank?
 
-          unless self.class.templates.map(&:name).include?(template)
+          unless self.class.templates.map(&:id).include?(template)
             errors.add(:template, "is not a registered template")
           end
         end

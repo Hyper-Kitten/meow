@@ -13,7 +13,7 @@ module HyperKittenMeow
 
           f.select(
             :template,
-            Page.templates.map { |t| [t.title, t.to_s] },
+            Page.templates.map { |t| [t.title, t.id] },
             label: "Template",
             include_blank: false,
             data: {action: "change->content-blocks#updateContentBlockFields", content_blocks_target: "templateField"}

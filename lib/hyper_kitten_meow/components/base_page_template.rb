@@ -15,7 +15,7 @@ module HyperKittenMeow
 
       def all_templates
         Dir[Rails.root.join(TEMPLATES_PATH, "*.rb")].map do |file|
-          File.basename(file, ".rb").camelize.constantize
+          "Pages::Templates::#{File.basename(file, ".rb").camelize}".constantize
         rescue NameError
           nil
         end.compact
@@ -26,7 +26,7 @@ module HyperKittenMeow
       end
 
       def id
-        name
+        name.delete_prefix("Pages::Templates::")
       end
 
       def all_templates_and_blocks
