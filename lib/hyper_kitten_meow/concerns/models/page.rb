@@ -20,6 +20,7 @@ module HyperKittenMeow
           validate :template_in_registered_templates
 
           before_save :set_published_at_date
+          after_save :remove_unregistered_content_blocks
 
           sluggify :slug, generated_from: :title
 
@@ -60,6 +61,13 @@ module HyperKittenMeow
           if published_changed?(from: false, to: true)
             self.published_at = Time.current
           end
+        end
+
+        def remove_unregistered_content_blocks
+          return if template.blank?
+
+          registered_names = selected_template_content_blocks.map(&:value)
+          content_blocks.where.not(name: registered_names).destroy_all
         end
 
         def template_in_registered_templates
