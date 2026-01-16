@@ -4,7 +4,7 @@ pin "@hotwired/turbo-rails", to: "https://ga.jspm.io/npm:@hotwired/turbo-rails@8
 pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
 pin "sortablejs", to: "https://ga.jspm.io/npm:sortablejs@1.15.0/modular/sortable.esm.js"
-pin "quill", to: "https://esm.sh/quill@2.0.3"
+pin "quill", to: "https://esm.sh/quill@2.0.2"
 pin "buffer", to: "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/buffer.js"
 
 pin_all_from HyperKittenMeow::Engine.root.join("app/assets/javascripts/hyper_kitten_meow/controllers"), under: "hyper_kitten_meow/controllers"
