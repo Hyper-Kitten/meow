@@ -78,7 +78,7 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
   describe ".templates" do
     it "returns a list of available templates" do
       template_titles = HyperKittenMeow::Page.templates.map(&:title)
-      expect(template_titles).to eq(["Test Template"])
+      expect(template_titles).to match_array(["Another Test Template", "Test Template"])
     end
   end
 
@@ -128,6 +128,44 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
       page = build(:page, slug: "my-slug")
 
       expect(page.to_param).to eq("my-slug")
+    end
+  end
+
+  describe "remove_unregistered_content_blocks callback" do
+    it "removes content blocks not registered in the template on save" do
+      page = create(:page, template: "TestTemplate", content_blocks_attributes: {
+        "1" => {name: "test_block", body: "keep me"},
+        "2" => {name: "unregistered_block", body: "remove me"}
+      })
+
+      expect(page.content_blocks.pluck(:name)).to eq(["test_block"])
+    end
+
+    it "keeps content blocks that are registered in the template" do
+      page = create(:page, template: "TestTemplate", content_blocks_attributes: {
+        "1" => {name: "test_block", body: "first"},
+        "2" => {name: "test_block_two", body: "second"}
+      })
+
+      expect(page.content_blocks.pluck(:name)).to match_array(["test_block", "test_block_two"])
+    end
+
+    it "does not remove content blocks when page has no template" do
+      page = create(:page, template: nil, content_blocks_attributes: {
+        "1" => {name: "any_block", body: "keep me"}
+      })
+
+      expect(page.content_blocks.pluck(:name)).to eq(["any_block"])
+    end
+
+    it "removes old template's content blocks when switching templates" do
+      page = create(:page, template: nil, content_blocks_attributes: {
+        "1" => {name: "old_block", body: "from old template"}
+      })
+
+      page.update!(template: "TestTemplate")
+
+      expect(page.content_blocks.pluck(:name)).to be_empty
     end
   end
 end

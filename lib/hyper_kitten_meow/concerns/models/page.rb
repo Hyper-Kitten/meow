@@ -66,8 +66,10 @@ module HyperKittenMeow
         def remove_unregistered_content_blocks
           return if template.blank?
 
-          registered_names = selected_template_content_blocks.map(&:value)
-          content_blocks.where.not(name: registered_names).destroy_all
+          registered_names = selected_template_content_blocks.map(&:to_s)
+          page_content_blocks.joins(:content_block)
+            .where.not(hyper_kitten_meow_content_blocks: {name: registered_names})
+            .destroy_all
         end
 
         def template_in_registered_templates

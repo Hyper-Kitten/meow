@@ -8,6 +8,7 @@ RSpec.feature "Admin pages new", type: :feature do
     expect(page).to have_content("New Page")
 
     fill_in "Title", with: "Hello World!"
+    select "Test Template", from: "Template"
     within(".content-blocks") do
       fill_in_quill_editor "Test Block", with: "Fuzzywaffle!"
     end
