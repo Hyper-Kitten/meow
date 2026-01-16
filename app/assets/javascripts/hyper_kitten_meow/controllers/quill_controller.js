@@ -22,7 +22,10 @@ export default class extends Controller {
 
     const form = this.element.closest("form");
     form.addEventListener("submit", () => {
-      this.hiddenInputTarget.value = quillEditor.root.innerHTML;
+      // Workaround for Quill 2.0.3+ converting spaces to &nbsp;
+      // See: https://github.com/slab/quill/issues/4509
+      const html = quillEditor.root.innerHTML;
+      this.hiddenInputTarget.value = html.replaceAll(/((?:&nbsp;)*)\&nbsp;/g, '$1 ');
     });
   }
 }
