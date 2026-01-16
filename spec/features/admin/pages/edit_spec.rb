@@ -58,4 +58,21 @@ RSpec.feature "Admin pages edit", type: :feature do
     test_block = meow_page.content_blocks.find_by(name: "Test Block")
     expect(test_block.body.to_plain_text).to eq("hello")
   end
+
+  scenario "quill editor saves spaces as regular spaces instead of &nbsp;", js: true do
+    create_user_and_login
+    static_page = create(:page, title: "My Title", template: "TestTemplate")
+
+    visit hyper_kitten_meow.edit_admin_page_path(static_page)
+
+    within(".content-blocks") do
+      fill_in_quill_editor "Test Block", with: "hello world with spaces"
+    end
+    click_on "Update Page"
+
+    expect(page).to have_text("Page was successfully updated.")
+    test_block = static_page.content_blocks.find_by(name: "test_block")
+    expect(test_block.body.to_s).not_to include("&nbsp;")
+    expect(test_block.body.to_plain_text).to eq("hello world with spaces")
+  end
 end

@@ -15,10 +15,19 @@ module HyperKittenMeow
 
       def all_templates
         Dir[Rails.root.join(TEMPLATES_PATH, "*.rb")].map do |file|
+          load file
           "Pages::Templates::#{File.basename(file, ".rb").camelize}".constantize
-        rescue NameError
-          nil
-        end.compact
+        end
+      end
+
+      def find_template(template_id)
+        return nil if template_id.blank?
+
+        file = Rails.root.join(TEMPLATES_PATH, "#{template_id.underscore}.rb")
+        return nil unless File.exist?(file)
+
+        load file
+        "Pages::Templates::#{template_id.camelize}".constantize
       end
 
       def to_label

@@ -39,8 +39,14 @@ export default class extends Controller {
   updateContentBlockFields() {
     this._setSelectedTemplateValue();
     this._clearActiveBlocksFields();
-    if (this.blocksValue[this.selectedTemplateValue].hasOwnProperty("cachedFields")) {
-      this.activeBlocksFieldsTarget.innerHTML = this.blocksValue[this.selectedTemplateValue]["cachedFields"];
+
+    const templateData = this.blocksValue[this.selectedTemplateValue];
+    if (!templateData) {
+      return;
+    }
+
+    if (templateData.hasOwnProperty("cachedFields")) {
+      this.activeBlocksFieldsTarget.innerHTML = templateData["cachedFields"];
     } else {
       this._blocksForSelectedTemplate().forEach((blockInfo) => {
         const content = this._buildContentBlockFields(blockInfo);
@@ -51,7 +57,13 @@ export default class extends Controller {
   }
 
   _setSelectedTemplateValue() {
-    this.selectedTemplateValue = this.templateFieldTarget.value;
+    const fieldValue = this.templateFieldTarget.value;
+    // Use the field value if it exists in blocksValue, otherwise fall back to first available template
+    if (fieldValue && this.blocksValue[fieldValue]) {
+      this.selectedTemplateValue = fieldValue;
+    } else {
+      this.selectedTemplateValue = Object.keys(this.blocksValue)[0];
+    }
   }
 
   _buildContentBlockFields(blockInfo) {
@@ -96,9 +108,10 @@ export default class extends Controller {
       if (hiddenInput.value) {
         quillEditor.clipboard.dangerouslyPasteHTML(hiddenInput.value);
         this._cacheFieldContent(quillEditor.getContents(), fieldsContainer.dataset.blockName);
-      } else  {
-        const cachedContent = this.blocksValue[this.selectedTemplateValue].blocksInfo.find((block) => block.value === fieldsContainer.dataset.blockName).cachedFields;
-        if (cachedContent) { quillEditor.setContents(cachedContent); }
+      } else {
+        const templateData = this.blocksValue[this.selectedTemplateValue];
+        const blockInfo = templateData?.blocksInfo?.find((block) => block.value === fieldsContainer.dataset.blockName);
+        if (blockInfo?.cachedFields) { quillEditor.setContents(blockInfo.cachedFields); }
       }
       quillEditor.on('text-change', () => {
         const currentContents = quillEditor.getContents();
@@ -114,12 +127,15 @@ export default class extends Controller {
   }
 
   _blocksForSelectedTemplate() {
-    return this.blocksValue[this.templateFieldTarget.value]["blocksInfo"];
+    return this.blocksValue[this.selectedTemplateValue]?.blocksInfo || [];
   }
 
   _cacheFieldContent(currentContents, blockValue) {
     const newBlocksValue = this.blocksValue;
-    newBlocksValue[this.selectedTemplateValue].blocksInfo.forEach((block) => {
+    const templateData = newBlocksValue[this.selectedTemplateValue];
+    if (!templateData?.blocksInfo) return;
+
+    templateData.blocksInfo.forEach((block) => {
       if (block.value === blockValue) {
         block.cachedFields = currentContents;
       }
