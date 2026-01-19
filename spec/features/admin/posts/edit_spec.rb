@@ -1,6 +1,15 @@
 require "rails_helper"
 
 RSpec.feature "Admin posts edit", type: :feature do
+  scenario "existing rich text content appears in editor", js: true do
+    create_user_and_login
+    post = create(:post, body: "Existing body content")
+
+    visit hyper_kitten_meow.edit_admin_post_path(post)
+
+    expect(page).to have_css(".ql-editor", text: "Existing body content")
+  end
+
   scenario "user can edit posts", js: true do
     create_user_and_login(name: "Andrew")
     create(:user, name: "Josh")

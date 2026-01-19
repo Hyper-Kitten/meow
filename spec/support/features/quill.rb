@@ -7,5 +7,11 @@ module Features
       quill_input.native.clear
       quill_input.send_keys with
     end
+
+    def quill_editor_content(name)
+      xpath = "//h4[normalize-space(text())='#{name}']/following-sibling::div | //label[normalize-space(text())='#{name}']/../following-sibling::div"
+      quill_input = find(:xpath, xpath).find("div[contenteditable='true'].ql-editor")
+      quill_input.text
+    end
   end
 end

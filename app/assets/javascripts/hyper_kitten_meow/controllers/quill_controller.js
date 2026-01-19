@@ -21,7 +21,7 @@ export default class extends Controller {
     });
 
     if (this.hiddenInputTarget.value) {
-      quillEditor.root.innerHTML = this.hiddenInputTarget.value;
+      quillEditor.clipboard.dangerouslyPasteHTML(this.hiddenInputTarget.value);
     }
 
     const form = this.element.closest("form");
