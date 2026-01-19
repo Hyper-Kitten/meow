@@ -70,7 +70,8 @@ module HyperKittenMeow
     def rich_text_area(attribute, label: nil, required: false, **options)
       field_wrapper(attribute, label: label, required: required) do
         div(class: "quill-editor-wrapper", data: {controller: "quill"}) do
-          @form.hidden_field(attribute, data: {quill_target: "hiddenInput"})
+          existing_content = @model&.send(attribute)&.to_s
+          @form.hidden_field(attribute, value: existing_content, data: {quill_target: "hiddenInput"})
           div(data: {quill_target: "quillContainer"})
         end
         error_message(attribute)
