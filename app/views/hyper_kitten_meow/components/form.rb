@@ -15,6 +15,7 @@ module HyperKittenMeow
       form_options = mix(
         {
           local: true,
+          multipart: true,
           data: {turbo: false},
           html: {class: "needs-validation", novalidate: true}
         },
