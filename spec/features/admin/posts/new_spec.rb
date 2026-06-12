@@ -17,7 +17,6 @@ RSpec.feature "Admin posts new", type: :feature do
     click_on "Create Post"
 
     expect(page).to have_text("Hello World!")
-    expect(page).to have_text("My great summary!")
     expect(page).to have_text("my-slug")
     expect(page).to have_text("Josh")
     expect(page).to have_text("coffee")
@@ -25,6 +24,7 @@ RSpec.feature "Admin posts new", type: :feature do
 
     post = HyperKittenMeow::Post.last
     expect(post.body.to_plain_text).to eq("Fuzzy waffle!")
+    expect(post.summary).to eq("My great summary!")
   end
 
   scenario "user can fix invalid posts" do

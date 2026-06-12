@@ -12,7 +12,7 @@ module HyperKittenMeow
     def view_template
       section(class: "edit-page") do
         render Components::PageHeader.new(title: "Editing Page: #{@page.title}") do
-          render Components::LinkButton.new(hyper_kitten_meow.admin_pages_path, "Back to Pages", scheme: :secondary)
+          render Components::LinkButton.new(hyper_kitten_meow.admin_pages_path, "Back to Pages", scheme: :outline_secondary, icon: "arrow-left")
         end
 
         render_page_form(

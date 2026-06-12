@@ -10,8 +10,8 @@ module HyperKittenMeow
 
     def view_template
       section(class: "edit-post") do
-        render Components::PageHeader.new(title: "Editing Post: #{@post.title}") do
-          render Components::LinkButton.new(hyper_kitten_meow.admin_posts_path, "Back to Posts", scheme: :secondary)
+        render Components::PageHeader.new(title: "Edit Post", eyebrow: "Editing") do
+          render Components::LinkButton.new(hyper_kitten_meow.admin_posts_path, "Back to Posts", scheme: :outline_secondary, icon: "arrow-left")
         end
 
         render_post_form(

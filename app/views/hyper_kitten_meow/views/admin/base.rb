@@ -7,75 +7,55 @@ module HyperKittenMeow
     register_value_helper :logged_in?
     register_value_helper :current_user
 
-    KEY_TRANSFORMATIONS = {
-      "alert" => "warning",
-      "error" => "danger",
-      "notice" => "info",
-      "success" => "success"
-    }
-
     def page_title
       "#{t('title')} - Admin"
     end
 
+    def render_chrome?
+      true
+    end
+
     def head_content
       stylesheet_link_tag "https://cdn.quilljs.com/1.3.6/quill.snow.css"
-      stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
       javascript_importmap_tags("hyper_kitten_meow/application")
     end
 
     def around_template(&block)
       super do
-        div(class: "container-fluid h-100") do
-          div(class: "row h-100") do
+        if render_chrome?
+          div(class: "mw-shell") do
             render_sidebar
-            div(class: "col-md-9 col-lg-10 mt-3 px-4") do
-              render_flash
-              yield
+            div(class: "mw-content") do
+              div(class: "mw-content__inner") do
+                render Components::Flash.new(flash: flash)
+                yield
+              end
             end
           end
+        else
+          yield
         end
       end
     end
 
     private
 
-    def render_flash
-      return unless flash.any?
-
-      flashes = flash.to_hash.slice("alert", "error", "notice", "success")
-      user_flashes = flashes.transform_keys { |key| KEY_TRANSFORMATIONS[key] }
-      user_flashes.each do |key, value|
-        div(class: "alert alert-#{key}") { value }
-      end
-    end
-
     def render_sidebar
-      nav(class: "col-md-3 col-lg-2 d-md-block sidebar bg-dark text-white d-flex flex-column") do
-        h3(class: "mb-3 mt-3") { t("title") }
-        hr
-        if logged_in?
-          ul(class: "nav nav-pills flex-column mb-auto") do
-            li(class: "nav-item") { link_to "Posts", hyper_kitten_meow.admin_posts_path, class: "nav-link text-white" }
-            li(class: "nav-item") { link_to "Pages", hyper_kitten_meow.admin_pages_path, class: "nav-link text-white" }
-            li(class: "nav-item") { link_to "Tags", hyper_kitten_meow.admin_tags_path, class: "nav-link text-white" }
-            li(class: "nav-item") { link_to "Users", hyper_kitten_meow.admin_users_path, class: "nav-link text-white" }
-          end
-          hr
-          render_user_menu
-        end
-      end
-    end
+      render Components::Sidebar.new do |s|
+        next unless logged_in?
 
-    def render_user_menu
-      link_to "#",
-        class: "nav-link d-flex align-items-center text-white text-decoration-none dropdown-toggle",
-        data: {bs_toggle: "dropdown"},
-        aria_expanded: false do
-        strong { current_user.name }
-      end
-      ul(class: "dropdown-menu dropdown-menu-dark text-small shadow") do
-        li { link_to t("sessions.destroy"), hyper_kitten_meow.admin_logout_path, class: "dropdown-item" }
+        s.section "Manage"
+        s.menu do
+          s.item "Posts", hyper_kitten_meow.admin_posts_path, icon: "newspaper"
+          s.item "Pages", hyper_kitten_meow.admin_pages_path, icon: "file-text"
+          s.item "Tags",  hyper_kitten_meow.admin_tags_path,  icon: "tag"
+          s.item "Users", hyper_kitten_meow.admin_users_path, icon: "users"
+        end
+        s.user_chip(
+          name: current_user.name,
+          logout_path: hyper_kitten_meow.admin_logout_path,
+          logout_title: t("sessions.destroy")
+        )
       end
     end
   end

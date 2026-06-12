@@ -6,8 +6,8 @@ module HyperKittenMeow
       render Components::Form.new(model: tag, url: url, method: method) do |f|
         f.text_field :label, required: true
 
-        div(class: "d-flex justify-content-between mt-4") do
-          render Components::LinkButton.new(cancel_path, "Cancel", scheme: :secondary)
+        div(class: "mw-form-actions") do
+          render Components::LinkButton.new(cancel_path, "Cancel", scheme: :ghost)
           f.submit
         end
       end

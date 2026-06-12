@@ -13,8 +13,16 @@ module HyperKittenMeow
       app.config.importmap.cache_sweepers << root.join("app/assets/javascripts")
     end
 
-    initializer "hyper-kitten-meow.assets.precompile" do |app|
-      app.config.assets.precompile += %w[hyper_kitten_meow/application.js]
+    initializer "hyper-kitten-meow.assets" do |app|
+      app.config.assets.paths << root.join("app/assets/stylesheets")
+      app.config.assets.paths << root.join("app/assets/images")
+      app.config.assets.precompile += %w[
+        hyper_kitten_meow/application.js
+        hyper_kitten_meow/meow.css
+        hyper_kitten_meow/meow-mark.svg
+        hyper_kitten_meow/meow-mark-light.svg
+        hyper_kitten_meow/meow-mark-orange.svg
+      ]
     end
 
     config.generators do |g|
