@@ -16,6 +16,7 @@ module HyperKittenMeow
     initializer "hyper-kitten-meow.assets" do |app|
       app.config.assets.paths << root.join("app/assets/stylesheets")
       app.config.assets.paths << root.join("app/assets/images")
+      app.config.assets.paths << root.join("app/assets/fonts")
       app.config.assets.precompile += %w[
         hyper_kitten_meow/application.js
         hyper_kitten_meow/meow.css
