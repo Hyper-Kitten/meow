@@ -39,9 +39,9 @@ module HyperKittenMeow
 
         csrf_meta_tags
 
-        stylesheet_link_tag "hyper_kitten_meow/meow"
-
         head_content
+
+        stylesheet_link_tag "hyper_kitten_meow/meow"
       end
     end
   end

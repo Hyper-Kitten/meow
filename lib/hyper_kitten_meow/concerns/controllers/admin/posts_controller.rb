@@ -7,7 +7,7 @@ module HyperKittenMeow
 
           def index
             @pagy, @posts = pagy(Post.sorted_by_published_date)
-            render Views::Admin::Posts::Index.new(posts: @posts, pagy: @pagy)
+            render Views::Admin::Posts::Index.new(posts: @posts, pagy: @pagy, published_count: Post.published.count)
           end
 
           def new

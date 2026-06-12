@@ -2,9 +2,10 @@
 
 module HyperKittenMeow
   class Views::Admin::Posts::Index < Views::Admin::Base
-    def initialize(posts:, pagy:)
+    def initialize(posts:, pagy:, published_count:)
       @posts = posts
       @pagy = pagy
+      @published_count = published_count
     end
 
     def view_template
@@ -50,7 +51,7 @@ module HyperKittenMeow
     private
 
     def posts_eyebrow
-      "#{@pagy.count} total · #{Post.published.count} published"
+      "#{@pagy.count} total · #{@published_count} published"
     end
   end
 end

@@ -12,6 +12,8 @@ module HyperKittenMeow
     end
 
     def view_template
+      return unless @name.match?(/\A[a-z0-9-]+\z/)
+
       path = ICON_DIR.join("#{@name}.svg")
       return unless path.file?
 
