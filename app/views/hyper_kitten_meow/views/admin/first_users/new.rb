@@ -6,18 +6,29 @@ module HyperKittenMeow
       @user = user
     end
 
+    def render_chrome?
+      false
+    end
+
     def view_template
-      section(class: "new-user") do
-        h2 { "Welcome to #{t('hyper_kitten_meow.title')}" }
-        p { "Please create your first user account to get started." }
+      div(class: "mw-setup") do
+        div(class: "mw-setup__inner") do
+          div(class: "mw-setup__brand") { render Components::Wordmark.new }
 
-        render Components::Form.new(model: @user, url: hyper_kitten_meow.admin_first_users_path, method: :post) do |f|
-          f.text_field :name, required: true
-          f.email_field :email, required: true
-          f.password_field :password, required: true
-          f.password_field :password_confirmation, required: true
+          div(class: "mw-setup__card new-user") do
+            span(class: "ds-eyebrow") { "First run" }
+            h2(class: "ds-h2") { "Create your account" }
+            p(class: "mw-setup__lede") { "Set up the first admin user to get started." }
 
-          f.submit
+            render Components::Form.new(model: @user, url: hyper_kitten_meow.admin_first_users_path, method: :post) do |f|
+              f.text_field :name, required: true
+              f.email_field :email, required: true
+              f.password_field :password, required: true
+              f.password_field :password_confirmation, required: true
+
+              f.submit
+            end
+          end
         end
       end
     end

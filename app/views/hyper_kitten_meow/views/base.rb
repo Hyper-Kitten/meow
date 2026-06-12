@@ -39,11 +39,9 @@ module HyperKittenMeow
 
         csrf_meta_tags
 
-        head_content
+        stylesheet_link_tag "hyper_kitten_meow/meow"
 
-        stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
-          integrity: "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3",
-          crossorigin: "anonymous"
+        head_content
       end
     end
   end

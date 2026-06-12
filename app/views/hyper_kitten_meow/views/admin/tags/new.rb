@@ -11,7 +11,7 @@ module HyperKittenMeow
     def view_template
       section(class: "tags") do
         render Components::PageHeader.new(title: "New Tag") do
-          render Components::LinkButton.new(hyper_kitten_meow.admin_tags_path, "Back to Tags", scheme: :secondary)
+          render Components::LinkButton.new(hyper_kitten_meow.admin_tags_path, "Back to Tags", scheme: :outline_secondary, icon: "arrow-left")
         end
 
         render_tag_form(

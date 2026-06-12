@@ -11,7 +11,7 @@ module HyperKittenMeow
     def view_template
       section(class: "new-user") do
         render Components::PageHeader.new(title: "New User") do
-          render Components::LinkButton.new(hyper_kitten_meow.admin_users_path, "Back to Users", scheme: :secondary)
+          render Components::LinkButton.new(hyper_kitten_meow.admin_users_path, "Back to Users", scheme: :outline_secondary, icon: "arrow-left")
         end
 
         render_user_form(

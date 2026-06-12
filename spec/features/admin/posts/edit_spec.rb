@@ -18,7 +18,7 @@ RSpec.feature "Admin posts edit", type: :feature do
 
     visit hyper_kitten_meow.edit_admin_post_path(post)
 
-    expect(page).to have_text("My Title")
+    expect(page).to have_field("Title", with: "My Title")
 
     fill_in "Title", with: "Hello World!"
     fill_in "Summary", with: "My great summary!"
@@ -30,13 +30,12 @@ RSpec.feature "Admin posts edit", type: :feature do
     click_on "Update Post"
 
     expect(page).to have_text("Hello World!")
-    expect(page).to have_text("My great summary!")
     expect(page).to have_text("my-slug")
-    expect(page).to have_text("Josh")
     expect(page).to have_text("Josh")
     expect(page).to have_text("coffee")
 
     post = HyperKittenMeow::Post.last
     expect(post.body.to_plain_text).to eq("Fuzzy waffle!")
+    expect(post.summary).to eq("My great summary!")
   end
 end

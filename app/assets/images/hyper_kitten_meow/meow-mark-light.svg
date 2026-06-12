@@ -1,0 +1,26 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Meow">
+  
+  <g stroke="#F3EEE4" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    
+    <path d="M16.5 24 L13.5 9.5 L28 19.5"></path>
+    
+    <path d="M47.5 24 L50.5 9.5 L36 19.5"></path>
+    
+    <path d="M16 26.5 C16 22, 19 19, 24 18.5 C27.5 18.2, 36.5 18.2, 40 18.5 C45 19, 48 22, 48 26.5 L48 38 C48 46, 41.5 51.5, 32 51.5 C22.5 51.5, 16 46, 16 38 Z"></path>
+  </g>
+  
+  <g stroke="#F3EEE4" stroke-width="3.2" stroke-linecap="round" fill="none">
+    <path d="M23 33.5 C24.3 35.6, 27 35.6, 28.3 33.5"></path>
+    <path d="M35.7 33.5 C37 35.6, 39.7 35.6, 41 33.5"></path>
+  </g>
+  
+  <path d="M32 39.5 L29.4 42 L34.6 42 Z" fill="#EC5A1E"></path>
+  
+  <g stroke="#F3EEE4" stroke-width="2.2" stroke-linecap="round">
+    <path d="M30 44 C31 45.4, 33 45.4, 34 44"></path>
+    <path d="M11 36 L20 37.5"></path>
+    <path d="M11 41.5 L20 41"></path>
+    <path d="M53 36 L44 37.5"></path>
+    <path d="M53 41.5 L44 41"></path>
+  </g>
+</svg>

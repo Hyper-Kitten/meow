@@ -9,27 +9,35 @@ module HyperKittenMeow
 
     def view_template
       section(class: "posts") do
-        render Components::PageHeader.new(title: "Posts") do
-          render Components::LinkButton.new(hyper_kitten_meow.new_admin_post_path, "Add New")
+        render Components::PageHeader.new(title: "Posts", eyebrow: posts_eyebrow) do
+          render Components::LinkButton.new(hyper_kitten_meow.new_admin_post_path, "Add New", icon: "plus")
         end
 
         render Components::Table.new(collection: @posts, tr: {class: "post"}) do |t|
-          t.column "Title", method_name: :title
-          t.column "Article" do |post|
-            post.summary.to_s.truncate(40, separator: " ")
+          t.column "Title" do |post|
+            div(class: "cell-title") { post.title }
+            div(class: "cell-sub") { post.slug }
           end
           t.column "Author" do |post|
             post.user.name
           end
-          t.column "Slug", method_name: :slug
           t.column "Tags" do |post|
-            post.tags.to_a.to_sentence
+            div(class: "mw-tags") do
+              post.tags.to_a.each { |tag| render Components::Tag.new(tag.label) }
+            end
           end
-          t.column "Actions" do |post|
+          t.column "Status" do |post|
+            render Components::StatusBadge.new(published: post.published?)
+          end
+          t.column "Date", class: "cell-mono" do |post|
+            post.published_at&.strftime("%m/%d/%Y") || "—"
+          end
+          t.column "", header_options: {class: "col-actions"}, class: "col-actions" do |post|
             render Components::LinkButton.new(
               hyper_kitten_meow.edit_admin_post_path(post),
               "Edit",
-              scheme: :sm_outline_info
+              scheme: :sm_outline_info,
+              icon: "pen-line"
             )
           end
           t.footer do
@@ -37,6 +45,12 @@ module HyperKittenMeow
           end
         end
       end
+    end
+
+    private
+
+    def posts_eyebrow
+      "#{@pagy.count} total · #{Post.published.count} published"
     end
   end
 end
