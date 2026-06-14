@@ -1,7 +1,6 @@
 require "human_urls"
 require "categorical"
 require "pagy"
-require "acts_as_list"
 require "importmap-rails"
 require "stimulus-rails"
 require "propshaft"

@@ -25,7 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tzinfo-data"
   spec.add_dependency "bcrypt"
   spec.add_dependency "pagy"
-  spec.add_dependency "acts_as_list"
   spec.add_dependency "turbo-rails"
   spec.add_dependency "stimulus-rails"
   spec.add_dependency "importmap-rails"
