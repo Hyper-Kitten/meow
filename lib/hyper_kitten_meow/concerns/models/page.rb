@@ -6,21 +6,18 @@ module HyperKittenMeow
         include HumanUrls::Sluggable
 
         included do
-          has_many :page_content_blocks,
-            class_name: "HyperKittenMeow::PageContentBlock",
-            foreign_key: "page_id",
-            dependent: :destroy
           has_many :content_blocks,
-            through: :page_content_blocks,
             class_name: "HyperKittenMeow::ContentBlock",
-            foreign_key: "content_block_id"
+            foreign_key: "page_id",
+            inverse_of: :page,
+            dependent: :destroy
 
           validates_presence_of :title
           validates_length_of :title, maximum: 244
           validate :template_in_registered_templates
 
           before_save :set_published_at_date
-          after_save :remove_unregistered_content_blocks
+          after_save :remove_unregistered_content_blocks, if: :saved_change_to_template?
 
           sluggify :slug, generated_from: :title
 
@@ -40,7 +37,7 @@ module HyperKittenMeow
         end
 
         def content_block(name)
-          content_blocks.find_by(name: name)&.body
+          content_blocks_by_name[name.to_s]&.body
         end
 
         def template_klass
@@ -57,6 +54,11 @@ module HyperKittenMeow
 
         private
 
+        def content_blocks_by_name
+          @content_blocks_by_name ||=
+            content_blocks.includes(:rich_text_body).index_by(&:name)
+        end
+
         def set_published_at_date
           if published_changed?(from: false, to: true)
             self.published_at = Time.current
@@ -67,9 +69,7 @@ module HyperKittenMeow
           return if template.blank?
 
           registered_names = selected_template_content_blocks.map(&:to_s)
-          page_content_blocks.joins(:content_block)
-            .where.not(hyper_kitten_meow_content_blocks: {name: registered_names})
-            .destroy_all
+          content_blocks.where.not(name: registered_names).destroy_all
         end
 
         def template_in_registered_templates
