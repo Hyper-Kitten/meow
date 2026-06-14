@@ -62,7 +62,7 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
 
       page.save!
 
-      expect(page.page_content_blocks.count).to eq(2)
+      expect(page.content_blocks.count).to eq(2)
     end
   end
 
@@ -166,6 +166,35 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
       page.update!(template: "TestTemplate")
 
       expect(page.content_blocks.pluck(:name)).to be_empty
+    end
+
+    it "does not prune when saving without changing the template" do
+      page = create(:page, template: "TestTemplate", content_blocks_attributes: {
+        "1" => {name: "test_block", body: "keep me"}
+      })
+      page.content_blocks.create!(name: "rogue_block", body: "added out of band")
+
+      page.update!(title: "A new title")
+
+      expect(page.content_blocks.pluck(:name)).to match_array(["test_block", "rogue_block"])
+    end
+  end
+
+  describe "content block name uniqueness" do
+    it "rejects two blocks with the same name on one page" do
+      page = create(:page)
+      page.content_blocks.create!(name: "hero", body: "first")
+
+      duplicate = page.content_blocks.build(name: "hero", body: "second")
+
+      expect(duplicate).to be_invalid
+    end
+
+    it "allows the same block name across different pages" do
+      create(:page).content_blocks.create!(name: "hero", body: "first")
+      other = create(:page).content_blocks.build(name: "hero", body: "second")
+
+      expect(other).to be_valid
     end
   end
 end
