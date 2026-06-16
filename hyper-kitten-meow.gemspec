@@ -40,4 +40,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "capybara"
   spec.add_development_dependency "selenium-webdriver"
   spec.add_development_dependency "puma"
+  spec.add_development_dependency "standard"
 end
