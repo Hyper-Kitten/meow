@@ -5,7 +5,7 @@ default: &default
   database: <%= ENV['APP_DB_NAME'] %>
   username: <%= ENV['APP_DB_USERNAME'] || 'root' %>
   password: <%= ENV['APP_DB_PASSWORD'] || '' %>
-  port: 5432
+  port: <%= ENV['APP_DB_PORT'] || 5432 %>
 
 development:
   <<: *default
