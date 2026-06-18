@@ -8,6 +8,12 @@ RSpec.feature "Creating the first user", :type => :feature do
       expect(page).to have_current_path(hyper_kitten_meow.new_admin_first_user_path)
     end
 
+    scenario "visiting any admin page redirects to the first user form" do
+      visit hyper_kitten_meow.admin_root_path
+
+      expect(page).to have_current_path(hyper_kitten_meow.new_admin_first_user_path)
+    end
+
     scenario "visitor can create first user" do
       visit hyper_kitten_meow.new_admin_first_user_path
 

@@ -16,7 +16,10 @@ module HyperKittenMeow
           end
 
           def authorize
-            raise ActionController::RoutingError.new("Not Found") unless logged_in?
+            return if logged_in?
+            redirect_to new_admin_first_user_path and return unless User.any?
+
+            raise ActionController::RoutingError.new("Not Found")
           end
 
           def current_user
