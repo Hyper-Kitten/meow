@@ -2,13 +2,17 @@
 ruby = "3.4.1"
 
 [env]
+# Local tasks reach the Dockerized Postgres over its published port.
+# (5432 is already taken by Postgres.app, so the container publishes 5433.)
 APP_DB_HOST = "localhost"
+APP_DB_PORT = "5433"
 APP_DB_USERNAME = "hyper"
 APP_DB_PASSWORD = "kitten"
 
-[tasks.test]
-description = "Run the RSpec suite"
-run = "bundle exec rspec spec"
+[vars]
+compose = "docker-compose -f .devbox/docker-compose.yml"
+
+# --- Local Ruby (fast loop + editor tooling) ---
 
 [tasks.lint]
 description = "Run standardrb"
@@ -20,31 +24,53 @@ run = "bundle exec standardrb --fix"
 
 [tasks.dev]
 description = "Start the dummy app on http://localhost:3000"
+depends = ["db:up"]
 run = "spec/dummy/bin/rails server"
 
 [tasks.console]
 description = "Open a Rails console in the dummy app"
+depends = ["db:up"]
 run = "spec/dummy/bin/rails console"
 
-[tasks."db:init"]
-description = "Create the 'hyper' Postgres role (idempotent)"
+# --- Postgres (Docker) ---
+
+[tasks."db:up"]
+description = "Start Postgres and wait until it accepts connections"
 run = """
-psql -h "$APP_DB_HOST" -d postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='hyper'" | grep -q 1 \
-  || psql -h "$APP_DB_HOST" -d postgres -c "CREATE ROLE hyper LOGIN SUPERUSER PASSWORD 'kitten'"
+{{vars.compose}} up -d db
+until {{vars.compose}} exec -T db pg_isready -U hyper -q; do sleep 0.5; done
 """
+
+[tasks."db:down"]
+description = "Stop Postgres"
+run = "{{vars.compose}} stop db"
 
 [tasks."db:setup"]
 description = "Create and load the development + test databases"
-depends = ["db:init"]
+depends = ["db:up"]
 run = """
 cd spec/dummy
 RAILS_ENV=development bin/rails db:create db:schema:load
 RAILS_ENV=test bin/rails db:create db:schema:load
 """
 
+# --- Tests (Docker: chromium baked into the image) ---
+
+[tasks.build]
+description = "Build the web image used to run the suite"
+run = "{{vars.compose}} build web"
+
+[tasks.test]
+description = "Run the RSpec suite in Docker"
+depends = ["db:up"]
+run = "{{vars.compose}} run --rm web bundle exec rspec spec"
+
+# --- Bootstrap ---
+
 [tasks.setup]
-description = "Bootstrap the project for development"
+description = "Install deps, build the test image, and prepare the databases"
 run = """
 bundle install
+{{vars.compose}} build web
 mise run db:setup
 """
