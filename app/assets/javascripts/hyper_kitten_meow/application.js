@@ -1,5 +1,5 @@
 import "@hotwired/turbo-rails"
 import "@hotwired/stimulus"
-import "@rails/actiontext"
 import "@rails/activestorage"
+import "lexxy"
 import "hyper_kitten_meow/controllers"

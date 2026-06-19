@@ -62,9 +62,8 @@ module HyperKittenMeow
             h4(class: "content-block-name") { content_block.name&.titleize }
             raw cb.hidden_field(:name, class: "content-block-name-field")
 
-            div(class: "quill-fields-container", data: {block_name: content_block.name, content_blocks_target: "quillFieldsContainer"}) do
-              raw cb.hidden_field(:body)
-              div(class: "quill-container")
+            div(class: "lexxy-fields-container", data: {block_name: content_block.name, content_blocks_target: "blockFieldsContainer"}) do
+              cb.rich_text_area(:body)
             end
           end
         end

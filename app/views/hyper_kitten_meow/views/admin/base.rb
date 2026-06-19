@@ -16,7 +16,7 @@ module HyperKittenMeow
     end
 
     def head_content
-      stylesheet_link_tag "https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      stylesheet_link_tag "lexxy"
       javascript_importmap_tags("hyper_kitten_meow/application")
     end
 

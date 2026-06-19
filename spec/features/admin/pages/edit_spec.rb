@@ -12,7 +12,7 @@ RSpec.feature "Admin pages edit", type: :feature do
     fill_in "Title", with: "Hello World!"
     select "Test Template", from: "Template"
     within(".content-blocks") do
-      fill_in_quill_editor "Test Block", with: "hello"
+      fill_in_rich_text_editor "Test Block", with: "hello"
     end
     fill_in "Slug", with: "my slug"
     check "Published"
@@ -43,7 +43,7 @@ RSpec.feature "Admin pages edit", type: :feature do
     fill_in "Title", with: "Hello World!"
     select "Test Template", from: "Template"
     within(".content-blocks") do
-      fill_in_quill_editor "Test Block", with: "hello"
+      fill_in_rich_text_editor "Test Block", with: "hello"
     end
     fill_in "Slug", with: "my slug"
     check "Published"
@@ -59,14 +59,14 @@ RSpec.feature "Admin pages edit", type: :feature do
     expect(test_block.body.to_plain_text).to eq("hello")
   end
 
-  scenario "quill editor saves spaces as regular spaces instead of &nbsp;", js: true do
+  scenario "rich text editor saves spaces as regular spaces instead of &nbsp;", js: true do
     create_user_and_login
     static_page = create(:page, title: "My Title", template: "TestTemplate")
 
     visit hyper_kitten_meow.edit_admin_page_path(static_page)
 
     within(".content-blocks") do
-      fill_in_quill_editor "Test Block", with: "hello world with spaces"
+      fill_in_rich_text_editor "Test Block", with: "hello world with spaces"
     end
     click_on "Update Page"
 
