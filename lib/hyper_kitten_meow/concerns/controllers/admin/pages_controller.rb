@@ -25,7 +25,7 @@ module HyperKittenMeow
               flash[:success] = "Page successfully created."
               redirect_to admin_pages_path
             else
-              flash[:error] = @page.errors.full_messages.join(", ")
+              flash.now[:error] = @page.errors.full_messages.join(", ")
               render Views::Admin::Pages::New.new(page: @page, templates_and_content_blocks: @templates_and_content_blocks), status: :unprocessable_entity
             end
           end
@@ -43,7 +43,7 @@ module HyperKittenMeow
               flash[:success] = "Page was successfully updated."
               redirect_to admin_pages_path
             else
-              flash[:error] = "There was a problem saving the page."
+              flash.now[:error] = "There was a problem saving the page."
               render Views::Admin::Pages::Edit.new(page: @page, templates_and_content_blocks: @templates_and_content_blocks), status: :unprocessable_entity
             end
           end

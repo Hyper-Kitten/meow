@@ -23,7 +23,7 @@ module HyperKittenMeow
               flash[:success] = "User successfully created. Please log in."
               redirect_to admin_login_path
             else
-              flash[:error] = "There was a problem saving the user."
+              flash.now[:error] = "There was a problem saving the user."
               render Views::Admin::FirstUsers::New.new(user: @user), status: :unprocessable_entity
             end
           end

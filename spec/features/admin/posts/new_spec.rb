@@ -36,4 +36,18 @@ RSpec.feature "Admin posts new", type: :feature do
 
     expect(page).to have_text("Title can't be blank")
   end
+
+  scenario "the failure banner does not follow the user to the next page" do
+    create_user_and_login
+    visit hyper_kitten_meow.new_admin_post_path
+
+    fill_in "Title", with: ""
+    click_on "Create Post"
+
+    expect(page).to have_text("There was a problem saving the post.")
+
+    visit hyper_kitten_meow.admin_posts_path
+
+    expect(page).not_to have_text("There was a problem saving the post.")
+  end
 end
