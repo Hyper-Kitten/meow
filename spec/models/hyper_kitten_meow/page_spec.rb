@@ -78,7 +78,8 @@ RSpec.describe HyperKittenMeow::Page, type: :model do
   describe ".templates" do
     it "returns a list of available templates" do
       template_titles = HyperKittenMeow::Page.templates.map(&:title)
-      expect(template_titles).to match_array(["Another Test Template", "Test Template"])
+      expect(template_titles)
+        .to match_array(["Another Test Template", "Blockless Test Template", "Test Template"])
     end
   end
 
