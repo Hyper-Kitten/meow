@@ -21,7 +21,7 @@ module HyperKittenMeow
               flash[:success] = "User successfully created."
               redirect_to admin_users_path
             else
-              flash[:error] = "There was a problem saving the user."
+              flash.now[:error] = "There was a problem saving the user."
               render Views::Admin::Users::New.new(user: @user), status: :unprocessable_entity
             end
           end
@@ -37,7 +37,7 @@ module HyperKittenMeow
               flash[:success] = "User was successfully updated."
               redirect_to admin_users_path
             else
-              flash[:error] = "There was a problem saving the user."
+              flash.now[:error] = "There was a problem saving the user."
               render Views::Admin::Users::Edit.new(user: @user), status: :unprocessable_entity
             end
           end
