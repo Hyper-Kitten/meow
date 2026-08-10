@@ -56,6 +56,32 @@ There currently is no theme in place, so the views will have to be styled themse
 
 If you duplicate these files and directories in your project you can override the views and customize them however you like.
 
+### Branding
+
+The admin wordmark reads from the same `title` translation as the browser tab, so
+setting it in your `en.yml` brands both:
+
+```yaml
+en:
+  title: 'Susquehanna Footprints'
+```
+
+For a different mark, or no mark at all, override `sidebar_brand` in a
+`Views::Admin::Base` subclass. It may return anything Phlex can render — a
+component, a class, a proc, or a string — and `nil` keeps the engine wordmark:
+
+```ruby
+def sidebar_brand
+  Components::Wordmark.new(text: "Susquehanna Footprints", mark: "sf-mark.svg", light: true)
+end
+```
+
+Pass `light: true` for anything you render there: the sidebar is dark, and the
+wordmark's default ink color is meant for light backgrounds. `mark: false` drops
+the image and leaves the text alone.
+
+If you render `Components::Sidebar` yourself, it takes the same thing as `brand:`.
+
 ### Icons
 
 `Components::Icon` inlines an SVG by name: `render Components::Icon.new("calendar-days")`,
