@@ -5,13 +5,16 @@ module HyperKittenMeow
     include Phlex::Rails::Helpers::LinkTo
     include Phlex::Rails::Helpers::Request
 
-    def initialize(light: true)
+    def initialize(light: true, brand: nil)
       @light = light
+      @brand = brand
     end
 
     def view_template(&block)
       nav(class: "mw-sidebar") do
-        div(class: "mw-sidebar__brand") { render Components::Wordmark.new(light: @light) }
+        div(class: "mw-sidebar__brand") do
+          render(@brand || Components::Wordmark.new(light: @light))
+        end
         yield(self) if block_given?
       end
     end

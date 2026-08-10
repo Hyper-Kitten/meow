@@ -20,6 +20,10 @@ module HyperKittenMeow
       javascript_importmap_tags("hyper_kitten_meow/application")
     end
 
+    def sidebar_brand
+      nil
+    end
+
     def around_template(&block)
       super do
         if render_chrome?
@@ -41,7 +45,7 @@ module HyperKittenMeow
     private
 
     def render_sidebar
-      render Components::Sidebar.new do |s|
+      render Components::Sidebar.new(brand: sidebar_brand) do |s|
         next unless logged_in?
 
         s.section "Manage"
