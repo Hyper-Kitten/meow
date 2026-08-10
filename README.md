@@ -56,6 +56,19 @@ There currently is no theme in place, so the views will have to be styled themse
 
 If you duplicate these files and directories in your project you can override the views and customize them however you like.
 
+### Icons
+
+`Components::Icon` inlines an SVG by name: `render Components::Icon.new("calendar-days")`,
+or `icon: "mic"` where components accept it. The whole [lucide](https://lucide.dev)
+set ships with the engine, so any lucide name works with no setup.
+
+To use your own glyph, or to override one of lucide's, drop `name.svg` into
+`app/assets/images/icons` in your app — that directory is searched first. Names that
+don't resolve render nothing, and log a warning in development and test.
+
+To update the vendored set: `rake meow:icons:sync VERSION=1.31.0` (repo only, not
+shipped in the gem).
+
 ### Static Pages
 
 If you would like to add static pages to your site I recommend [High Voltage](https://github.com/thoughtbot/high_voltage "High Voltage"). 
