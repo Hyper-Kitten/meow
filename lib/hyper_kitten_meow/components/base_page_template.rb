@@ -3,7 +3,9 @@ module HyperKittenMeow
     TEMPLATES_PATH = "app/views/pages/templates"
 
     class << self
-      attr_reader :content_blocks
+      def content_blocks
+        @content_blocks || []
+      end
 
       def title
         id.titleize
