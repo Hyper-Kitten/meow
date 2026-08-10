@@ -60,7 +60,14 @@ RSpec.describe HyperKittenMeow::Views::Admin::Base, type: :view do
       stub_const("Meow::Sidebar", Class.new)
 
       expect { described_class.new.sidebar_class }
-        .to raise_error(TypeError, /must subclass HyperKittenMeow::Components::Sidebar/)
+        .to raise_error(TypeError, /must subclass HyperKittenMeow::Components::AdminSidebar/)
+    end
+
+    it "says so when Meow::Sidebar is a plain sidebar, which has no default_menu to render" do
+      stub_const("Meow::Sidebar", Class.new(HyperKittenMeow::Components::Sidebar))
+
+      expect { described_class.new.sidebar_class }
+        .to raise_error(TypeError, /must subclass HyperKittenMeow::Components::AdminSidebar/)
     end
   end
 

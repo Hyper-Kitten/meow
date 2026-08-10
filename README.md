@@ -107,9 +107,9 @@ with the engine either way.
 
 Only the name is load-bearing: the engine looks up `Meow::Sidebar` and falls back
 to its own sidebar when nothing is there, so a typo'd file name shows up as the
-default menu rather than an error. It must subclass `Components::Sidebar`
-(`Components::AdminSidebar` is the one with `default_menu` on it); anything else
-raises.
+default menu rather than an error. It must subclass `Components::AdminSidebar` —
+the admin screens call `default_menu` on whatever they are given — and anything
+else raises.
 
 ### Icons
 

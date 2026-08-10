@@ -28,9 +28,9 @@ module HyperKittenMeow
       return Components::AdminSidebar unless Object.const_defined?("Meow::Sidebar")
 
       ::Meow::Sidebar.tap do |klass|
-        unless klass < Components::Sidebar
-          raise TypeError, "Meow::Sidebar must subclass HyperKittenMeow::Components::Sidebar, " \
-                           "got #{klass.superclass}"
+        unless klass < Components::AdminSidebar
+          raise TypeError, "Meow::Sidebar must subclass " \
+                           "HyperKittenMeow::Components::AdminSidebar, got #{klass.superclass}"
         end
       end
     end
