@@ -11,9 +11,9 @@ RSpec.describe HyperKittenMeow::Components::Wordmark, type: :view do
     end
 
     it "follows the host app's title translation" do
-      # Load the yaml first: storing into an uninitialized backend is discarded
-      # when the first lookup loads the translation files over it.
-      I18n.backend.load_translations
+      # Look something up first: storing into an uninitialized backend is
+      # discarded when the first lookup loads the translation files over it.
+      I18n.t("title")
       I18n.backend.store_translations(:en, title: "Susquehanna Footprints")
 
       render described_class.new

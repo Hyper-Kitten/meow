@@ -82,6 +82,35 @@ the image and leaves the text alone.
 
 If you render `Components::Sidebar` yourself, it takes the same thing as `brand:`.
 
+### Admin sidebar menu
+
+To add your own sections to the admin sidebar, define `Meow::Sidebar` anywhere your
+app autoloads from — `app/components/meow/sidebar.rb` is a good home. The engine
+renders it in place of its own on every admin screen, with no configuration:
+
+```ruby
+module Meow
+  class Sidebar < HyperKittenMeow::Components::AdminSidebar
+    def default_menu
+      super
+      menu { item "Episodes", main_app.admin_episodes_path, icon: "mic" }
+    end
+  end
+end
+```
+
+`super` renders the engine's own sections, so you never restate their labels or
+paths and they keep up as the engine changes. Leave it out to replace them
+entirely — useful for reordering or regrouping — and call `section`, `menu` and
+`item` to build whatever you want. The logged-out guard and the user chip stay
+with the engine either way.
+
+Only the name is load-bearing: the engine looks up `Meow::Sidebar` and falls back
+to its own sidebar when nothing is there, so a typo'd file name shows up as the
+default menu rather than an error. It must subclass `Components::Sidebar`
+(`Components::AdminSidebar` is the one with `default_menu` on it); anything else
+raises.
+
 ### Icons
 
 `Components::Icon` inlines an SVG by name: `render Components::Icon.new("calendar-days")`,

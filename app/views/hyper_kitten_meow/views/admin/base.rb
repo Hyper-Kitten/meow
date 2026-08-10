@@ -24,6 +24,17 @@ module HyperKittenMeow
       nil
     end
 
+    def sidebar_class
+      return Components::AdminSidebar unless Object.const_defined?("Meow::Sidebar")
+
+      ::Meow::Sidebar.tap do |klass|
+        unless klass < Components::Sidebar
+          raise TypeError, "Meow::Sidebar must subclass HyperKittenMeow::Components::Sidebar, " \
+                           "got #{klass.superclass}"
+        end
+      end
+    end
+
     def around_template(&block)
       super do
         if render_chrome?
@@ -45,16 +56,10 @@ module HyperKittenMeow
     private
 
     def render_sidebar
-      render Components::Sidebar.new(brand: sidebar_brand) do |s|
+      render sidebar_class.new(brand: sidebar_brand) do |s|
         next unless logged_in?
 
-        s.section "Manage"
-        s.menu do
-          s.item "Posts", hyper_kitten_meow.admin_posts_path, icon: "newspaper"
-          s.item "Pages", hyper_kitten_meow.admin_pages_path, icon: "file-text"
-          s.item "Tags",  hyper_kitten_meow.admin_tags_path,  icon: "tag"
-          s.item "Users", hyper_kitten_meow.admin_users_path, icon: "users"
-        end
+        s.default_menu
         s.user_chip(
           name: current_user.name,
           logout_path: hyper_kitten_meow.admin_logout_path,
