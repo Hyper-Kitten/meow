@@ -9,7 +9,7 @@ RSpec.feature "Admin posts new", type: :feature do
     visit hyper_kitten_meow.new_admin_post_path
     fill_in "Title", with: "Hello World!"
     fill_in "Summary", with: "My great summary!"
-    fill_in_quill_editor "Body", with: "Fuzzy waffle!"
+    fill_in_rich_text_editor "Body", with: "Fuzzy waffle!"
     fill_in "Slug", with: "my slug"
     select "Josh", from: "post[user_id]"
     check "coffee"

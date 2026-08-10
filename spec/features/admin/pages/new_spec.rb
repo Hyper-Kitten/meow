@@ -10,7 +10,7 @@ RSpec.feature "Admin pages new", type: :feature do
     fill_in "Title", with: "Hello World!"
     select "Test Template", from: "Template"
     within(".content-blocks") do
-      fill_in_quill_editor "Test Block", with: "Fuzzywaffle!"
+      fill_in_rich_text_editor "Test Block", with: "Fuzzywaffle!"
     end
     check "Published"
     click_on "Create Page"

@@ -14,6 +14,7 @@ module HyperKittenMeow
     end
 
     def head_content
+      stylesheet_link_tag "lexxy-content"
       meta name: "description", content: (content_for(:page_description) || t("page_description"))
       meta name: "robots", content: "index,follow,noodp"
       meta name: "generator", content: "HyperKitten: Meow"

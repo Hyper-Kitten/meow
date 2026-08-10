@@ -8,6 +8,7 @@ PATH
       hyper-kitten-tables
       image_processing
       importmap-rails
+      lexxy (~> 0.9.18)
       pagy
       pg
       phlex-rails
@@ -153,6 +154,8 @@ GEM
       reline (>= 0.4.2)
     json (2.18.0)
     language_server-protocol (3.17.0.5)
+    lexxy (0.9.18)
+      rails (>= 8.0.2)
     lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.25.0)

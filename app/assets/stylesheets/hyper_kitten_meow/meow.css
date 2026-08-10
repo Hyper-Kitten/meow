@@ -9,7 +9,7 @@
      3. Utility classes (the subset the engine markup uses)
      4. Layout chrome (sidebar shell, login split, page header)
      5. Components (buttons, forms, tables, cards, flash, tags,
-        badges, pagination, quill)
+        badges, pagination, lexxy)
      6. Public (blog) surface
    ============================================================ */
 
@@ -559,15 +559,19 @@ header.bg-light { border-bottom: 1px solid var(--hairline); background: var(--ca
 .footer .container { padding-top: 8px; padding-bottom: 8px; }
 
 /* ============================================================
-   7. QUILL editor theming
+   7. LEXXY editor theming
+   Map Lexxy's design tokens onto the Meow palette.
    ============================================================ */
-.quill-editor-wrapper { border: 1px solid var(--hairline-strong); border-radius: var(--r-sm); background: var(--card); box-shadow: var(--card-raised); overflow: hidden; }
-.ql-toolbar.ql-snow { border: none; border-bottom: 1px solid var(--hairline); background: var(--paper); }
-.ql-container.ql-snow { border: none; font-family: var(--serif); font-size: 17px; }
-.ql-editor { min-height: 220px; line-height: 1.65; color: var(--fg1); }
-.ql-editor.ql-blank::before { color: var(--fg3); font-style: normal; }
-.ql-snow .ql-stroke { stroke: var(--fg2); }
-.ql-snow .ql-fill { fill: var(--fg2); }
-.ql-snow .ql-picker { color: var(--fg2); }
-.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke { stroke: var(--orange-deep); }
-.ql-snow.ql-toolbar button.ql-active .ql-stroke { stroke: var(--orange-deep); }
+lexxy-editor {
+  --lexxy-font-base: var(--serif);
+  --lexxy-color-canvas: var(--card);
+  --lexxy-color-text: var(--fg1);
+  --lexxy-color-text-subtle: var(--fg3);
+  --lexxy-color-ink-lighter: var(--hairline-strong);
+  --lexxy-color-link: var(--orange-deep);
+  --lexxy-focus-ring-color: var(--orange-deep);
+  --lexxy-radius: var(--r-sm);
+  box-shadow: var(--card-raised);
+  font-size: 17px;
+  line-height: 1.65;
+}

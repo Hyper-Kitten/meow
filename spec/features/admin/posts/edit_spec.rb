@@ -7,7 +7,7 @@ RSpec.feature "Admin posts edit", type: :feature do
 
     visit hyper_kitten_meow.edit_admin_post_path(post)
 
-    expect(page).to have_css(".ql-editor", text: "Existing body content")
+    expect(page).to have_css("lexxy-editor [contenteditable='true']", text: "Existing body content")
   end
 
   scenario "user can edit posts", js: true do
@@ -22,7 +22,7 @@ RSpec.feature "Admin posts edit", type: :feature do
 
     fill_in "Title", with: "Hello World!"
     fill_in "Summary", with: "My great summary!"
-    fill_in_quill_editor "Body", with: "Fuzzy waffle!"
+    fill_in_rich_text_editor "Body", with: "Fuzzy waffle!"
     fill_in "Slug", with: "my slug"
     check "coffee"
     select "Josh", from: "post[user_id]"
