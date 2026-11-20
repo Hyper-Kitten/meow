@@ -17,9 +17,10 @@ module HyperKittenMeow
 
           def authorize
             return if logged_in?
-            redirect_to new_admin_first_user_path and return unless User.any?
+            redirect_to hyper_kitten_meow.new_admin_first_user_path and return unless User.any?
 
-            raise ActionController::RoutingError.new("Not Found")
+            session[:return_to] = request.fullpath if request.get? && request.format.html?
+            redirect_to hyper_kitten_meow.admin_login_path
           end
 
           def current_user
