@@ -2,6 +2,16 @@
 
 require "rails_helper"
 
+# A host app's admin view: declared outside `module HyperKittenMeow`, so it reaches Components
+# only through Admin::Base.
+module AdminBaseSpecHostApp
+  class View < HyperKittenMeow::Views::Admin::Base
+    def view_template
+      render Components::Wordmark.new(text: "Host App View", mark: false)
+    end
+  end
+end
+
 RSpec.describe HyperKittenMeow::Views::Admin::Base, type: :view do
   describe "#sidebar_brand" do
     it "leaves the engine wordmark in place when the host app has no brand of its own" do
@@ -44,6 +54,18 @@ RSpec.describe HyperKittenMeow::Views::Admin::Base, type: :view do
       expect(rendered).to have_css("div.mw-sidebar__brand", text: "Susquehanna Footprints.")
     ensure
       I18n.backend.reload!
+    end
+  end
+
+  describe "Components" do
+    it "lets host app subclasses outside the engine namespace use the engine's components" do
+      view = AdminBaseSpecHostApp::View.new
+      allow(view).to receive(:logged_in?).and_return(false)
+
+      render view
+
+      expect(AdminBaseSpecHostApp::View::Components).to be(HyperKittenMeow::Components)
+      expect(rendered).to have_css("div.mw-content", text: "Host App View")
     end
   end
 end

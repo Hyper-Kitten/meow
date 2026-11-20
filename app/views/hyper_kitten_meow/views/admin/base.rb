@@ -4,6 +4,11 @@ module HyperKittenMeow
   class Views::Admin::Base < Views::Base
     include Phlex::Rails::Helpers::Flash
 
+    # Engine views find Components through `module HyperKittenMeow`. A host app's admin views live
+    # outside that module, so this constant lets them write Components::Table too: subclasses
+    # inherit constants, though not lexical scope.
+    Components = HyperKittenMeow::Components
+
     register_value_helper :logged_in?
     register_value_helper :current_user
 
