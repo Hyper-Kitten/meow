@@ -5,11 +5,10 @@ const ITEM = "li.mw-menu-item"
 const EXTERNAL_URL = /^https?:\/\//i
 
 export default class extends Controller {
-  static targets = ["root", "template", "removed", "empty", "dirty", "form"]
+  static targets = ["root", "template", "removed", "empty", "dirty"]
   static values = { maxDepth: Number }
 
   connect() {
-    this.dirty = !this.dirtyTarget.hidden
     this.sortables = []
     this.nextKey = Date.now()
 
@@ -104,7 +103,7 @@ export default class extends Controller {
 
     if (event.target.matches("[data-role='link-type']")) this.showLinkFields(item)
     this.updateSummary(item)
-    this.changed()
+    this.dirty = true
   }
 
   submit() {
@@ -118,6 +117,14 @@ export default class extends Controller {
 
   discard() {
     this.dirty = false
+  }
+
+  get dirty() {
+    return !this.dirtyTarget.hidden
+  }
+
+  set dirty(value) {
+    this.dirtyTarget.hidden = !value
   }
 
   initSortable(list) {
@@ -173,7 +180,6 @@ export default class extends Controller {
 
   changed() {
     this.dirty = true
-    this.dirtyTarget.hidden = false
     this.refresh()
   }
 
@@ -209,13 +215,17 @@ export default class extends Controller {
     label.placeholder = pageTitle
     this.field(item, "label").textContent = label.value.trim() || (type === "page" ? pageTitle : "") || "New item"
 
+    const showsPage = type === "page" && Boolean(pageTitle)
+    const showsUrl = type === "url" && Boolean(url)
+    const none = this.field(item, "target-none")
+
     this.field(item, "page-title").textContent = pageTitle
     this.field(item, "url-text").textContent = url
     this.field(item, "external").hidden = !EXTERNAL_URL.test(url)
-    this.field(item, "target-page").hidden = type !== "page" || !pageTitle
-    this.field(item, "target-url").hidden = type !== "url" || !url
-    this.field(item, "target-none").hidden = !this.field(item, "target-page").hidden || !this.field(item, "target-url").hidden
-    this.field(item, "target-none").textContent = "Not linked yet"
+    this.field(item, "target-page").hidden = !showsPage
+    this.field(item, "target-url").hidden = !showsUrl
+    none.hidden = showsPage || showsUrl
+    none.textContent = "Not linked yet"
     this.field(item, "badge-hidden").hidden = type !== "page" || !option?.value || option.dataset.published === "true"
   }
 
@@ -224,7 +234,8 @@ export default class extends Controller {
   }
 
   field(item, role) {
-    return Array.from(item.querySelectorAll(`[data-role='${role}']`)).find((element) => element.closest(ITEM) === item)
+    const selector = `[data-role='${role}']`
+    return item.querySelector(`:scope > ${selector}, :scope > .mw-menu-row ${selector}, :scope > .mw-menu-form ${selector}`)
   }
 
   itemFor(event) {

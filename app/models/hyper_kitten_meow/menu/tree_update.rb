@@ -5,12 +5,14 @@ module HyperKittenMeow
     # parent_key pointing at another row's key.
     class TreeUpdate
       Row = Struct.new(:key, :parent_key, :item, :errors, :children, :depth) do
+        def initialize(errors: [], children: [], **) = super
+
         def too_deep?(max_depth) = depth.to_i > max_depth
       end
 
       def self.rows_for_items(items)
         rows = items.map do |item|
-          Row.new(key: item.id.to_s, parent_key: item.parent_id&.to_s, item: item, errors: [], children: [])
+          Row.new(key: item.id.to_s, parent_key: item.parent_id&.to_s, item: item)
         end
         link(rows)
       end
@@ -44,6 +46,7 @@ module HyperKittenMeow
         @version = version
         @posted = normalize(posted_rows)
         @existing = menu.items.includes(:page).index_by { |item| item.id.to_s }
+        @pages = Page.where(id: @posted.filter_map { |_key, attrs| attrs[:page_id].presence }).index_by { |page| page.id.to_s }
         @flat = build_rows
         @rows = self.class.link(@flat)
       end
@@ -60,7 +63,7 @@ module HyperKittenMeow
 
         menu.transaction do
           menu.class.no_touching do
-            @flat.sort_by(&:depth).each { |row| row.item.save! }
+            @flat.sort_by(&:depth).each { |row| row.item.save!(validate: false) }
             MenuItem.where(menu_id: menu.id).where.not(id: @flat.map { |row| row.item.id }).delete_all
           end
           menu.touch
@@ -84,7 +87,6 @@ module HyperKittenMeow
       private
 
       def normalize(posted_rows)
-        posted_rows = posted_rows.to_h if posted_rows.respond_to?(:permitted?)
         posted_rows.to_h.map { |key, attrs| [key.to_s, attrs.to_h.symbolize_keys] }
       end
 
@@ -95,22 +97,23 @@ module HyperKittenMeow
         ordered.map do |key, attrs|
           item = @existing[attrs[:id].to_s] || menu.items.build
           assign(item, attrs)
-          Row.new(key: key, parent_key: attrs[:parent_key].presence&.to_s, item: item, errors: [], children: [])
+          Row.new(key: key, parent_key: attrs[:parent_key].presence&.to_s, item: item)
         end
       end
 
       def assign(item, attrs)
-        item.label = attrs[:label] if attrs.key?(:label)
-        case attrs[:link_type]
-        when "url"
-          item.page_id = nil
+        item.label = attrs[:label]
+        if attrs[:link_type] == "url"
+          item.page = nil
           item.url = attrs[:url]
-        when "page"
-          item.page_id = attrs[:page_id].presence
-          item.url = nil
         else
-          item.page_id = attrs[:page_id].presence if attrs.key?(:page_id)
-          item.url = attrs[:url] if attrs.key?(:url)
+          page_id = attrs[:page_id].presence
+          if (page = @pages[page_id.to_s])
+            item.page = page
+          else
+            item.page_id = page_id
+          end
+          item.url = nil
         end
       end
 

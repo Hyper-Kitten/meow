@@ -31,7 +31,14 @@ module HyperKittenMeow
           end
 
           def for_definition!(definition)
-            create_or_find_by!(key: definition.key.to_s)
+            find_by(key: definition.key.to_s) || create_or_find_by!(key: definition.key.to_s)
+          end
+
+          def expire(ids = nil)
+            menus = ids ? where(id: ids) : all
+            count = menus.touch_all
+            HyperKittenMeow::Current.menu_trees = nil
+            count
           end
 
           private

@@ -40,23 +40,18 @@ module HyperKittenMeow
           private
 
           def find_menu
-            @definition = HyperKittenMeow.menus.values.find { |definition| definition.key.to_s == params[:key] }
+            @definition = HyperKittenMeow.menus[params[:key].to_s.to_sym]
             raise ActiveRecord::RecordNotFound, "No menu #{params[:key].inspect} is declared" unless @definition
 
             @menu = Menu.for_definition!(@definition)
           end
 
           def edit_view
-            Views::Admin::Menus::Edit.new(
-              menu: @menu,
-              definition: @definition,
-              pages: Page.order(:title).select(:id, :title, :published),
-              menu_count: HyperKittenMeow.menus.size
-            )
+            Views::Admin::Menus::Edit.new(menu: @menu, pages: Page.order(:title).select(:id, :title, :published))
           end
 
           def tree_params
-            params.require(:menu).permit(:submitted, :version, items: ROW_FIELDS).fetch(:items, {})
+            params.require(:menu).permit(items: ROW_FIELDS).fetch(:items, {})
           end
         end
       end

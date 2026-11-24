@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe HyperKittenMeow::Menu, type: :model do
-  before { HyperKittenMeow::Current.reset }
-
   let(:menu) { create(:menu, key: "primary") }
 
   def fetch_fresh(key = :primary)

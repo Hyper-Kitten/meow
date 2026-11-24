@@ -36,7 +36,12 @@ module HyperKittenMeow
   end
 
   def self.menus
-    MenuDefinition.from_config(config.menus)
+    source = config.menus
+    return @menus if @menus_source.equal?(source)
+
+    @menus = MenuDefinition.from_config(source)
+    @menus_source = source
+    @menus
   end
 
   def self.page_path(page)

@@ -8,24 +8,20 @@ module HyperKittenMeow
     NEW_KEY = "NEW_RECORD"
     EXTERNAL_URL = Menu::TreeBuilder::EXTERNAL_URL
 
-    def initialize(menu:, definition:, pages:, menu_count:)
+    def initialize(menu:, pages:)
       @menu = menu
-      @definition = definition
+      @definition = menu.definition
       @pages = pages
-      @menu_count = menu_count
       @rows = menu.editor_rows
     end
 
     def view_template
       section(class: "mw-menu-editor", data: {controller: "menu-tree", menu_tree_max_depth_value: max_depth}) do
         render Components::PageHeader.new(title: @definition.label, eyebrow: eyebrow) do
-          if @menu_count > 1
+          if HyperKittenMeow.menus.size > 1
             render Components::LinkButton.new(hyper_kitten_meow.admin_menus_path, "All Menus", scheme: :outline_secondary, icon: "chevron-left")
           end
-          button(type: "button", class: "btn btn-outline", data: {action: "menu-tree#add"}) do
-            render Components::Icon.new("plus", size: :lg)
-            plain "Add Item"
-          end
+          add_item_button
         end
 
         form_with(
@@ -34,11 +30,9 @@ module HyperKittenMeow
           local: true,
           data: {
             turbo: false,
-            menu_tree_target: "form",
             action: "input->menu-tree#fieldChanged change->menu-tree#fieldChanged submit->menu-tree#submit"
           }
         ) do
-          input(type: "hidden", name: "menu[submitted]", value: "1")
           input(type: "hidden", name: "menu[version]", value: @menu.edit_version)
 
           p(class: "mw-menu-note mw-menu-note--hint") do
@@ -49,10 +43,7 @@ module HyperKittenMeow
 
           div(class: "mw-menu-empty", hidden: @rows.any?, data: {menu_tree_target: "empty"}) do
             p { "No items yet." }
-            button(type: "button", class: "btn btn-outline", data: {action: "menu-tree#add"}) do
-              render Components::Icon.new("plus", size: :lg)
-              plain "Add Item"
-            end
+            add_item_button
           end
 
           ul(class: "mw-menu-tree", data: {menu_tree_target: "root"}) do
@@ -62,16 +53,21 @@ module HyperKittenMeow
           div(hidden: true, data: {menu_tree_target: "removed"})
 
           template(data: {menu_tree_target: "template"}) do
-            render_row(Menu::TreeUpdate::Row.new(key: NEW_KEY, item: MenuItem.new, errors: [], children: [], depth: 1), open: true)
+            render_row(Menu::TreeUpdate::Row.new(key: NEW_KEY, item: MenuItem.new, depth: 1), open: true)
           end
 
-          div(class: "mw-menu-footer") do
+          div(class: "mw-form-actions mw-menu-footer") do
             span(class: "ds-eyebrow mw-menu-footer__dirty", hidden: !@menu.tree_errors.any?, data: {menu_tree_target: "dirty"}) do
               span(class: "mw-menu-footer__dot", aria_hidden: "true")
               plain "Unsaved changes"
             end
-            div(class: "mw-btn-group") do
-              a(href: hyper_kitten_meow.edit_admin_menu_path(@definition.key), class: "btn btn-outline", data: {turbo: false, action: "menu-tree#discard"}) { "Discard" }
+            render Components::ButtonGroup.new do
+              render Components::LinkButton.new(
+                hyper_kitten_meow.edit_admin_menu_path(@definition.key),
+                "Discard",
+                scheme: :outline_secondary,
+                data: {turbo: false, action: "menu-tree#discard"}
+              )
               button(type: "submit", class: "btn btn-primary") { "Save Menu" }
             end
           end
@@ -80,6 +76,13 @@ module HyperKittenMeow
     end
 
     private
+
+    def add_item_button
+      button(type: "button", class: "btn btn-outline", data: {action: "menu-tree#add"}) do
+        render Components::Icon.new("plus", size: :lg)
+        plain "Add Item"
+      end
+    end
 
     def max_depth = @definition.depth
 
@@ -114,7 +117,7 @@ module HyperKittenMeow
       row_label = item.display_label.presence || "New item"
       open ||= row.errors.any?
 
-      li(class: "mw-menu-item", id: dom.call("row"), data: {menu_tree_target: "item", key: key}) do
+      li(class: "mw-menu-item", id: dom.call("row"), data: {key: key}) do
         div(class: ["mw-menu-row", ("has-errors" if row.errors.any?)]) do
           span(class: "mw-menu-row__grip", title: "Drag to reorder") do
             render Components::Icon.new("grip-vertical", size: :sm)
@@ -124,10 +127,10 @@ module HyperKittenMeow
           render_badges(row)
 
           if level_buttons?
-            button(type: "button", class: "btn mw-iconbtn", aria_label: "Move out a level", title: "Move out a level", data: {role: "outdent", action: "menu-tree#outdent"}) do
+            button(type: "button", class: "btn btn-ghost btn-icon", aria_label: "Move out a level", title: "Move out a level", data: {role: "outdent", action: "menu-tree#outdent"}) do
               render Components::Icon.new("chevron-left", size: :sm)
             end
-            button(type: "button", class: "btn mw-iconbtn", aria_label: "Move into the item above", title: "Move into the item above", data: {role: "indent", action: "menu-tree#indent"}) do
+            button(type: "button", class: "btn btn-ghost btn-icon", aria_label: "Move into the item above", title: "Move into the item above", data: {role: "indent", action: "menu-tree#indent"}) do
               render Components::Icon.new("chevron-right", size: :sm)
             end
           end
@@ -138,7 +141,7 @@ module HyperKittenMeow
             aria_controls: dom.call("form"),
             data: {role: "toggle", action: "menu-tree#toggle"}
           ) { open ? "Close" : "Edit" }
-          button(type: "button", class: "btn mw-iconbtn", aria_label: "Remove #{row_label}", title: "Remove", data: {role: "remove", action: "menu-tree#remove"}) do
+          button(type: "button", class: "btn btn-ghost btn-icon", aria_label: "Remove #{row_label}", title: "Remove", data: {role: "remove", action: "menu-tree#remove"}) do
             render Components::Icon.new("trash-2", size: :sm)
           end
         end
@@ -154,7 +157,7 @@ module HyperKittenMeow
 
         render_form(item, name: name, dom: dom, open: open)
 
-        ul(class: "mw-menu-tree__children", data: {menu_tree_target: "list"}) do
+        ul(class: "mw-menu-tree__children") do
           row.children.each { |child| render_row(child) }
         end
       end

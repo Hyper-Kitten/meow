@@ -81,10 +81,7 @@ module HyperKittenMeow
         end
 
         def touch_menus(menu_ids)
-          return if menu_ids.blank?
-
-          HyperKittenMeow::Menu.where(id: menu_ids).touch_all
-          HyperKittenMeow::Current.menu_trees = nil
+          HyperKittenMeow::Menu.expire(menu_ids) if menu_ids.present?
         end
 
         def content_blocks_by_name
