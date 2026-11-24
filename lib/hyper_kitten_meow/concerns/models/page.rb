@@ -5,12 +5,18 @@ module HyperKittenMeow
         extend ActiveSupport::Concern
         include HumanUrls::Sluggable
 
+        MENU_VISIBLE_ATTRIBUTES = %w[published slug title].freeze
+
         included do
           has_many :content_blocks,
             class_name: "HyperKittenMeow::ContentBlock",
             foreign_key: "page_id",
             inverse_of: :page,
             dependent: :destroy
+
+          has_many :menu_items,
+            class_name: "HyperKittenMeow::MenuItem",
+            inverse_of: :page
 
           validates_presence_of :title
           validates_length_of :title, maximum: 244
@@ -20,6 +26,10 @@ module HyperKittenMeow
           after_save :remove_unregistered_content_blocks, if: :saved_change_to_template?
 
           sluggify :slug, generated_from: :title
+
+          before_destroy :remember_linked_menus
+          after_update_commit :touch_linked_menus, if: :menu_visible_change?
+          after_destroy_commit :touch_remembered_menus
 
           accepts_nested_attributes_for :content_blocks,
             allow_destroy: true,
@@ -53,6 +63,26 @@ module HyperKittenMeow
         end
 
         private
+
+        def menu_visible_change?
+          saved_changes.keys.intersect?(MENU_VISIBLE_ATTRIBUTES)
+        end
+
+        def touch_linked_menus
+          touch_menus(menu_items.distinct.pluck(:menu_id))
+        end
+
+        def remember_linked_menus
+          @linked_menu_ids = menu_items.distinct.pluck(:menu_id)
+        end
+
+        def touch_remembered_menus
+          touch_menus(@linked_menu_ids)
+        end
+
+        def touch_menus(menu_ids)
+          HyperKittenMeow::Menu.expire(menu_ids) if menu_ids.present?
+        end
 
         def content_blocks_by_name
           @content_blocks_by_name ||=

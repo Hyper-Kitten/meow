@@ -37,3 +37,7 @@ en:
     submit: 'Log in'
     failed_login: 'Invalid user/password combination.'
     destroy: 'Log Out'
+  activerecord:
+    attributes:
+      hyper_kitten_meow/menu_item:
+        url: 'URL'

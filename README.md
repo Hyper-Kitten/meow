@@ -95,6 +95,43 @@ don't resolve render nothing, and log a warning in development and test.
 To update the vendored set: `rake meow:icons:sync VERSION=1.31.0` (repo only, not
 shipped in the gem).
 
+### Menus
+
+Editors manage site navigation under **Menus** in the admin. The app decides which
+menus exist and how deep each goes; editors fill them with links to meow pages or URLs.
+
+```ruby
+# config/initializers/meow.rb
+Rails.application.config.hyper_kitten_meow.tap do |meow|
+  meow.menus = {
+    primary: {depth: 2, label: "Main navigation"},
+    footer:  {depth: 1}
+  }
+  meow.page_path = ->(page) { "/#{page.slug}" } # optional
+end
+```
+
+`depth` defaults to 1 and `label` to the humanised key ("Footer menu"). Without
+`page_path`, meow calls your app's `page_path` route helper with the page's slug.
+
+Read a menu anywhere and draw it however your header needs:
+
+```ruby
+tree = HyperKittenMeow::Menu.fetch(:primary)
+tree.items.each do |item|
+  item.label      # page title when the editor left the label blank
+  item.path       # page_path for page items, the URL for URL items
+  item.external?  # absolute http(s) URL
+  item.children
+end
+tree.trail_to(request.path) # => [section, ..., current item], or []
+```
+
+`fetch` leaves out items whose page is unpublished or deleted (and everything under
+them) and items deeper than the menu allows. It caches the tree and rebuilds it when
+the menu or a linked page changes. If you change `page_path` or how your app routes
+pages, run `rails meow:menus:expire`.
+
 ### Static Pages
 
 If you would like to add static pages to your site I recommend [High Voltage](https://github.com/thoughtbot/high_voltage "High Voltage"). 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_23_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -78,6 +78,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
     t.index ["page_id"], name: "index_hyper_kitten_meow_content_blocks_on_page_id"
   end
 
+  create_table "hyper_kitten_meow_menu_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "label"
+    t.bigint "menu_id", null: false
+    t.bigint "page_id"
+    t.bigint "parent_id"
+    t.integer "position", null: false
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.index ["menu_id", "parent_id", "position"], name: "idx_on_menu_id_parent_id_position_5b17b55609"
+    t.index ["menu_id"], name: "index_hyper_kitten_meow_menu_items_on_menu_id"
+    t.index ["page_id"], name: "index_hyper_kitten_meow_menu_items_on_page_id"
+    t.index ["parent_id"], name: "index_hyper_kitten_meow_menu_items_on_parent_id"
+  end
+
+  create_table "hyper_kitten_meow_menus", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_hyper_kitten_meow_menus_on_key", unique: true
+  end
+
   create_table "hyper_kitten_meow_pages", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -118,5 +140,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categorical_taggings", "categorical_tags", column: "tag_id"
   add_foreign_key "hyper_kitten_meow_content_blocks", "hyper_kitten_meow_pages", column: "page_id"
+  add_foreign_key "hyper_kitten_meow_menu_items", "hyper_kitten_meow_menu_items", column: "parent_id", on_delete: :cascade
+  add_foreign_key "hyper_kitten_meow_menu_items", "hyper_kitten_meow_menus", column: "menu_id", on_delete: :cascade
+  add_foreign_key "hyper_kitten_meow_menu_items", "hyper_kitten_meow_pages", column: "page_id", on_delete: :nullify
   add_foreign_key "hyper_kitten_meow_posts", "hyper_kitten_meow_users", column: "user_id"
 end
