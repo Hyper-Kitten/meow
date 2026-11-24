@@ -57,6 +57,7 @@ module HyperKittenMeow
         s.menu do
           s.item "Posts", hyper_kitten_meow.admin_posts_path, icon: "newspaper"
           s.item "Pages", hyper_kitten_meow.admin_pages_path, icon: "file-text"
+          s.item "Menus", hyper_kitten_meow.admin_menus_path, icon: "menu" if HyperKittenMeow.menus.any?
           s.item "Tags",  hyper_kitten_meow.admin_tags_path,  icon: "tag"
           s.item "Users", hyper_kitten_meow.admin_users_path, icon: "users"
         end

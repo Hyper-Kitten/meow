@@ -3,6 +3,7 @@ HyperKittenMeow::Engine.routes.draw do
     root to: "posts#index"
     resources :posts
     resources :pages
+    resources :menus, only: [:index, :edit, :update], param: :key
     resources :tags
     resources :users
     resources :first_users, only: [:new, :create]

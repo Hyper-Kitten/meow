@@ -9,6 +9,7 @@ Gem::Specification.new do |spec|
   spec.summary     = "A simple Rails blogging engine, built for engineers."
   spec.description = "A simple Rails blogging engine that has just the necessites in place for starting a blog."
   spec.license     = "MIT"
+  spec.required_ruby_version = ">= 3.2"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://hyperkitten.org"

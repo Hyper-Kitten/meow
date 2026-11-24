@@ -4,6 +4,14 @@ module HyperKittenMeow
 
     config.autoload_paths << "#{root}/app/views"
 
+    config.hyper_kitten_meow = ActiveSupport::OrderedOptions.new
+    config.hyper_kitten_meow.menus = {}
+    config.hyper_kitten_meow.page_path = nil
+
+    config.after_initialize do
+      HyperKittenMeow.menus
+    end
+
     initializer "hyper-kitten-meow.importmap", before: "importmap" do |app|
       # NOTE: this will add pins from this engine to the main app
       # https://github.com/rails/importmap-rails#composing-import-maps
