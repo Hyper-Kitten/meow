@@ -151,11 +151,11 @@ RSpec.describe HyperKittenMeow::Menu, type: :model do
     let(:page) { create(:page, title: "Star Parties", published: true) }
 
     it "creates new rows, nesting them by their temporary keys" do
-      saved = menu.replace_tree(
+      saved = menu.replace_tree({
         "-1" => {label: "Programs", link_type: "url", url: "/programs", position: "0"},
         "-2" => {parent_key: "-1", link_type: "page", page_id: page.id.to_s, url: "/ignored", position: "0"},
         "-3" => {label: "News", link_type: "url", url: "/news", page_id: page.id.to_s, position: "1"}
-      )
+      })
 
       expect(saved).to be(true)
       programs = menu.items.find_by!(label: "Programs")
@@ -172,12 +172,12 @@ RSpec.describe HyperKittenMeow::Menu, type: :model do
       d = create(:menu_item, menu: menu, label: "D", position: 2)
       other = create(:menu_item, menu: create(:menu, key: "footer"))
 
-      saved = menu.replace_tree(
+      saved = menu.replace_tree({
         b.id.to_s => {id: b.id, label: "B2", link_type: "url", url: "/b", position: "5"},
         c.id.to_s => {id: c.id, parent_key: b.id.to_s, label: "C", link_type: "url", url: "/c", position: "0"},
         a.id.to_s => {id: a.id, label: "A", link_type: "url", url: "/a", position: "9"},
         d.id.to_s => {id: d.id, label: "D", url: "/d", _destroy: "1"}
-      )
+      })
 
       expect(saved).to be(true)
       expect(menu.items.where(parent_id: nil).map(&:label)).to eq(["B2", "A"])
@@ -198,18 +198,18 @@ RSpec.describe HyperKittenMeow::Menu, type: :model do
     it "touches the menu once" do
       menu.update_column(:updated_at, 1.day.ago)
 
-      expect { menu.replace_tree("-1" => {label: "A", link_type: "url", url: "/a"}) }
+      expect { menu.replace_tree({"-1" => {label: "A", link_type: "url", url: "/a"}}) }
         .to change { menu.reload.updated_at }
     end
 
     it "rejects a tree deeper than the menu allows and saves nothing" do
       existing = create(:menu_item, menu: menu, label: "Keep me")
 
-      saved = menu.replace_tree(
+      saved = menu.replace_tree({
         "-1" => {label: "One", link_type: "url", url: "/1"},
         "-2" => {parent_key: "-1", label: "Two", link_type: "url", url: "/2"},
         "-3" => {parent_key: "-2", label: "Three", link_type: "url", url: "/3"}
-      )
+      })
 
       expect(saved).to be(false)
       expect(menu.tree_errors).to eq(["Three: Too deep for this menu"])
@@ -217,10 +217,10 @@ RSpec.describe HyperKittenMeow::Menu, type: :model do
     end
 
     it "reports row errors by label and keeps the posted tree for the editor" do
-      saved = menu.replace_tree(
+      saved = menu.replace_tree({
         "-1" => {label: "Shop", link_type: "url", url: ""},
         "-2" => {parent_key: "-1", label: "Child", link_type: "url", url: "/child"}
-      )
+      })
 
       expect(saved).to be(false)
       expect(menu.tree_errors).to include("Shop: Label is required for a URL").or include("Shop: Choose a page or enter a URL")
@@ -229,24 +229,42 @@ RSpec.describe HyperKittenMeow::Menu, type: :model do
     end
 
     it "rejects a parent key that isn't in the post" do
-      expect(menu.replace_tree("-1" => {parent_key: "-9", label: "Orphan", link_type: "url", url: "/o"})).to be(false)
+      expect(menu.replace_tree({"-1" => {parent_key: "-9", label: "Orphan", link_type: "url", url: "/o"}})).to be(false)
       expect(menu.tree_errors).to eq(["Orphan: The item it was under was removed"])
     end
 
-    it "rejects a loop" do
-      saved = menu.replace_tree(
+    it "rejects a loop and keeps its rows in the editor" do
+      saved = menu.replace_tree({
         "-1" => {parent_key: "-2", label: "A", link_type: "url", url: "/a"},
-        "-2" => {parent_key: "-1", label: "B", link_type: "url", url: "/b"}
-      )
+        "-2" => {parent_key: "-1", label: "B", link_type: "url", url: "/b"},
+        "-3" => {label: "C", link_type: "url", url: "/c"}
+      })
 
       expect(saved).to be(false)
-      expect(menu.tree_errors).to include("A: Can't be under itself")
+      expect(menu.tree_errors).to contain_exactly(
+        "A: Its place in the menu loops back on itself",
+        "B: Its place in the menu loops back on itself"
+      )
+      expect(menu.editor_rows.map(&:key)).to contain_exactly("-1", "-2", "-3")
+      expect(menu.editor_rows.flat_map(&:children)).to be_empty
+    end
+
+    it "refuses a save made from an outdated copy of the menu" do
+      opened_at = menu.edit_version
+      kept = create(:menu_item, menu: menu, label: "Added by someone else")
+
+      expect(menu.reload.replace_tree({}, version: opened_at)).to be(false)
+      expect(menu.tree_errors.first).to match(/Someone else saved this menu/)
+      expect(kept.reload).to be_persisted
+
+      expect(menu.replace_tree({}, version: menu.edit_version)).to be(true)
+      expect(menu.items.reload).to be_empty
     end
 
     it "can't take over another menu's items" do
       other = create(:menu_item, menu: create(:menu, key: "footer"), label: "Footer link")
 
-      menu.replace_tree(other.id.to_s => {id: other.id, label: "Hijacked", link_type: "url", url: "/x"})
+      menu.replace_tree({other.id.to_s => {id: other.id, label: "Hijacked", link_type: "url", url: "/x"}})
 
       expect(other.reload.label).to eq("Footer link")
       expect(menu.items.pluck(:label)).to eq(["Hijacked"])

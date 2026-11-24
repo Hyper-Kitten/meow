@@ -29,13 +29,19 @@ module HyperKittenMeow
           end
         end
         assign_depth.call(roots, 1)
-        roots
+
+        # Rows whose parent chain loops never hang off a root. Show them at the top level so the
+        # editor can still see and post them; otherwise the next save would delete them.
+        unplaced = rows.select { |row| row.depth.nil? }
+        unplaced.each { |row| row.children.select! { |child| child.depth } }
+        roots + unplaced
       end
 
       attr_reader :menu, :rows
 
-      def initialize(menu, posted_rows)
+      def initialize(menu, posted_rows, version: nil)
         @menu = menu
+        @version = version
         @posted = normalize(posted_rows)
         @existing = menu.items.includes(:page).index_by { |item| item.id.to_s }
         @flat = build_rows
@@ -43,6 +49,11 @@ module HyperKittenMeow
       end
 
       def save
+        if stale?
+          @stale = true
+          return false
+        end
+
         check_structure
         @flat.each { |row| row.errors.concat(row.item.errors.full_messages) unless row.item.valid? }
         return false if @flat.any? { |row| row.errors.any? }
@@ -59,6 +70,11 @@ module HyperKittenMeow
       end
 
       def error_messages
+        if @stale
+          return ["Someone else saved this menu after you opened it. Save again to replace their changes " \
+                  "with yours, or Discard to see theirs"]
+        end
+
         @flat.flat_map do |row|
           name = row.item.display_label.presence || "New item"
           row.errors.map { |message| "#{name}: #{message}" }
@@ -98,31 +114,23 @@ module HyperKittenMeow
         end
       end
 
+      def stale?
+        @version.present? && @version != menu.edit_version
+      end
+
       def check_structure
         by_key = @flat.index_by(&:key)
         max_depth = menu.definition&.depth || 1
 
         @flat.each do |row|
-          parent = row.parent_key && by_key[row.parent_key]
-          if row.parent_key && parent.nil?
+          if row.parent_key && !by_key.key?(row.parent_key)
             row.errors << "The item it was under was removed"
-            next
+          elsif row.depth.nil?
+            row.errors << "Its place in the menu loops back on itself"
+          else
+            row.item.parent = by_key[row.parent_key]&.item
+            row.errors << "Too deep for this menu" if row.too_deep?(max_depth)
           end
-          row.item.parent = parent&.item
-
-          depth = 1
-          seen = [row]
-          node = parent
-          while node
-            if seen.include?(node)
-              row.errors << "Can't be under itself"
-              break
-            end
-            seen << node
-            depth += 1
-            node = node.parent_key && by_key[node.parent_key]
-          end
-          row.errors << "Too deep for this menu" if depth > max_depth
         end
 
         @flat.group_by(&:parent_key).each_value do |siblings|

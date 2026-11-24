@@ -9,7 +9,7 @@ export default class extends Controller {
   static values = { maxDepth: Number }
 
   connect() {
-    this.dirty = false
+    this.dirty = !this.dirtyTarget.hidden
     this.sortables = []
     this.nextKey = Date.now()
 
@@ -34,8 +34,6 @@ export default class extends Controller {
     document.removeEventListener("turbo:before-visit", this.warnBeforeVisit)
     this.sortables.forEach((sortable) => sortable.destroy())
   }
-
-  // Actions
 
   add() {
     const key = String(-(++this.nextKey))
@@ -122,8 +120,6 @@ export default class extends Controller {
     this.dirty = false
   }
 
-  // Tree
-
   initSortable(list) {
     this.sortables.push(
       Sortable.create(list, {
@@ -143,7 +139,6 @@ export default class extends Controller {
     )
   }
 
-  // Would `item`, with everything under it, stay within the menu's depth inside `list`?
   fits(item, list) {
     return this.listDepth(list) + this.height(item) - 1 <= this.maxDepthValue
   }
@@ -175,8 +170,6 @@ export default class extends Controller {
   items() {
     return Array.from(this.rootTarget.querySelectorAll(ITEM))
   }
-
-  // Row state
 
   changed() {
     this.dirty = true
@@ -230,7 +223,6 @@ export default class extends Controller {
     return item.querySelector(":scope > .mw-menu-form [data-role='link-type']:checked")?.value || "page"
   }
 
-  // The element with data-role=`role` that belongs to this row, not to a row nested under it.
   field(item, role) {
     return Array.from(item.querySelectorAll(`[data-role='${role}']`)).find((element) => element.closest(ITEM) === item)
   }

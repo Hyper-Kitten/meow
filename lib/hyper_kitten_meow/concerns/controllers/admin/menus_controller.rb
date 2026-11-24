@@ -28,7 +28,7 @@ module HyperKittenMeow
           def update
             find_menu
 
-            if @menu.replace_tree(tree_params)
+            if @menu.replace_tree(tree_params, version: params.dig(:menu, :version).presence)
               flash[:success] = "#{@definition.label} saved."
               redirect_to edit_admin_menu_path(@definition.key)
             else
@@ -56,7 +56,7 @@ module HyperKittenMeow
           end
 
           def tree_params
-            params.require(:menu).permit(:submitted, items: ROW_FIELDS).fetch(:items, {})
+            params.require(:menu).permit(:submitted, :version, items: ROW_FIELDS).fetch(:items, {})
           end
         end
       end

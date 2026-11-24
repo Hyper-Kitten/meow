@@ -51,13 +51,15 @@ module HyperKittenMeow
           HyperKittenMeow.menus[key.to_sym]
         end
 
-        def replace_tree(rows)
-          @tree_update = HyperKittenMeow::Menu::TreeUpdate.new(self, rows)
+        def edit_version
+          updated_at&.utc&.iso8601(6)
+        end
+
+        def replace_tree(rows, version: nil)
+          @tree_update = HyperKittenMeow::Menu::TreeUpdate.new(self, rows, version: version)
           @tree_update.save
         end
 
-        # The rows to show in the admin editor: the ones last posted to replace_tree,
-        # or the saved items.
         def editor_rows
           @tree_update&.rows || HyperKittenMeow::Menu::TreeUpdate.rows_for_items(items.includes(:page).to_a)
         end

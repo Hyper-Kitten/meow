@@ -39,6 +39,7 @@ module HyperKittenMeow
           }
         ) do
           input(type: "hidden", name: "menu[submitted]", value: "1")
+          input(type: "hidden", name: "menu[version]", value: @menu.edit_version)
 
           p(class: "mw-menu-note mw-menu-note--hint") do
             plain "Drag "

@@ -112,5 +112,27 @@ RSpec.feature "Admin menus", type: :feature do
       expect(page).to have_text("URL must start with / or http:// or https://")
     end
     expect(HyperKittenMeow::MenuItem.count).to eq(0)
+
+    dismiss_confirm("Leave without saving your menu changes?") { click_on "Posts" }
+    expect(page).to have_css("h1", text: "Primary menu")
+  end
+
+  scenario "a save from an outdated copy is refused", js: true do
+    create_user_and_login
+    menu = create(:menu, key: "primary")
+    create(:menu_item, menu: menu, label: "Mine", url: "/mine")
+
+    visit hyper_kitten_meow.edit_admin_menu_path("primary")
+    travel 1.second do
+      create(:menu_item, menu: menu, label: "Theirs", url: "/theirs")
+    end
+    click_on "Save Menu"
+
+    expect(page).to have_text("Someone else saved this menu after you opened it")
+    expect(menu.items.reload.map(&:label)).to contain_exactly("Mine", "Theirs")
+
+    click_on "Save Menu"
+    expect(page).to have_text("Primary menu saved.")
+    expect(menu.items.reload.map(&:label)).to eq(["Mine"])
   end
 end

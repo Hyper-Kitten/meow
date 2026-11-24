@@ -5,8 +5,9 @@ module HyperKittenMeow
         extend ActiveSupport::Concern
 
         # A path on this site, or an absolute http(s) URL. Also keeps javascript: and other
-        # schemes, and protocol-relative //host URLs, out of every visitor's href.
-        URL_FORMAT = %r{\A(/(?!/)|https?://\S)}i
+        # schemes out of every visitor's href, and protocol-relative ones: browsers read a
+        # backslash as a slash and drop tabs and newlines, so /\host and /<tab>/host count too.
+        URL_FORMAT = %r{\A(?:/(?![/\\])|https?://(?![/\\]))[^\s\\\p{Cc}]*\z}i
 
         included do
           belongs_to :menu, class_name: "HyperKittenMeow::Menu", inverse_of: :items, touch: true

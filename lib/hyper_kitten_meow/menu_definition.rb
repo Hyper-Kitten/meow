@@ -9,7 +9,8 @@ module HyperKittenMeow
 
     def self.build(key, options)
       key = key.to_sym
-      unknown = options.keys.map(&:to_sym) - members.excluding(:key)
+      options = options.to_h.symbolize_keys
+      unknown = options.keys - members.excluding(:key)
       if unknown.any?
         raise ArgumentError, "Menu #{key.inspect} has unknown option(s) #{unknown.map(&:inspect).join(", ")}. " \
                              "Menus take depth: and label:."

@@ -10,6 +10,12 @@ RSpec.describe HyperKittenMeow::MenuDefinition do
       expect(menus[:footer]).to have_attributes(depth: 1, label: "Footer menu")
     end
 
+    it "reads string-keyed options, as loaded from YAML" do
+      menus = described_class.from_config({"primary" => {"depth" => 2, "label" => "Main"}})
+
+      expect(menus[:primary]).to have_attributes(depth: 2, label: "Main")
+    end
+
     it "raises on an unknown option" do
       expect { described_class.from_config({primary: {dept: 2}}) }
         .to raise_error(ArgumentError, /unknown option.*:dept/)

@@ -27,7 +27,8 @@ RSpec.describe HyperKittenMeow::MenuItem, type: :model do
   end
 
   it "rejects other schemes and protocol-relative URLs" do
-    ["javascript:alert(1)", "news", "//evil.example", "mailto:a@b.c", "data:text/html,hi"].each do |url|
+    ["javascript:alert(1)", "news", "//evil.example", "/\\evil.example", "/\t/evil.example",
+      "/a\n/b", "https:///evil.example", "https:\\\\evil.example", "/two words", "mailto:a@b.c", "data:text/html,hi"].each do |url|
       item = build(:menu_item, url: url)
       expect(item).not_to be_valid, url
       expect(item.errors[:url]).to be_present
