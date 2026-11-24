@@ -66,7 +66,8 @@ module HyperKittenMeow
 
           div(class: "mw-menu-footer") do
             span(class: "ds-eyebrow mw-menu-footer__dirty", hidden: !@menu.tree_errors.any?, data: {menu_tree_target: "dirty"}) do
-              "● Unsaved changes"
+              span(class: "mw-menu-footer__dot", aria_hidden: "true")
+              plain "Unsaved changes"
             end
             div(class: "mw-btn-group") do
               a(href: hyper_kitten_meow.edit_admin_menu_path(@definition.key), class: "btn btn-outline", data: {turbo: false, action: "menu-tree#discard"}) { "Discard" }
